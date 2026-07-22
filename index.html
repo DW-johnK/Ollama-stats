@@ -272,6 +272,8 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
       <option value="updated-desc">Newest</option>
       <option value="usage-asc">Cost: Low→High</option>
       <option value="usage-desc">Cost: High→Low</option>
+      <option value="context-asc">Context: Short→Long</option>
+      <option value="context-desc">Context: Long→Short</option>
       <option value="bench-mmlu">MMLU ↓</option>
       <option value="bench-mmlu-asc">MMLU ↑</option>
       <option value="bench-humaneval">HumanEval ↓</option>
@@ -496,6 +498,13 @@ function getOwner(model) {
 }
 
 function getUsage(model) { return CLOUD_USAGE[model.n] || null; }
+function getMaxContext(model) {
+  const usage = getUsage(model);
+  if (!usage) return null;
+  // Parse context strings like "128K", "256K" to numeric values
+  const parseCtx = s => { const m = s.match(/([\d.]+)\s*([KMGT]?)/i); if (!m) return 0; const n = parseFloat(m[1]); const mult = ({'K':1024,'M':1048576,'G':1073741824,'T':1099511627776}[m[2].toUpperCase()]||1); return n * mult; };
+  return Math.max(...usage.map(u => parseCtx(u.context)));
+}
 function getBench(model) { return BENCHMARKS[model.n] || null; }
 function formatPulls(n) { if (n>=1e6) return (n/1e6).toFixed(1)+'M'; if (n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toString(); }
 
@@ -558,6 +567,8 @@ function getModels() {
       case 'tags-desc': return (b.tc||0)-(a.tc||0);
       case 'usage-asc': { const ua=getUsage(a),ub=getUsage(b); return (ua?Math.min(...ua.map(x=>USAGE_ORDER[x.usage]||0)):99)-(ub?Math.min(...ub.map(x=>USAGE_ORDER[x.usage]||0)):99); }
       case 'usage-desc': { const ua=getUsage(a),ub=getUsage(b); return (ub?Math.max(...ub.map(x=>USAGE_ORDER[x.usage]||0)):0)-(ua?Math.max(...ua.map(x=>USAGE_ORDER[x.usage]||0)):0); }
+      case 'context-asc': { const ca=getMaxContext(a),cb=getMaxContext(b); return (ca??Infinity)-(cb??Infinity); }
+      case 'context-desc': { const ca=getMaxContext(a),cb=getMaxContext(b); return (cb??0)-(ca??0); }
       case 'bench-mmlu': return benchSort(a,b,'mmlu',true);
       case 'bench-mmlu-asc': return benchSort(a,b,'mmlu',false);
       case 'bench-humaneval': return benchSort(a,b,'humaneval',true);
@@ -784,8 +795,8 @@ function renderTableView(models) {
     <th>Sizes</th>
     <th>Caps</th>
     <th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th>
-    <th>Cloud Cost</th>
-    <th>Context</th>
+    <th data-sort="cost" onclick="sortByHeader('cost')" style="cursor:pointer">Cloud Cost</th>
+    <th data-sort="context" onclick="sortByHeader('context')" style="cursor:pointer">Context</th>
     <th data-sort="overall" onclick="sortByHeader('overall')">Overall</th>`;
   textBenchKeys.forEach(k => { html += `<th data-sort="${k}" onclick="sortByHeader('${k}')">${BENCH_NAMES[k]}</th>`; });
   html += `<th class="vision-col" data-sort="mmmu_pro" onclick="sortByHeader('mmmu_pro')">MMMU-Pro</th>
@@ -911,7 +922,7 @@ function highlightSortHeaders() {
   // Map sort values to data-sort keys
   const sortToKey = {
     'pulls-desc':'pulls','pulls-asc':'pulls','name-asc':'name','name-desc':'name',
-    'usage-asc':'usage','usage-desc':'cost','tags-desc':'pulls','updated-desc':'pulls',
+    'usage-asc':'usage','usage-desc':'cost','context-asc':'context','context-desc':'context','tags-desc':'pulls','updated-desc':'pulls',
     'bench-mmlu':'mmlu','bench-mmlu-asc':'mmlu','bench-humaneval':'humaneval','bench-humaneval-asc':'humaneval',
     'bench-math':'math','bench-math-asc':'math','bench-gpqa':'gpqa','bench-gpqa-asc':'gpqa',
     'bench-gsm8k':'gsm8k','bench-gsm8k-asc':'gsm8k','bench-swe':'swe_bench','bench-swe-asc':'swe_bench',
@@ -951,7 +962,7 @@ function sortByHeader(key) {
     'name':'name-asc','owner':'name-asc','pulls':'pulls-desc','overall':'bench-overall','mmlu':'bench-mmlu',
     'humaneval':'bench-humaneval','math':'bench-math','gpqa':'bench-gpqa','gsm8k':'bench-gsm8k',
     'swe_bench':'bench-swe','livecodebench':'bench-livecode','aime':'bench-aime','arena_elo':'bench-arena',
-    'usage':'usage-desc','cost':'usage-desc','context':'name-asc','cloud_tag':'name-asc'
+    'usage':'usage-desc','cost':'usage-desc','context':'context-desc','cloud_tag':'name-asc'
   };
   const sortVal = sortMap[key] || 'pulls-desc';
   // Toggle direction if same key
