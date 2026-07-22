@@ -225,6 +225,12 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
 /* Size tags */
 .size-tag { display:inline-block; padding:1px 5px; border-radius:4px; background:var(--card2); color:var(--text); font-size:10px; font-family:monospace; margin:1px; }
 
+/* Size filter buttons */
+.size-filters { display:flex; gap:4px; flex-wrap:wrap; align-items:center; margin-left:4px; }
+.size-btn { padding:4px 10px; border-radius:16px; border:1px solid var(--border); background:var(--input-bg); color:var(--muted); font-size:11px; cursor:pointer; transition:all .15s; font-family:monospace; }
+.size-btn:hover { border-color:var(--accent); color:var(--text); }
+.size-btn.active { background:var(--accent); color:white; border-color:var(--accent); }
+
 .no-results{text-align:center;padding:50px 20px;color:var(--muted);font-size:14px}
 </style>
 </head>
@@ -291,6 +297,7 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
 <div class="controls">
   <label>Filter:</label>
   <div class="cap-filters" id="capFilters"></div>
+  <div class="size-filters" id="sizeFilters"></div>
   <div class="view-btns">
     <button class="view-btn active" onclick="setView('cards')" id="viewCards">Cards</button>
     <button class="view-btn" onclick="setView('table')" id="viewTable">Table</button>
@@ -393,6 +400,17 @@ const OWNER_COLORS = {
 const CAP_ICONS = {vision:'👁',tools:'🔧',thinking:'🧠',cloud:'☁️',audio:'🎤',embedding:'📊'};
 
 let activeCaps = new Set();
+let activeSizeBuckets = new Set();
+
+// Size bucket definitions: label → min/max in billions
+const SIZE_BUCKETS = [
+  { label: '<3B', min: 0, max: 3 },
+  { label: '3-8B', min: 3, max: 8 },
+  { label: '8-14B', min: 8, max: 14 },
+  { label: '14-35B', min: 14, max: 35 },
+  { label: '35-70B', min: 35, max: 70 },
+  { label: '70B+', min: 70, max: Infinity }
+];
 let activeOwner = null;
 let compareList = [];
 let viewMode = 'cards';
@@ -408,6 +426,8 @@ function toggleBenchOnly() {
 }
 function clearBenchFilters() {
   benchOnly = false;
+  activeCaps.clear();
+  activeSizeBuckets.clear();
   document.getElementById('benchOnlyToggle').classList.remove('active');
   ['benchMinMmlu','benchMinHumaneval','benchMinMath','benchMinGpqa','benchMinSwe','benchMinLivecode','benchMinElo','benchMinMmmu','benchMinDocvqa','benchMinMathvista','benchMinMmbench','benchMinMteb','benchMinMtebRetr','benchMinMtebClass'].forEach(id => {
     const el = document.getElementById(id);
@@ -469,6 +489,18 @@ function getModels() {
   const bf = getBenchFilters();
   if (q) models = models.filter(m => m.n.toLowerCase().includes(q) || (m.d||'').toLowerCase().includes(q) || getOwner(m).toLowerCase().includes(q) || (m.c||[]).some(c => c.toLowerCase().includes(q)));
   if (activeCaps.size > 0) models = models.filter(m => (m.c||[]).some(c => activeCaps.has(c)));
+  if (activeSizeBuckets.size > 0) {
+    const parseSize = s => parseFloat(s.toLowerCase().replace('b',''));
+    models = models.filter(m => {
+      const sizes = (m.s||[]).map(parseSize);
+      if (sizes.length === 0) return false;
+      const minSize = Math.min(...sizes);
+      return [...activeSizeBuckets].some(label => {
+        const bucket = SIZE_BUCKETS.find(b => b.label === label);
+        return bucket && minSize >= bucket.min && minSize < bucket.max;
+      });
+    });
+  }
   if (activeOwner) models = models.filter(m => getOwner(m) === activeOwner);
   if (benchOnly) models = models.filter(m => getBench(m));
 
@@ -599,6 +631,27 @@ function renderCapFilters(models) {
   document.getElementById('capFilters').innerHTML = [...allCaps].sort().map(c =>
     `<button class="cap-btn ${activeCaps.has(c)?'active':''} ${c==='cloud'?'cloud':''}" onclick="toggleCap('${c}')">${CAP_ICONS[c]||''} ${c}</button>`
   ).join('');
+}
+
+function renderSizeFilters(models) {
+  // Parse sizes and count models per bucket
+  const parseSize = s => parseFloat(s.toLowerCase().replace('b',''));
+  const getModelMinSize = m => {
+    const sizes = (m.s||[]).map(parseSize);
+    return sizes.length > 0 ? Math.min(...sizes) : null;
+  };
+  document.getElementById('sizeFilters').innerHTML = SIZE_BUCKETS.map(b => {
+    const count = models.filter(m => {
+      const ms = getModelMinSize(m);
+      return ms !== null && ms >= b.min && ms < b.max;
+    }).length;
+    return `<button class="size-btn ${activeSizeBuckets.has(b.label)?'active':''}" onclick="toggleSizeBucket('${b.label}')">${b.label}${count > 0 ? ` <span style="font-size:9px;opacity:0.7">(${count})</span>` : ''}</button>`;
+  }).join('');
+}
+
+function toggleSizeBucket(label) {
+  if (activeSizeBuckets.has(label)) activeSizeBuckets.delete(label); else activeSizeBuckets.add(label);
+  render();
 }
 
 function renderUsageBars(usage) {
@@ -773,6 +826,7 @@ function render() {
   renderStats(models);
   renderSidebar(MODELS);
   renderCapFilters(MODELS);
+  renderSizeFilters(MODELS);
   if (models.length === 0) { document.getElementById('content').innerHTML = '<div class="no-results">No models match your filters.</div>'; return; }
 
   if (viewMode === 'table') {
