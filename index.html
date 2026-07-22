@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Ollama — Model Explorer, Comparator & Benchmarks</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* ── Light Theme (default) ── */
+:root{
+  --bg:#ffffff;--card:#f5f5f5;--card2:#ebebeb;--border:#e5e5e5;
+  --text:#262626;--muted:#737373;--accent:#d40808;--accent2:#a10606;
+  --green:#16a34a;--blue:#2563eb;--red:#dc2626;--orange:#ea580c;
+  --cyan:#0891b2;--pink:#db2777;--yellow:#ca8a04;
+  --header-bg:#ffffff;--header-border:var(--accent);
+  --input-bg:#ffffff;--input-shadow:rgba(212,8,8,0.1);
+  --modal-bg:#ffffff;--modal-shadow:rgba(0,0,0,0.15);--overlay-bg:rgba(0,0,0,.5);
+  --card-bg:#ffffff;--card-shadow:rgba(0,0,0,0.06);--card-hover-shadow:rgba(212,8,8,0.08);
+  --cap-vision-bg:#eff6ff;--cap-vision-text:#2563eb;
+  --cap-tools-bg:#f0fdf4;--cap-tools-text:#16a34a;
+  --cap-thinking-bg:#faf5ff;--cap-thinking-text:#7c3aed;
+  --cap-cloud-bg:#eef2ff;--cap-cloud-text:#4f46e5;
+  --cap-audio-bg:#fdf2f8;--cap-audio-text:#db2777;
+  --cap-embedding-bg:#f0fdf4;--cap-embedding-text:#16a34a;
+  --cloud-bg:linear-gradient(135deg,#eef2ff,#f5f3ff);--cloud-border:#c7d2fe;
+  --cloud-title:#4f46e5;--cloud-name:#4f46e5;--cloud-price:#262626;--cloud-info:#6366f1;
+  --cloud-tier-bg:rgba(79,70,229,.08);
+  --cost-empty:#e5e5e5;
+  --compare-bar-bg:#ffffff;--compare-bar-shadow:rgba(0,0,0,0.1);
+  --compare-item-bg:var(--accent);--compare-item-text:white;--compare-item-btn:rgba(255,255,255,0.7);
+  --row-hover:rgba(212,8,8,0.03);
+}
+
+/* ── Dark Theme ── */
+[data-theme="dark"]{
+  --bg:#080c14;--card:#111827;--card2:#1a2332;--border:#1e293b;
+  --text:#e2e8f0;--muted:#94a3b8;--accent:#8b5cf6;--accent2:#6d28d9;
+  --green:#22c55e;--blue:#3b82f6;--red:#ef4444;--orange:#f59e0b;
+  --cyan:#06b6d4;--pink:#ec4899;--yellow:#eab308;
+  --header-bg:linear-gradient(135deg,#1a1033 0%,#0f172a 50%,#0c1425 100%);--header-border:var(--border);
+  --input-bg:var(--card);--input-shadow:rgba(139,92,246,0.2);
+  --modal-bg:var(--card);--modal-shadow:rgba(0,0,0,0.75);--overlay-bg:rgba(0,0,0,.75);
+  --card-bg:var(--card);--card-shadow:none;--card-hover-shadow:rgba(139,92,246,0.12);
+  --cap-vision-bg:#1e3a5f;--cap-vision-text:#60a5fa;
+  --cap-tools-bg:#1a3326;--cap-tools-text:#4ade80;
+  --cap-thinking-bg:#2d1b4e;--cap-thinking-text:#a78bfa;
+  --cap-cloud-bg:#1e1b4b;--cap-cloud-text:#818cf8;
+  --cap-audio-bg:#3b1d2e;--cap-audio-text:#f472b6;
+  --cap-embedding-bg:#1a2e1a;--cap-embedding-text:#86efac;
+  --cloud-bg:linear-gradient(135deg,#1e1b4b,#0f172a);--cloud-border:#4338ca;
+  --cloud-title:#818cf8;--cloud-name:#a5b4fc;--cloud-price:white;--cloud-info:#818cf8;
+  --cloud-tier-bg:rgba(67,56,202,.2);
+  --cost-empty:var(--card2);
+  --compare-bar-bg:var(--card);--compare-bar-shadow:none;
+  --compare-item-bg:var(--accent2);--compare-item-text:var(--text);--compare-item-btn:var(--muted);
+  --row-hover:rgba(139,92,246,.05);
+}
+
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .3s,color .3s}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+.header{background:var(--header-bg);border-bottom:2px solid var(--header-border);padding:14px 24px;position:sticky;top:0;z-index:100;transition:background .3s,border-color .3s}
+.header-inner{max-width:1800px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:800;color:var(--text);white-space:nowrap}
+.logo-icon{width:36px;height:36px;border-radius:8px;object-fit:contain}
+.logo-sub{font-size:12px;color:var(--muted);margin-left:6px}
+.search-box{flex:1;min-width:180px;max-width:360px;position:relative}
+.search-box input{width:100%;padding:9px 14px 9px 34px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px}
+.search-box input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--input-shadow)}
+.search-box svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted)}
+select{background:var(--input-bg);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:7px 10px;font-size:12px;cursor:pointer}
+
+/* Stats */
+.stats{display:flex;gap:10px;padding:12px 24px;background:var(--card);border-bottom:1px solid var(--border)}
+.stat{text-align:center;padding:6px 14px}
+.stat-val{font-size:22px;font-weight:700;color:var(--accent)}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+
+/* Controls */
+.controls{padding:10px 24px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--bg);border-bottom:1px solid var(--border)}
+.controls label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.cap-filters{display:flex;gap:5px;flex-wrap:wrap}
+.cap-btn{padding:4px 10px;border-radius:16px;border:1px solid var(--border);background:var(--input-bg);color:var(--muted);font-size:11px;cursor:pointer;transition:all .15s}
+.cap-btn:hover,.cap-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+.cap-btn.cloud{border-color:#6366f1;color:#4f46e5}
+.cap-btn.cloud:hover,.cap-btn.cloud.active{background:#4f46e5;color:white}
+.view-btns{margin-left:auto;display:flex;gap:5px}
+.view-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--muted);font-size:11px;cursor:pointer;transition:all .15s}
+.view-btn:hover,.view-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+
+/* Layout */
+.main{display:flex;max-width:1800px;margin:0 auto}
+.sidebar{width:200px;min-width:200px;padding:12px;border-right:1px solid var(--border);height:calc(100vh - 130px);overflow-y:auto;position:sticky;top:130px}
+.sidebar h3{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.owner-item{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:background .15s;font-size:12px}
+.owner-item:hover{background:var(--card)}
+.owner-item.active{background:var(--accent);color:white}
+.owner-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.owner-count{margin-left:auto;font-size:10px;color:var(--muted);background:var(--card);padding:1px 5px;border-radius:8px}
+
+/* Content */
+.content{flex:1;padding:12px;overflow-y:auto}
+
+/* Model Cards */
+.models-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.model-card{background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:14px;transition:all .2s;position:relative;box-shadow:0 1px 3px var(--card-shadow)}
+.model-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 16px var(--card-hover-shadow)}
+.model-card.cloud-card{border-left:3px solid #6366f1}
+.model-name{font-family:'SF Mono',Monaco,'Cascadia Code',monospace;font-size:15px;font-weight:700;color:var(--text)}
+.model-desc{font-size:12px;color:var(--muted);margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.model-meta{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;align-items:center}
+.model-pulls{font-size:11px;color:var(--green);font-weight:600}
+.model-tags-count{font-size:11px;color:var(--muted)}
+.cap-tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:500}
+.cap-tag.vision{background:var(--cap-vision-bg);color:var(--cap-vision-text)}
+.cap-tag.tools{background:var(--cap-tools-bg);color:var(--cap-tools-text)}
+.cap-tag.thinking{background:var(--cap-thinking-bg);color:var(--cap-thinking-text)}
+.cap-tag.cloud{background:var(--cap-cloud-bg);color:var(--cap-cloud-text)}
+.cap-tag.audio{background:var(--cap-audio-bg);color:var(--cap-audio-text)}
+.cap-tag.embedding{background:var(--cap-embedding-bg);color:var(--cap-embedding-text)}
+.size-tag{display:inline-block;padding:2px 5px;border-radius:4px;font-size:10px;font-family:monospace;background:var(--card2);color:var(--muted);border:1px solid var(--border)}
+.owner-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px}
+.popularity-bar{height:2px;border-radius:1px;background:var(--card2);margin-top:6px;overflow:hidden}
+.popularity-fill{height:100%;border-radius:1px;background:linear-gradient(90deg,var(--accent),var(--green))}
+.actions{display:flex;gap:5px;margin-top:8px}
+.btn{padding:4px 10px;border-radius:5px;border:1px solid var(--border);background:var(--input-bg);color:var(--muted);font-size:10px;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:white;border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent2)}
+
+/* Benchmark bars on cards */
+.bench-section{margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+.bench-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;font-size:10px}
+.bench-label{width:55px;color:var(--muted);text-align:right;flex-shrink:0;font-weight:500}
+.bench-bar-bg{flex:1;height:5px;background:var(--card2);border-radius:2px;overflow:hidden;position:relative}
+.bench-bar-fill{height:100%;border-radius:2px;transition:width .3s}
+.bench-val{width:30px;text-align:right;font-weight:600;font-size:9px;flex-shrink:0}
+.bench-best{color:var(--green);font-size:8px;margin-left:2px}
+
+/* Usage Level (Cost) */
+.usage-level{display:flex;align-items:center;gap:3px;margin-top:5px}
+.usage-bar{width:18px;height:5px;border-radius:2px;background:var(--card2)}
+.usage-bar.filled.low{background:var(--green)}
+.usage-bar.filled.medium{background:var(--orange)}
+.usage-bar.filled.high{background:#f97316}
+.usage-bar.filled.extra-high{background:var(--red)}
+.usage-label{font-size:10px;color:var(--muted);margin-left:3px}
+
+/* Compare */
+.compare-bar{position:fixed;bottom:0;left:0;right:0;background:var(--compare-bar-bg);border-top:2px solid var(--accent);padding:10px 24px;display:flex;align-items:center;gap:10px;z-index:200;transform:translateY(100%);transition:transform .3s;box-shadow:0 -2px 10px var(--compare-bar-shadow)}
+.compare-bar.visible{transform:translateY(0)}
+.compare-bar .compare-items{display:flex;gap:6px;flex:1;flex-wrap:wrap}
+.compare-item{background:var(--compare-item-bg);padding:3px 8px;border-radius:6px;font-size:11px;display:flex;align-items:center;gap:5px;color:var(--compare-item-text)}
+.compare-item button{background:none;border:none;color:var(--compare-item-btn);cursor:pointer;font-size:13px;padding:0 1px}
+.compare-btn{padding:7px 16px;border-radius:6px;background:var(--accent);color:white;border:none;font-size:12px;font-weight:600;cursor:pointer}
+.compare-btn:hover{background:var(--accent2)}
+
+/* Compare Modal */
+.modal-overlay{position:fixed;inset:0;background:var(--overlay-bg);z-index:300;display:none;align-items:center;justify-content:center}
+.modal-overlay.visible{display:flex}
+.modal{background:var(--modal-bg);border:1px solid var(--border);border-radius:10px;max-width:95vw;max-height:90vh;overflow:auto;padding:20px;width:1400px;position:relative;box-shadow:0 20px 60px var(--modal-shadow)}
+.modal h2{margin-bottom:14px;font-size:18px}
+.modal-close{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer}
+.compare-table{width:100%;border-collapse:collapse;font-size:12px}
+.compare-table th{background:var(--card2);padding:8px 10px;text-align:left;border-bottom:2px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.compare-table td{padding:7px 10px;border-bottom:1px solid var(--border)}
+.compare-table tr:hover td{background:var(--row-hover)}
+
+/* Group Header */
+.group-header{display:flex;align-items:center;gap:10px;padding:10px 0 6px;margin-top:12px;border-bottom:1px solid var(--border)}
+.group-header:first-child{margin-top:0}
+.group-dot{width:10px;height:10px;border-radius:50%}
+.group-name{font-size:15px;font-weight:700}
+.group-count{font-size:11px;color:var(--muted)}
+.group-pulls{font-size:11px;color:var(--green);margin-left:auto}
+
+/* Cloud Pricing */
+.cloud-pricing{background:var(--cloud-bg);border:1px solid var(--cloud-border);border-radius:8px;padding:14px;margin-bottom:14px}
+.cloud-pricing h3{font-size:13px;color:var(--cloud-title);margin-bottom:6px}
+.pricing-tiers{display:flex;gap:10px;flex-wrap:wrap}
+.pricing-tier{background:var(--cloud-tier-bg);border:1px solid var(--cloud-border);border-radius:6px;padding:8px 12px;text-align:center;flex:1;min-width:100px}
+.pricing-tier .tier-name{font-size:12px;font-weight:700;color:var(--cloud-name)}
+.pricing-tier .tier-price{font-size:18px;font-weight:800;color:var(--cloud-price);margin:3px 0}
+.pricing-tier .tier-info{font-size:10px;color:var(--cloud-info)}
+
+/* Cost indicator */
+.cost-indicator{display:inline-flex;gap:2px;align-items:center}
+.cost-dot{width:7px;height:7px;border-radius:50%;background:var(--cost-empty)}
+.cost-dot.on{background:var(--green)}
+.cost-dot.on.med{background:var(--orange)}
+.cost-dot.on.high{background:#f97316}
+.cost-dot.on.xhigh{background:var(--red)}
+
+/* Sortable Table Headers */
+.compare-table th[data-sort]{cursor:pointer;user-select:none;white-space:nowrap}
+.compare-table th[data-sort]:hover{background:var(--card2);color:var(--accent)}
+.compare-table th[data-sort]::after{content:'';margin-left:3px;font-size:9px;opacity:.4}
+.compare-table th[data-sort].sort-desc::after{content:'▼';opacity:1;color:var(--accent)}
+.compare-table th[data-sort].sort-asc::after{content:'▲';opacity:1;color:var(--accent)}
+
+/* Benchmark Filters */
+.bench-filters{padding:8px 24px;display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:var(--bg);border-bottom:1px solid var(--border)}
+.bench-filters label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-right:4px}
+.bench-filter-btn{padding:3px 8px;border-radius:14px;border:1px solid var(--border);background:var(--input-bg);color:var(--muted);font-size:10px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:3px;white-space:nowrap}
+.bench-filter-btn:hover{border-color:var(--accent);color:var(--text)}
+.bench-filter-btn.active{background:var(--accent);color:white;border-color:var(--accent)}
+.bench-filter-btn .bf-color{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.bench-range{display:inline-flex;align-items:center;gap:4px;margin-left:2px}
+.bench-range input[type=range]{width:60px;height:3px;-webkit-appearance:none;appearance:none;background:var(--card2);border-radius:2px;outline:none;cursor:pointer}
+.bench-range input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:10px;border-radius:50%;background:var(--accent);cursor:pointer}
+.bench-range-val{font-size:9px;color:var(--muted);width:24px;text-align:right;font-family:monospace}
+.bench-toggle{padding:4px 10px;border-radius:14px;border:1px solid var(--border);background:var(--input-bg);color:var(--muted);font-size:10px;cursor:pointer;transition:all .15s;font-weight:600}
+.bench-toggle:hover{border-color:var(--accent);color:var(--text)}
+.bench-toggle.active{background:#4f46e5;color:white;border-color:#6366f1}
+
+.no-results{text-align:center;padding:50px 20px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo"><img src="favicon-32.png" class="logo-icon" alt="🦙">Open Ollama</div>
+    <span class="logo-sub">Benchmarks & Cost Comparator</span>
+    <button onclick="toggleTheme()" id="themeToggle" style="margin-left:4px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);background:var(--input-bg);color:var(--text);cursor:pointer;font-size:14px;line-height:1;transition:all .15s" title="Toggle light/dark theme">🌓</button>
+    <div class="search-box">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+      <input type="text" id="search" placeholder="Search models, owners..." oninput="render()">
+    </div>
+    <select id="sort" onchange="render()">
+      <option value="pulls-desc">Most Popular</option>
+      <option value="pulls-asc">Least Popular</option>
+      <option value="name-asc">Name A→Z</option>
+      <option value="name-desc">Name Z→A</option>
+      <option value="tags-desc">Most Tags</option>
+      <option value="updated-desc">Newest</option>
+      <option value="usage-asc">Cost: Low→High</option>
+      <option value="usage-desc">Cost: High→Low</option>
+      <option value="bench-mmlu">MMLU ↓</option>
+      <option value="bench-mmlu-asc">MMLU ↑</option>
+      <option value="bench-humaneval">HumanEval ↓</option>
+      <option value="bench-humaneval-asc">HumanEval ↑</option>
+      <option value="bench-math">MATH ↓</option>
+      <option value="bench-math-asc">MATH ↑</option>
+      <option value="bench-gpqa">GPQA ↓</option>
+      <option value="bench-gpqa-asc">GPQA ↑</option>
+      <option value="bench-gsm8k">GSM8K ↓</option>
+      <option value="bench-gsm8k-asc">GSM8K ↑</option>
+      <option value="bench-swe">SWE-bench ↓</option>
+      <option value="bench-swe-asc">SWE-bench ↑</option>
+      <option value="bench-livecode">LiveCodeBench ↓</option>
+      <option value="bench-livecode-asc">LiveCodeBench ↑</option>
+      <option value="bench-aime">AIME ↓</option>
+      <option value="bench-aime-asc">AIME ↑</option>
+      <option value="bench-arena">Arena Elo ↓</option>
+      <option value="bench-arena-asc">Arena Elo ↑</option>
+      <option value="bench-mmmu">MMMU-Pro ↓</option>
+      <option value="bench-mmmu-asc">MMMU-Pro ↑</option>
+      <option value="bench-docvqa">DocVQA ↓</option>
+      <option value="bench-docvqa-asc">DocVQA ↑</option>
+      <option value="bench-mathvista">MathVista ↓</option>
+      <option value="bench-mathvista-asc">MathVista ↑</option>
+      <option value="bench-mmbench">MMBench ↓</option>
+      <option value="bench-mmbench-asc">MMBench ↑</option>
+      <option value="bench-mteb">MTEB Avg ↓</option>
+      <option value="bench-mteb-asc">MTEB Avg ↑</option>
+      <option value="bench-mteb-retrieval">MTEB Retrieval ↓</option>
+      <option value="bench-mteb-retrieval-asc">MTEB Retrieval ↑</option>
+      <option value="bench-mteb-classification">MTEB Classification ↓</option>
+      <option value="bench-mteb-classification-asc">MTEB Classification ↑</option>
+      <option value="bench-overall">Overall Score ↓</option>
+      <option value="bench-overall-asc">Overall Score ↑</option>
+    </select>
+  </div>
+</div>
+
+<div class="stats" id="stats"></div>
+
+<div class="controls">
+  <label>Filter:</label>
+  <div class="cap-filters" id="capFilters"></div>
+  <div class="view-btns">
+    <button class="view-btn active" onclick="setView('cards')" id="viewCards">Cards</button>
+    <button class="view-btn" onclick="setView('table')" id="viewTable">Table</button>
+    <button class="view-btn" onclick="setView('benchmarks')" id="viewBench">📊 Benchmarks</button>
+  </div>
+</div>
+<div class="bench-filters" id="benchFilters">
+  <label>📊 Benchmarks:</label>
+  <button class="bench-toggle" id="benchOnlyToggle" onclick="toggleBenchOnly()">Benchmarked Only</button>
+  <div class="bench-range"><span style="font-size:10px;color:#8b5cf6;font-weight:600">MMLU ≥</span><input type="range" id="benchMinMmlu" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMmluVal');render()"><span class="bench-range-val" id="benchMinMmluVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#22c55e;font-weight:600">HumanEval ≥</span><input type="range" id="benchMinHumaneval" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinHumanevalVal');render()"><span class="bench-range-val" id="benchMinHumanevalVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#f59e0b;font-weight:600">MATH ≥</span><input type="range" id="benchMinMath" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMathVal');render()"><span class="bench-range-val" id="benchMinMathVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#06b6d4;font-weight:600">GPQA ≥</span><input type="range" id="benchMinGpqa" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinGpqaVal');render()"><span class="bench-range-val" id="benchMinGpqaVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#3b82f6;font-weight:600">SWE ≥</span><input type="range" id="benchMinSwe" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinSweVal');render()"><span class="bench-range-val" id="benchMinSweVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#10b981;font-weight:600">LiveCode ≥</span><input type="range" id="benchMinLivecode" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinLivecodeVal');render()"><span class="bench-range-val" id="benchMinLivecodeVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#eab308;font-weight:600">Elo ≥</span><input type="range" id="benchMinElo" min="0" max="1600" value="0" step="50" oninput="updateBenchRange(this,'benchMinEloVal');render()"><span class="bench-range-val" id="benchMinEloVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#f97316;font-weight:600">MMMU-Pro ≥</span><input type="range" id="benchMinMmmu" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMmmuVal');render()"><span class="bench-range-val" id="benchMinMmmuVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#a855f7;font-weight:600">DocVQA ≥</span><input type="range" id="benchMinDocvqa" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinDocvqaVal');render()"><span class="bench-range-val" id="benchMinDocvqaVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#14b8a6;font-weight:600">MathVista ≥</span><input type="range" id="benchMinMathvista" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMathvistaVal');render()"><span class="bench-range-val" id="benchMinMathvistaVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#6366f1;font-weight:600">MMBench ≥</span><input type="range" id="benchMinMmbench" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMmbenchVal');render()"><span class="bench-range-val" id="benchMinMmbenchVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#f472b6;font-weight:600">MTEB Avg ≥</span><input type="range" id="benchMinMteb" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMtebVal');render()"><span class="bench-range-val" id="benchMinMtebVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#c084fc;font-weight:600">MTEB Retr ≥</span><input type="range" id="benchMinMtebRetr" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMtebRetrVal');render()"><span class="bench-range-val" id="benchMinMtebRetrVal">0</span></div>
+  <div class="bench-range"><span style="font-size:10px;color:#34d399;font-weight:600">MTEB Class ≥</span><input type="range" id="benchMinMtebClass" min="0" max="100" value="0" step="5" oninput="updateBenchRange(this,'benchMinMtebClassVal');render()"><span class="bench-range-val" id="benchMinMtebClassVal">0</span></div>
+  <button class="bench-filter-btn" onclick="clearBenchFilters()" style="margin-left:4px">✕ Clear Filters</button>
+</div>
+
+<div class="main">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="content" id="content"></div>
+</div>
+
+<div class="compare-bar" id="compareBar">
+  <span style="font-size:12px;color:var(--muted)">Compare:</span>
+  <div class="compare-items" id="compareItems"></div>
+  <button class="compare-btn" onclick="showCompare()">Compare →</button>
+  <button class="btn" onclick="clearCompare()">Clear</button>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal" style="position:relative"></div>
+</div>
+
+<script>
+// ── Theme Toggle ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme') || 'light';
+  const next = current === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('ollama-theme', next);
+  document.getElementById('themeToggle').textContent = next === 'light' ? '🌓' : '☀️';
+}
+(function() {
+  const saved = localStorage.getItem('ollama-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  // Update toggle icon after DOM loads
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = saved === 'light' ? '🌓' : '☀️';
+  });
+})();
+const MODELS = [{"n":"alfred","d":"A robust conversational model designed to be used for both chat and instruct use cases.","p":233800,"pd":"233.8K Pulls","tc":7,"c":[],"s":["40b"],"u":"2 years ago"},{"n":"all-minilm","d":"Embedding models on very large sentence level datasets.","p":3300000,"pd":"3.3M Pulls","tc":10,"c":["embedding"],"s":[],"u":"2 years ago"},{"n":"bge-m3","d":"BGE-M3 is a new model from BAAI distinguished for its versatility in Multi-Functionality, Multi-Linguality, and Multi-Granularity.","p":5300000,"pd":"5.3M Pulls","tc":3,"c":["embedding"],"s":[],"u":"1 year ago"},{"n":"codegemma","d":"CodeGemma is a collection of powerful, lightweight models for coding tasks.","p":3100000,"pd":"3.1M Pulls","tc":85,"c":[],"s":["2b","7b"],"u":"2 years ago"},{"n":"codellama","d":"A large language model that can use text prompts to generate and discuss code.","p":5800000,"pd":"5.8M Pulls","tc":199,"c":[],"s":["7b","13b","34b","70b"],"u":"2 years ago"},{"n":"cogito","d":"Cogito v1 Preview is a family of hybrid reasoning models by Deep Cogito.","p":2100000,"pd":"2.1M Pulls","tc":20,"c":["tools"],"s":["3b","8b","14b","32b","70b"],"u":"1 year ago"},{"n":"command-a","d":"111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI","p":221300,"pd":"221.3K Pulls","tc":5,"c":["tools"],"s":["111b"],"u":"1 year ago"},{"n":"command-r","d":"Command R is a Large Language Model optimized for conversational interaction and long context tasks.","p":1500000,"pd":"1.5M Pulls","tc":32,"c":["tools"],"s":["35b"],"u":"1 year ago"},{"n":"command-r-plus","d":"Command R+ is a powerful, scalable LLM purpose-built to excel at real-world enterprise use cases.","p":779600,"pd":"779.6K Pulls","tc":21,"c":["tools"],"s":["104b"],"u":"1 year ago"},{"n":"dbrx","d":"DBRX is an open, general-purpose LLM created by Databricks.","p":314900,"pd":"314.9K Pulls","tc":7,"c":[],"s":["132b"],"u":"2 years ago"},{"n":"deepscaler","d":"A fine-tuned version of Deepseek-R1-Distilled-Qwen-1.5B that surpasses the performance of OpenAI's o1-preview.","p":1300000,"pd":"1.3M Pulls","tc":5,"c":[],"s":["1.5b"],"u":"1 year ago"},{"n":"deepseek-coder","d":"DeepSeek Coder is a capable coding model trained on two trillion code and natural language tokens.","p":4400000,"pd":"4.4M Pulls","tc":102,"c":[],"s":["1.3b","6.7b","33b"],"u":"2 years ago"},{"n":"deepseek-coder-v2","d":"An open-source MoE code language model comparable to GPT4-Turbo in code-specific tasks.","p":2800000,"pd":"2.8M Pulls","tc":64,"c":[],"s":["16b","236b"],"u":"1 year ago"},{"n":"deepseek-llm","d":"An advanced language model crafted with 2 trillion bilingual tokens.","p":1100000,"pd":"1.1M Pulls","tc":64,"c":[],"s":["7b","67b"],"u":"2 years ago"},{"n":"deepseek-r1","d":"DeepSeek-R1 is a family of open reasoning models with performance approaching that of leading models.","p":90200000,"pd":"90.2M Pulls","tc":35,"c":["tools","thinking"],"s":["1.5b","7b","8b","14b","32b","70b"],"u":"1 year ago"},{"n":"deepseek-v2","d":"A strong, economical, and efficient Mixture-of-Experts language model.","p":1100000,"pd":"1.1M Pulls","tc":34,"c":[],"s":["16b","236b"],"u":"2 years ago"},{"n":"deepseek-v3","d":"A strong MoE language model with 671B total parameters with 37B activated for each token.","p":3800000,"pd":"3.8M Pulls","tc":5,"c":[],"s":["37b"],"u":"1 year ago"},{"n":"deepseek-v4-flash","d":"DeepSeek-V4-Flash is a 284B MoE model for efficient reasoning.","p":258400,"pd":"258.4K Pulls","tc":1,"c":["tools","thinking","cloud"],"s":[],"u":"2 months ago"},{"n":"deepseek-v4-pro","d":"DeepSeek-V4-Pro is a frontier MoE model with three reasoning modes.","p":259600,"pd":"259.6K Pulls","tc":1,"c":["tools","thinking","cloud"],"s":[],"u":"2 months ago"},{"n":"dolphin-llama3","d":"Dolphin 2.9 is a new model with 8B and 70B sizes by Eric Hartford based on Llama 3.","p":2000000,"pd":"2M Pulls","tc":53,"c":[],"s":["8b","70b"],"u":"2 years ago"},{"n":"dolphin3","d":"Dolphin 3.0 Llama 3.1 8B is the next generation of the Dolphin series of instruct-tuned models.","p":3900000,"pd":"3.9M Pulls","tc":5,"c":[],"s":["8b"],"u":"1 year ago"},{"n":"falcon3","d":"A family of efficient AI models under 10B parameters performant in science, math, and coding.","p":2600000,"pd":"2.6M Pulls","tc":17,"c":[],"s":["1b","3b","7b","10b"],"u":"1 year ago"},{"n":"gemma","d":"Gemma is a family of lightweight, state-of-the-art open models built by Google DeepMind.","p":7300000,"pd":"7.3M Pulls","tc":102,"c":[],"s":["2b","7b"],"u":"2 years ago"},{"n":"gemma2","d":"Google Gemma 2 is a high-performing and efficient model available in three sizes: 2B, 9B, and 27B.","p":28300000,"pd":"28.3M Pulls","tc":94,"c":[],"s":["2b","9b","27b"],"u":"1 year ago"},{"n":"gemma3","d":"The current, most capable model that runs on a single GPU.","p":38800000,"pd":"38.8M Pulls","tc":26,"c":["vision"],"s":["1b","4b","12b","27b"],"u":"11 months ago"},{"n":"gemma4","d":"Gemma 4 models are designed to deliver frontier-level performance at each size.","p":19000000,"pd":"19M Pulls","tc":49,"c":["vision","tools","thinking","audio","cloud"],"s":["12b","26b","31b"],"u":"2 weeks ago"},{"n":"glm-5.1","d":"GLM-5.1 is our next-generation flagship model for agentic engineering.","p":2300000,"pd":"2.3M Pulls","tc":1,"c":["tools","thinking","cloud"],"s":[],"u":"3 months ago"},{"n":"glm-5.2","d":"GLM-5.2 is Z.ai's flagship model for the era of long-horizon tasks.","p":241600,"pd":"241.6K Pulls","tc":1,"c":["tools","thinking","cloud"],"s":[],"u":"1 month ago"},{"n":"glm-ocr","d":"GLM-OCR is a multimodal OCR model for complex document understanding.","p":6200000,"pd":"6.2M Pulls","tc":3,"c":["vision","tools"],"s":[],"u":"5 months ago"},{"n":"gpt-oss","d":"OpenAI's open-weight models designed for powerful reasoning, agentic tasks, and versatile developer use cases.","p":11000000,"pd":"11M Pulls","tc":5,"c":["tools","thinking","cloud"],"s":["20b","120b"],"u":"9 months ago"},{"n":"granite-code","d":"A family of open foundation models by IBM for Code Intelligence","p":1400000,"pd":"1.4M Pulls","tc":162,"c":[],"s":["3b","8b","20b","34b"],"u":"1 year ago"},{"n":"granite3.1-moe","d":"The IBM Granite 1B and 3B models are long-context MoE Granite models.","p":3000000,"pd":"3M Pulls","tc":33,"c":["tools"],"s":["1b","3b"],"u":"1 year ago"},{"n":"granite4","d":"Granite 4 features improved instruction following and tool-calling capabilities.","p":1300000,"pd":"1.3M Pulls","tc":17,"c":["tools"],"s":["1b","3b"],"u":"8 months ago"},{"n":"granite4.1","d":"IBM Granite Models are a family of enterprise-ready, open foundation models.","p":267000,"pd":"267K Pulls","tc":48,"c":["tools"],"s":["3b","8b","30b"],"u":"2 months ago"},{"n":"granite4.1-guardian","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"hermes3","d":"Hermes 3 is the latest version of the flagship Hermes series of LLMs by Nous Research","p":1500000,"pd":"1.5M Pulls","tc":65,"c":["tools"],"s":["3b","8b","70b","405b"],"u":"1 year ago"},{"n":"kimi-k2.6","d":"Kimi K2.6 is an open-source, native multimodal agentic model.","p":389900,"pd":"389.9K Pulls","tc":1,"c":["vision","tools","thinking","cloud"],"s":[],"u":"3 months ago"},{"n":"kimi-k2.7-code","d":"Kimi K2.7 Code is Moonshot AI's coding-focused agentic model.","p":169900,"pd":"169.9K Pulls","tc":1,"c":["vision","tools","thinking","cloud"],"s":[],"u":"1 month ago"},{"n":"laguna-s-2.1","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"laguna-xs-2.1","d":"Laguna XS 2.1 is a 33B total parameter MoE model for agentic coding","p":60100,"pd":"60.1K Pulls","tc":4,"c":["tools","thinking"],"s":["33B","3B"],"u":"2 weeks ago"},{"n":"laguna-xs.2","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"lfm2","d":"LFM2 is a family of hybrid models designed for on-device deployment.","p":1100000,"pd":"1.1M Pulls","tc":6,"c":["tools"],"s":["24b"],"u":"4 months ago"},{"n":"lfm2.5","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"llama2","d":"Llama 2 is a collection of foundation language models ranging from 7B to 70B parameters.","p":7300000,"pd":"7.3M Pulls","tc":102,"c":[],"s":["7b","13b","70b"],"u":"2 years ago"},{"n":"llama3","d":"Meta Llama 3: The most capable openly available LLM to date","p":24800000,"pd":"24.8M Pulls","tc":68,"c":[],"s":["8b","70b"],"u":"2 years ago"},{"n":"llama3.1","d":"Llama 3.1 is a new state-of-the-art model from Meta available in 8B, 70B and 405B parameter sizes.","p":117500000,"pd":"117.5M Pulls","tc":93,"c":["tools"],"s":["8b","70b","405b"],"u":"1 year ago"},{"n":"llama3.2","d":"Meta's Llama 3.2 goes small with 1B and 3B models.","p":77300000,"pd":"77.3M Pulls","tc":63,"c":["tools"],"s":["1b","3b"],"u":"1 year ago"},{"n":"llama3.2-vision","d":"Llama 3.2 Vision is a collection of instruction-tuned image reasoning generative models.","p":4900000,"pd":"4.9M Pulls","tc":9,"c":["vision"],"s":["11b","90b"],"u":"1 year ago"},{"n":"llama3.3","d":"New state of the art 70B model offering similar performance compared to the Llama 3.1 405B model.","p":4100000,"pd":"4.1M Pulls","tc":14,"c":["tools"],"s":["70b"],"u":"1 year ago"},{"n":"llama4","d":"Meta's latest collection of multimodal models.","p":1800000,"pd":"1.8M Pulls","tc":11,"c":["vision","tools"],"s":[],"u":"1 year ago"},{"n":"llava","d":"LLaVA is a novel end-to-end trained large multimodal model for general-purpose visual and language understanding.","p":14400000,"pd":"14.4M Pulls","tc":98,"c":["vision"],"s":["7b","13b","34b"],"u":"2 years ago"},{"n":"medgemma1.5","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"minicpm-v","d":"A series of multimodal LLMs designed for vision-language understanding.","p":5300000,"pd":"5.3M Pulls","tc":17,"c":["vision"],"s":["8b"],"u":"1 year ago"},{"n":"minicpm-v4.5","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"minicpm-v4.6","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"minimax-m2.5","d":"MiniMax-M2.5 is a state-of-the-art large language model designed for real-world productivity and coding tasks.","p":2300000,"pd":"2.3M Pulls","tc":1,"c":["tools","thinking","cloud"],"s":[],"u":"5 months ago"},{"n":"minimax-m2.7","d":"MiniMax's M2-series model for coding, agentic workflows, and professional productivity.","p":2300000,"pd":"2.3M Pulls","tc":1,"c":["tools","thinking","cloud"],"s":[],"u":"4 months ago"},{"n":"minimax-m3","d":"MiniMax M3: Coding & Agentic Frontier. 1M context window.","p":284300,"pd":"284.3K Pulls","tc":1,"c":["vision","tools","thinking","cloud"],"s":[],"u":"1 month ago"},{"n":"mistral","d":"The 7B model released by Mistral AI, updated to version 0.3.","p":31300000,"pd":"31.3M Pulls","tc":84,"c":["tools"],"s":["7b"],"u":"1 year ago"},{"n":"mistral-large","d":"Mistral Large 2 is Mistral's new flagship model that is significantly more capable in code generation, mathematics, and reasoning.","p":1200000,"pd":"1.2M Pulls","tc":32,"c":["tools"],"s":["123b"],"u":"1 year ago"},{"n":"mistral-medium-3.5","d":"Mistral Medium 3.5 is the first flagship model merging instruction-following, reasoning, and coding.","p":197000,"pd":"197K Pulls","tc":5,"c":["vision","tools","thinking"],"s":["128b"],"u":"2 months ago"},{"n":"mistral-nemo","d":"A state-of-the-art 12B model with 128k context length, built by Mistral AI in collaboration with NVIDIA.","p":5500000,"pd":"5.5M Pulls","tc":17,"c":["tools"],"s":["12b"],"u":"12 months ago"},{"n":"mistral-small","d":"Mistral Small 3 sets a new benchmark in the small LLM category below 70B.","p":3100000,"pd":"3.1M Pulls","tc":21,"c":["tools"],"s":["24b"],"u":"1 year ago"},{"n":"mixtral","d":"A set of Mixture of Experts (MoE) model with open weights by Mistral AI.","p":2700000,"pd":"2.7M Pulls","tc":70,"c":["tools"],"s":[],"u":"1 year ago"},{"n":"moondream","d":"moondream2 is a small vision language model designed to run efficiently on edge devices.","p":1400000,"pd":"1.4M Pulls","tc":18,"c":["vision"],"s":["1.8b"],"u":"2 years ago"},{"n":"mxbai-embed-large","d":"State-of-the-art large embedding model from mixedbread.ai","p":12800000,"pd":"12.8M Pulls","tc":4,"c":["embedding"],"s":[],"u":"2 years ago"},{"n":"nemotron-3-super","d":"NVIDIA Nemotron 3 Super is a 120B open MoE model activating just 12B parameters.","p":2800000,"pd":"2.8M Pulls","tc":7,"c":["tools","thinking","cloud"],"s":["120b"],"u":"4 months ago"},{"n":"nemotron-3-ultra","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"nemotron3","d":"NVIDIA Nemotron 3 Nano Omni is a multimodal large language model.","p":620700,"pd":"620.7K Pulls","tc":4,"c":["vision","tools","thinking","audio"],"s":["33b"],"u":"2 months ago"},{"n":"nomic-embed-text","d":"A high-performing open embedding model with a large token context window.","p":79200000,"pd":"79.2M Pulls","tc":3,"c":["embedding"],"s":[],"u":"2 years ago"},{"n":"north-mini-code-1.0","d":"","p":0,"pd":"","tc":0,"c":[],"s":[],"u":""},{"n":"olmo2","d":"OLMo 2 is a new family of 7B and 13B models trained on up to 5T tokens.","p":3700000,"pd":"3.7M Pulls","tc":9,"c":[],"s":["7b","13b"],"u":"1 year ago"},{"n":"openchat","d":"A family of open-source models trained on a wide variety of data, surpassing ChatGPT on various benchmarks.","p":1200000,"pd":"1.2M Pulls","tc":50,"c":[],"s":["7b"],"u":"2 years ago"},{"n":"openthinker","d":"A fully open-source family of reasoning models built using a dataset derived by distilling DeepSeek-R1.","p":1100000,"pd":"1.1M Pulls","tc":15,"c":[],"s":["7b","32b"],"u":"1 year ago"},{"n":"ornith","d":"A self-improving family of open-source models for agentic coding","p":275700,"pd":"275.7K Pulls","tc":9,"c":[],"s":["9b","35b"],"u":"3 weeks ago"},{"n":"phi3","d":"Phi-3 is a family of lightweight 3B (Mini) and 14B (Medium) state-of-the-art open models by Microsoft.","p":17900000,"pd":"17.9M Pulls","tc":72,"c":[],"s":["3b","14b"],"u":"1 year ago"},{"n":"phi4","d":"Phi-4 is a 14B parameter, state-of-the-art open model from Microsoft.","p":7600000,"pd":"7.6M Pulls","tc":5,"c":[],"s":["14b"],"u":"1 year ago"},{"n":"phi4-reasoning","d":"Phi 4 reasoning and reasoning plus are 14-billion parameter open-weight reasoning models.","p":1700000,"pd":"1.7M Pulls","tc":9,"c":[],"s":["14b"],"u":"1 year ago"},{"n":"qwen","d":"Qwen 1.5 is a series of large language models by Alibaba Cloud spanning from 0.5B to 110B parameters","p":7300000,"pd":"7.3M Pulls","tc":379,"c":["cloud"],"s":["0.5b","1.8b","4b","7b","14b","32b","72b","110b"],"u":"2 years ago"},{"n":"qwen2","d":"Qwen2 is a new series of large language models from Alibaba group","p":6000000,"pd":"6M Pulls","tc":97,"c":["tools"],"s":["0.5b","1.5b","7b","72b"],"u":"1 year ago"},{"n":"qwen2.5","d":"Qwen2.5 models are pretrained on Alibaba's latest large-scale dataset, encompassing up to 18 trillion tokens.","p":35100000,"pd":"35.1M Pulls","tc":133,"c":["tools"],"s":["0.5b","1.5b","3b","7b","14b","32b","72b"],"u":"1 year ago"},{"n":"qwen2.5-coder","d":"The latest series of Code-Specific Qwen models.","p":18700000,"pd":"18.7M Pulls","tc":199,"c":["tools"],"s":["0.5b","1.5b","3b","7b","14b","32b"],"u":"1 year ago"},{"n":"qwen2.5vl","d":"Flagship vision-language model of Qwen and also a significant leap from the previous Qwen2-VL.","p":3300000,"pd":"3.3M Pulls","tc":17,"c":["vision"],"s":["3b","7b","32b","72b"],"u":"1 year ago"},{"n":"qwen3","d":"Qwen3 is the latest generation of large language models in Qwen series.","p":32500000,"pd":"32.5M Pulls","tc":58,"c":["tools","thinking"],"s":["0.6b","1.7b","4b","8b","14b","30b","32b","235b"],"u":"9 months ago"},{"n":"qwen3-coder","d":"Alibaba's performant long context models for agentic and coding tasks.","p":7400000,"pd":"7.4M Pulls","tc":9,"c":["tools"],"s":["30b","480b"],"u":"10 months ago"},{"n":"qwen3-vl","d":"The most powerful vision-language model in the Qwen model family to date.","p":4600000,"pd":"4.6M Pulls","tc":57,"c":["vision","tools","thinking"],"s":["2b","4b","8b","30b","32b","235b"],"u":"8 months ago"},{"n":"qwen3.5","d":"Qwen 3.5 is a family of open-source multimodal models that delivers exceptional utility and performance.","p":15800000,"pd":"15.8M Pulls","tc":64,"c":["vision","tools","thinking","cloud"],"s":["0.8b","2b","4b","9b","27b","35b","122b"],"u":"2 months ago"},{"n":"qwen3.6","d":"Qwen3.6 delivers substantial upgrades in agentic coding and thinking preservation.","p":4300000,"pd":"4.3M Pulls","tc":30,"c":["vision","tools","thinking"],"s":["27b","35b"],"u":"1 month ago"},{"n":"qwq","d":"QwQ is the reasoning model of the Qwen series.","p":2300000,"pd":"2.3M Pulls","tc":8,"c":["tools"],"s":["32b"],"u":"1 year ago"},{"n":"reflection","d":"A high-performing model trained with Reflection-tuning that teaches a LLM to detect mistakes in its reasoning.","p":601500,"pd":"601.5K Pulls","tc":17,"c":[],"s":["70b"],"u":"1 year ago"},{"n":"smollm2","d":"SmolLM2 is a family of compact language models available in three sizes: 135M, 360M, and 1.7B parameters.","p":3600000,"pd":"3.6M Pulls","tc":49,"c":["tools"],"s":["1.7b"],"u":"1 year ago"},{"n":"snowflake-arctic-embed","d":"A suite of text embedding models by Snowflake, optimized for performance.","p":3100000,"pd":"3.1M Pulls","tc":16,"c":["embedding"],"s":[],"u":"2 years ago"},{"n":"snowflake-arctic-embed2","d":"Snowflake's frontier embedding model. Arctic Embed 2.0 adds multilingual support.","p":426200,"pd":"426.2K Pulls","tc":3,"c":["embedding"],"s":[],"u":"1 year ago"},{"n":"sqlcoder","d":"SQLCoder is a code completion model fined-tuned on StarCoder for SQL generation tasks","p":1300000,"pd":"1.3M Pulls","tc":48,"c":[],"s":["7b","15b"],"u":"2 years ago"},{"n":"starcoder2","d":"StarCoder2 is the next generation of transparently trained open code LLMs.","p":2900000,"pd":"2.9M Pulls","tc":67,"c":[],"s":["3b","7b","15b"],"u":"1 year ago"},{"n":"tinyllama","d":"The TinyLlama project is an open endeavor to train a compact 1.1B Llama model on 3 trillion tokens.","p":5300000,"pd":"5.3M Pulls","tc":36,"c":[],"s":["1.1b"],"u":"2 years ago"},{"n":"tulu3","d":"T\u00fclu 3 is a leading instruction following model family, offering fully open-source data, code, and recipes by Allen AI.","p":372600,"pd":"372.6K Pulls","tc":9,"c":[],"s":["8b","70b"],"u":"1 year ago"},{"n":"yi","d":"Yi 1.5 is a high-performing, bilingual language model.","p":1300000,"pd":"1.3M Pulls","tc":174,"c":[],"s":["6b","9b","34b"],"u":"2 years ago"},{"n":"zephyr","d":"Zephyr is a series of fine-tuned versions of the Mistral and Mixtral models that are trained to act as helpful assistants.","p":1200000,"pd":"1.2M Pulls","tc":40,"c":[],"s":["7b","141b"],"u":"2 years ago"}];
+
+// Benchmark data (from official reports & leaderboards)
+const BENCHMARKS = {"deepseek-r1":{"mmlu":90.8,"mmlu_pro":84.0,"humaneval":90.2,"math":97.3,"gpqa":71.5,"gsm8k":95.0,"swe_bench":49.2,"livecodebench":65.9,"aime":89.3,"arena_elo":1398,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":79.5},"deepseek-v3":{"mmlu":87.1,"mmlu_pro":64.4,"humaneval":65.2,"math":61.6,"gpqa":57.4,"gsm8k":89.3,"swe_bench":null,"livecodebench":35.9,"aime":25.3,"arena_elo":1380,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":57.9},"deepseek-v4-pro":{"mmlu":87.2,"mmlu_pro":87.5,"humaneval":88.7,"math":84.1,"gpqa":90.1,"gsm8k":98.0,"swe_bench":80.6,"livecodebench":93.5,"aime":null,"arena_elo":1554,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":87.7},"deepseek-v4-flash":{"mmlu":85.0,"mmlu_pro":83.0,"humaneval":82.0,"math":78.0,"gpqa":88.1,"gsm8k":94.0,"swe_bench":79.0,"livecodebench":91.6,"aime":null,"arena_elo":1388,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":80.3},"llama3.1":{"mmlu":88.6,"humaneval":81.4,"math":73.0,"gpqa":51.1,"gsm8k":93.0,"swe_bench":null,"livecodebench":52.0,"aime":null,"arena_elo":1280,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":72.5},"llama3.2":{"mmlu":69.4,"humaneval":71.6,"math":48.0,"gpqa":34.0,"gsm8k":78.0,"swe_bench":null,"livecodebench":38.0,"aime":null,"arena_elo":1105,"mmmu_pro":null,"docvqa":88.4,"mathvista":null,"mmbench":null,"overall_score":53.2},"llama3":{"mmlu":68.4,"humaneval":60.0,"math":28.0,"gpqa":35.0,"gsm8k":80.8,"swe_bench":32.4,"livecodebench":28.0,"aime":null,"arena_elo":1060,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":46.7},"llama4-scout":{"mmlu":82.0,"humaneval":78.0,"math":68.0,"gpqa":62.0,"gsm8k":92.0,"swe_bench":null,"livecodebench":55.0,"aime":null,"arena_elo":1320,"mmmu_pro":null,"docvqa":94.4,"mathvista":null,"mmbench":null,"overall_score":64.5},"qwen3.5":{"mmlu":88.5,"humaneval":85.0,"math":78.0,"gpqa":88.4,"gsm8k":92.0,"swe_bench":76.4,"livecodebench":83.6,"aime":null,"arena_elo":1450,"mmmu_pro":79.0,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":65.0,"mmlu_pro":87.8},"qwen3":{"mmlu":86.0,"humaneval":82.0,"math":75.0,"gpqa":62.0,"gsm8k":93.4,"swe_bench":44.7,"livecodebench":50.0,"aime":null,"arena_elo":1340,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":63.9},"qwen2.5":{"mmlu":85.0,"humaneval":79.0,"math":72.0,"gpqa":60.0,"gsm8k":91.5,"swe_bench":null,"livecodebench":42.0,"aime":null,"arena_elo":1270,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":62.0},"gemma4":{"mmlu":87.1,"humaneval":80.0,"math":75.0,"gpqa":84.3,"gsm8k":91.2,"swe_bench":null,"livecodebench":80.0,"aime":89.2,"arena_elo":1451,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":61.1},"gemma3":{"mmlu":76.0,"humaneval":68.0,"math":58.0,"gpqa":50.0,"gsm8k":81.2,"swe_bench":null,"livecodebench":38.0,"aime":null,"arena_elo":1180,"mmmu_pro":null,"docvqa":87.1,"mathvista":null,"mmbench":null,"overall_score":51.0},"gemma2":{"mmlu":71.0,"humaneval":62.0,"math":42.0,"gpqa":38.0,"gsm8k":75.0,"swe_bench":null,"livecodebench":28.0,"aime":null,"arena_elo":1080,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":42.0},"glm-5.1":{"mmlu":91.7,"humaneval":90.0,"math":95.0,"gpqa":94.0,"gsm8k":97.0,"swe_bench":77.8,"livecodebench":85.0,"aime":95.0,"arena_elo":1535,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":67.8},"glm-5.2":{"mmlu":89.0,"humaneval":88.0,"math":90.0,"gpqa":91.2,"gsm8k":95.0,"swe_bench":67.0,"livecodebench":80.0,"aime":90.0,"arena_elo":1468,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":64.0},"minimax-m3":{"mmlu":88.0,"humaneval":85.0,"math":82.0,"gpqa":70.0,"gsm8k":94.0,"swe_bench":80.5,"livecodebench":75.0,"aime":null,"arena_elo":1445,"mmmu_pro":78.1,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":69.8},"minimax-m2.7":{"mmlu":86.0,"humaneval":82.0,"math":75.0,"gpqa":62.0,"gsm8k":92.0,"swe_bench":68.0,"livecodebench":70.0,"aime":null,"arena_elo":1420,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":64.1},"minimax-m2.5":{"mmlu":84.0,"humaneval":78.0,"math":70.0,"gpqa":58.0,"gsm8k":90.0,"swe_bench":62.0,"livecodebench":65.0,"aime":null,"arena_elo":1380,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":58.0},"mistral-medium-3.5":{"mmlu":82.0,"humaneval":78.0,"math":68.4,"gpqa":74.8,"gsm8k":90.0,"swe_bench":77.6,"livecodebench":null,"aime":null,"arena_elo":1427,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":62.0},"mistral-large-3":{"mmlu":80.0,"humaneval":75.0,"math":62.0,"gpqa":58.0,"gsm8k":82.1,"swe_bench":34.2,"livecodebench":40.0,"aime":null,"arena_elo":1350,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":52.0},"mistral":{"mmlu":70.0,"humaneval":58.0,"math":38.0,"gpqa":40.0,"gsm8k":75.0,"swe_bench":null,"livecodebench":22.0,"aime":null,"arena_elo":1090,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":42.0},"phi4":{"mmlu":78.0,"humaneval":76.0,"math":68.0,"gpqa":55.0,"gsm8k":84.3,"swe_bench":36.8,"livecodebench":48.0,"aime":null,"arena_elo":1200,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":55.0},"nemotron-3-super":{"mmlu":85.0,"humaneval":90.0,"math":73.3,"gpqa":55.8,"gsm8k":79.0,"swe_bench":null,"livecodebench":58.0,"aime":null,"arena_elo":1310,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":58.0},"gpt-oss":{"mmlu":90.0,"humaneval":88.3,"math":84.0,"gpqa":80.9,"gsm8k":88.0,"swe_bench":62.4,"livecodebench":60.0,"aime":97.9,"arena_elo":1355,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":55.0,"mmlu_pro":90.0},"kimi-k2.5":{"mmlu":89.0,"humaneval":92.0,"math":82.0,"gpqa":68.0,"gsm8k":95.0,"swe_bench":76.8,"livecodebench":85.0,"aime":null,"arena_elo":1484,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":67.0},"kimi-k2.6":{"mmlu":89.0,"humaneval":95.0,"math":85.0,"gpqa":90.5,"gsm8k":94.0,"swe_bench":80.2,"livecodebench":89.6,"aime":null,"arena_elo":1484,"mmmu_pro":79.4,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":57.0},"kimi-k2.7-code":{"mmlu":86.0,"humaneval":96.0,"math":80.0,"gpqa":68.0,"gsm8k":92.0,"swe_bench":70.0,"livecodebench":85.0,"aime":null,"arena_elo":1460,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":61.9},"granite4.1":{"mmlu":72.0,"humaneval":65.0,"math":55.0,"gpqa":45.0,"gsm8k":82.0,"swe_bench":35.0,"livecodebench":38.0,"aime":null,"arena_elo":1120,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":46.0},"qwen3-coder":{"mmlu":78.0,"humaneval":88.0,"math":60.0,"gpqa":50.0,"gsm8k":85.0,"swe_bench":null,"livecodebench":62.0,"aime":null,"arena_elo":1250,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"overall_score":52.0},"llama4-maverick":{"mmlu":85.5,"humaneval":62.0,"math":68.5,"gpqa":69.8,"gsm8k":null,"swe_bench":null,"livecodebench":43.4,"aime":null,"arena_elo":1328,"mmmu_pro":null,"docvqa":94.4,"mathvista":null,"mmbench":null,"overall_score":63.0},"llava":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":41.0,"docvqa":78.0,"mathvista":28.0,"mmbench":72.0,"overall_score":54.4},"minicpm-v":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":82.0,"mathvista":42.0,"mmbench":78.0,"overall_score":69.4},"llama3.2-vision":{"mmlu":69.4,"humaneval":71.6,"math":48.0,"gpqa":34.0,"gsm8k":78.0,"swe_bench":null,"livecodebench":38.0,"aime":null,"arena_elo":1105,"mmmu_pro":null,"docvqa":90.1,"mathvista":null,"mmbench":null,"overall_score":53.2},"qwen2.5vl":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":50.0,"docvqa":96.4,"mathvista":72.0,"mmbench":88.3,"overall_score":73.6},"qwen3-vl":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":69.0,"docvqa":95.0,"mathvista":78.0,"mmbench":87.0,"overall_score":81.0},"deepseek-vl2":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":93.3,"mathvista":65.0,"mmbench":82.0,"overall_score":82.0},"pixtral":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":93.3,"mathvista":58.0,"mmbench":80.0,"overall_score":79.4},"phi-4-multimodal":{"mmlu":78.0,"humaneval":76.0,"math":68.0,"gpqa":55.0,"gsm8k":84.3,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":93.2,"mathvista":55.0,"mmbench":76.0,"overall_score":72.8},"moondream":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":65.0,"mathvista":18.0,"mmbench":55.0,"overall_score":48.7},"nomic-embed-text":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"mteb_avg":62.28,"mteb_retrieval":54.9,"mteb_classification":74.7,"overall_score":62.6},"mxbai-embed-large":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"mteb_avg":64.68,"mteb_retrieval":54.39,"mteb_classification":75.64,"overall_score":63.7},"bge-m3":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"mteb_avg":59.56,"mteb_retrieval":57.9,"mteb_classification":62.3,"overall_score":59.6},"all-minilm":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"mteb_avg":56.3,"mteb_retrieval":42.5,"mteb_classification":63.8,"overall_score":53.4},"snowflake-arctic-embed2":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"mteb_avg":55.6,"mteb_retrieval":55.98,"mteb_classification":61.5,"overall_score":57.0},"snowflake-arctic-embed":{"mmlu":null,"humaneval":null,"math":null,"gpqa":null,"gsm8k":null,"swe_bench":null,"livecodebench":null,"aime":null,"arena_elo":null,"mmmu_pro":null,"docvqa":null,"mathvista":null,"mmbench":null,"mteb_avg":55.98,"mteb_retrieval":55.98,"mteb_classification":61.4,"overall_score":57.2}};
+
+// Cloud model cost data
+const CLOUD_USAGE = {
+  'gemma4': [{tag:'cloud',usage:'Low',bars:1,context:'256K'},{tag:'31b-cloud',usage:'Low',bars:1,context:'256K'}],
+  'qwen3.5': [{tag:'397b-cloud',usage:'Medium',bars:2,context:'256K'}],
+  'gpt-oss': [{tag:'20b-cloud',usage:'Low',bars:1,context:'128K'},{tag:'120b-cloud',usage:'Medium',bars:2,context:'128K'}],
+  'deepseek-v4-flash': [{tag:'cloud',usage:'Medium',bars:2,context:'1M'}],
+  'deepseek-v4-pro': [{tag:'cloud',usage:'Extra High',bars:4,context:'1M'}],
+  'glm-5.1': [{tag:'cloud',usage:'High',bars:3,context:'198K'}],
+  'glm-5.2': [{tag:'cloud',usage:'High',bars:3,context:'976K'}],
+  'minimax-m2.5': [{tag:'cloud',usage:'Medium',bars:2,context:'198K'}],
+  'minimax-m2.7': [{tag:'cloud',usage:'Medium',bars:2,context:'200K'}],
+  'minimax-m3': [{tag:'cloud',usage:'High',bars:3,context:'512K'}],
+  'kimi-k2.5': [{tag:'cloud',usage:'High',bars:3,context:'256K'}],
+  'kimi-k2.6': [{tag:'cloud',usage:'High',bars:3,context:'256K'}],
+  'kimi-k2.7-code': [{tag:'cloud',usage:'High',bars:3,context:'256K'}],
+  'mistral-large-3': [{tag:'675b-cloud',usage:'Medium',bars:2,context:'256K'}],
+  'nemotron-3-super': [{tag:'cloud',usage:'Medium',bars:2,context:'256K'}],
+  'nemotron-3-nano': [{tag:'30b-cloud',usage:'Low',bars:1,context:'1M'}],
+  'nemotron-3-ultra': [{tag:'cloud',usage:'High',bars:3,context:'256K'}],
+  'gemini-3-flash-preview': [{tag:'latest',usage:'N/A',bars:0,context:'1M'}],
+};
+
+const USAGE_ORDER = {'Low':1,'Medium':2,'High':3,'Extra High':4};
+const BENCH_KEYS = ['mmlu','humaneval','math','gpqa','gsm8k','swe_bench','livecodebench','aime','arena_elo','mmmu_pro','docvqa','mathvista','mmbench','mteb_avg','mteb_retrieval','mteb_classification','overall_score'];
+const BENCH_NAMES = {mmlu:'MMLU',humaneval:'HumanEval',math:'MATH',gpqa:'GPQA',gsm8k:'GSM8K',swe_bench:'SWE-bench',livecodebench:'LiveCode',aime:'AIME',arena_elo:'Arena Elo',mmmu_pro:'MMMU-Pro',docvqa:'DocVQA',mathvista:'MathVista',mmbench:'MMBench',mteb_avg:'MTEB Avg',mteb_retrieval:'MTEB Retr',mteb_classification:'MTEB Class',overall_score:'Overall'};
+const BENCH_COLORS = {mmlu:'#8b5cf6',humaneval:'#22c55e',math:'#f59e0b',gpqa:'#06b6d4',gsm8k:'#ec4899',swe_bench:'#3b82f6',livecodebench:'#10b981',aime:'#ef4444',arena_elo:'#eab308',mmmu_pro:'#f97316',docvqa:'#a855f7',mathvista:'#14b8a6',mmbench:'#6366f1',mteb_avg:'#f472b6',mteb_retrieval:'#c084fc',mteb_classification:'#34d399',overall_score:'#ffffff'};
+const BENCH_MAX = {mmlu:100,humaneval:100,math:100,gpqa:100,gsm8k:100,swe_bench:100,livecodebench:100,aime:100,arena_elo:1600,mmmu_pro:100,docvqa:100,mathvista:100,mmbench:100,mteb_avg:100,mteb_retrieval:100,mteb_classification:100,overall_score:100};
+const OWNER_COLORS = {
+  'Google DeepMind':'#4285f4','Alibaba Cloud':'#ff6a00','DeepSeek':'#4f46e5','Meta':'#0668E1',
+  'NVIDIA':'#76b900','OpenAI':'#10a37f','Mistral AI':'#ff7000','Zhipu AI':'#3b82f6',
+  'MiniMax':'#ec4899','Moonshot AI':'#f59e0b','Nomic AI':'#22d3ee','Microsoft':'#00a4ef',
+  'IBM':'#be1618','Cohere':'#39594d','Allen AI':'#8b5cf6','Others':'#94a3b8'
+};
+const CAP_ICONS = {vision:'👁',tools:'🔧',thinking:'🧠',cloud:'☁️',audio:'🎤',embedding:'📊'};
+
+let activeCaps = new Set();
+let activeOwner = null;
+let compareList = [];
+let viewMode = 'cards';
+let benchOnly = false;
+
+function updateBenchRange(input, valId) {
+  document.getElementById(valId).textContent = input.value;
+}
+function toggleBenchOnly() {
+  benchOnly = !benchOnly;
+  document.getElementById('benchOnlyToggle').classList.toggle('active', benchOnly);
+  render();
+}
+function clearBenchFilters() {
+  benchOnly = false;
+  document.getElementById('benchOnlyToggle').classList.remove('active');
+  ['benchMinMmlu','benchMinHumaneval','benchMinMath','benchMinGpqa','benchMinSwe','benchMinLivecode','benchMinElo','benchMinMmmu','benchMinDocvqa','benchMinMathvista','benchMinMmbench','benchMinMteb','benchMinMtebRetr','benchMinMtebClass'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.value = 0; }
+  });
+  ['benchMinMmluVal','benchMinHumanevalVal','benchMinMathVal','benchMinGpqaVal','benchMinSweVal','benchMinLivecodeVal','benchMinEloVal','benchMinMmmuVal','benchMinDocvqaVal','benchMinMathvistaVal','benchMinMmbenchVal','benchMinMtebVal','benchMinMtebRetrVal','benchMinMtebClassVal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '0';
+  });
+  render();
+}
+function getBenchFilters() {
+  return {
+    mmlu: parseInt(document.getElementById('benchMinMmlu')?.value || '0'),
+    humaneval: parseInt(document.getElementById('benchMinHumaneval')?.value || '0'),
+    math: parseInt(document.getElementById('benchMinMath')?.value || '0'),
+    gpqa: parseInt(document.getElementById('benchMinGpqa')?.value || '0'),
+    swe_bench: parseInt(document.getElementById('benchMinSwe')?.value || '0'),
+    livecodebench: parseInt(document.getElementById('benchMinLivecode')?.value || '0'),
+    arena_elo: parseInt(document.getElementById('benchMinElo')?.value || '0'),
+    mmmu_pro: parseInt(document.getElementById('benchMinMmmu')?.value || '0'),
+    docvqa: parseInt(document.getElementById('benchMinDocvqa')?.value || '0'),
+    mathvista: parseInt(document.getElementById('benchMinMathvista')?.value || '0'),
+    mmbench: parseInt(document.getElementById('benchMinMmbench')?.value || '0'),
+    mteb_avg: parseInt(document.getElementById('benchMinMteb')?.value || '0'),
+    mteb_retrieval: parseInt(document.getElementById('benchMinMtebRetr')?.value || '0'),
+    mteb_classification: parseInt(document.getElementById('benchMinMtebClass')?.value || '0'),
+  };
+}
+
+function getOwner(model) {
+  const n = model.n.toLowerCase();
+  if (n.startsWith('gemma') || n.startsWith('medgemma') || n.startsWith('codegemma') || n.startsWith('recurrentgemma')) return 'Google DeepMind';
+  if (n.startsWith('qwen') || n.startsWith('qwq') || n.startsWith('codeqwen')) return 'Alibaba Cloud';
+  if (n.startsWith('deepseek') || n.startsWith('r1')) return 'DeepSeek';
+  if (n.startsWith('llama') || n.startsWith('codellama')) return 'Meta';
+  if (n.startsWith('nemotron')) return 'NVIDIA';
+  if (n.startsWith('gpt-oss')) return 'OpenAI';
+  if (n.startsWith('mistral') || n.startsWith('mixtral') || n.startsWith('codestral') || n.startsWith('mathstral') || n.startsWith('pixtral')) return 'Mistral AI';
+  if (n.startsWith('glm')) return 'Zhipu AI';
+  if (n.startsWith('minimax') || n.startsWith('m2.') || n.startsWith('m3')) return 'MiniMax';
+  if (n.startsWith('kimi')) return 'Moonshot AI';
+  if (n.startsWith('nomic')) return 'Nomic AI';
+  if (n.startsWith('phi')) return 'Microsoft';
+  if (n.startsWith('granite')) return 'IBM';
+  if (n.startsWith('command')) return 'Cohere';
+  if (n.startsWith('olmo') || n.startsWith('tulu')) return 'Allen AI';
+  return 'Others';
+}
+
+function getUsage(model) { return CLOUD_USAGE[model.n] || null; }
+function getBench(model) { return BENCHMARKS[model.n] || null; }
+function formatPulls(n) { if (n>=1e6) return (n/1e6).toFixed(1)+'M'; if (n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toString(); }
+
+function getModels() {
+  let models = [...MODELS];
+  const q = document.getElementById('search').value.toLowerCase();
+  const sort = document.getElementById('sort').value;
+  const bf = getBenchFilters();
+  if (q) models = models.filter(m => m.n.toLowerCase().includes(q) || (m.d||'').toLowerCase().includes(q) || getOwner(m).toLowerCase().includes(q) || (m.c||[]).some(c => c.toLowerCase().includes(q)));
+  if (activeCaps.size > 0) models = models.filter(m => (m.c||[]).some(c => activeCaps.has(c)));
+  if (activeOwner) models = models.filter(m => getOwner(m) === activeOwner);
+  if (benchOnly) models = models.filter(m => getBench(m));
+
+  // Apply benchmark min-score filters
+  models = models.filter(m => {
+    const b = getBench(m);
+    // If no benchmark data and any filter is active, exclude
+    if (!b) {
+      const anyFilter = Object.values(bf).some(v => v > 0);
+      return !anyFilter;
+    }
+    if (bf.mmlu > 0 && (b.mmlu == null || b.mmlu < bf.mmlu)) return false;
+    if (bf.humaneval > 0 && (b.humaneval == null || b.humaneval < bf.humaneval)) return false;
+    if (bf.math > 0 && (b.math == null || b.math < bf.math)) return false;
+    if (bf.gpqa > 0 && (b.gpqa == null || b.gpqa < bf.gpqa)) return false;
+    if (bf.swe_bench > 0 && (b.swe_bench == null || b.swe_bench < bf.swe_bench)) return false;
+    if (bf.livecodebench > 0 && (b.livecodebench == null || b.livecodebench < bf.livecodebench)) return false;
+    if (bf.arena_elo > 0 && (b.arena_elo == null || b.arena_elo < bf.arena_elo)) return false;
+    return true;
+  });
+
+  // Helper: for benchmark sorts, push models without data to the bottom
+  function benchSort(a, b, key, desc) {
+    const va = getBench(a)?.[key], vb = getBench(b)?.[key];
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;  // nulls always go to bottom
+    if (vb == null) return -1; // nulls always go to bottom
+    return desc ? vb - va : va - vb;
+  }
+
+  models.sort((a,b) => {
+    const ba = getBench(a), bb = getBench(b);
+    switch(sort) {
+      case 'pulls-desc': return (b.p||0)-(a.p||0);
+      case 'pulls-asc': return (a.p||0)-(b.p||0);
+      case 'name-asc': return a.n.localeCompare(b.n);
+      case 'name-desc': return b.n.localeCompare(a.n);
+      case 'tags-desc': return (b.tc||0)-(a.tc||0);
+      case 'usage-asc': { const ua=getUsage(a),ub=getUsage(b); return (ua?Math.min(...ua.map(x=>USAGE_ORDER[x.usage]||0)):99)-(ub?Math.min(...ub.map(x=>USAGE_ORDER[x.usage]||0)):99); }
+      case 'usage-desc': { const ua=getUsage(a),ub=getUsage(b); return (ub?Math.max(...ub.map(x=>USAGE_ORDER[x.usage]||0)):0)-(ua?Math.max(...ua.map(x=>USAGE_ORDER[x.usage]||0)):0); }
+      case 'bench-mmlu': return benchSort(a,b,'mmlu',true);
+      case 'bench-mmlu-asc': return benchSort(a,b,'mmlu',false);
+      case 'bench-humaneval': return benchSort(a,b,'humaneval',true);
+      case 'bench-humaneval-asc': return benchSort(a,b,'humaneval',false);
+      case 'bench-math': return benchSort(a,b,'math',true);
+      case 'bench-math-asc': return benchSort(a,b,'math',false);
+      case 'bench-gpqa': return benchSort(a,b,'gpqa',true);
+      case 'bench-gpqa-asc': return benchSort(a,b,'gpqa',false);
+      case 'bench-gsm8k': return benchSort(a,b,'gsm8k',true);
+      case 'bench-gsm8k-asc': return benchSort(a,b,'gsm8k',false);
+      case 'bench-swe': return benchSort(a,b,'swe_bench',true);
+      case 'bench-swe-asc': return benchSort(a,b,'swe_bench',false);
+      case 'bench-livecode': return benchSort(a,b,'livecodebench',true);
+      case 'bench-livecode-asc': return benchSort(a,b,'livecodebench',false);
+      case 'bench-aime': return benchSort(a,b,'aime',true);
+      case 'bench-aime-asc': return benchSort(a,b,'aime',false);
+      case 'bench-arena': return benchSort(a,b,'arena_elo',true);
+      case 'bench-arena-asc': return benchSort(a,b,'arena_elo',false);
+      case 'bench-mmmu': return benchSort(a,b,'mmmu_pro',true);
+      case 'bench-mmmu-asc': return benchSort(a,b,'mmmu_pro',false);
+      case 'bench-docvqa': return benchSort(a,b,'docvqa',true);
+      case 'bench-docvqa-asc': return benchSort(a,b,'docvqa',false);
+      case 'bench-mathvista': return benchSort(a,b,'mathvista',true);
+      case 'bench-mathvista-asc': return benchSort(a,b,'mathvista',false);
+      case 'bench-mmbench': return benchSort(a,b,'mmbench',true);
+      case 'bench-mmbench-asc': return benchSort(a,b,'mmbench',false);
+      case 'bench-mteb': return benchSort(a,b,'mteb_avg',true);
+      case 'bench-mteb-asc': return benchSort(a,b,'mteb_avg',false);
+      case 'bench-mteb-retrieval': return benchSort(a,b,'mteb_retrieval',true);
+      case 'bench-mteb-retrieval-asc': return benchSort(a,b,'mteb_retrieval',false);
+      case 'bench-mteb-classification': return benchSort(a,b,'mteb_classification',true);
+      case 'bench-mteb-classification-asc': return benchSort(a,b,'mteb_classification',false);
+      case 'bench-overall': return benchSort(a,b,'overall_score',true);
+      case 'bench-overall-asc': return benchSort(a,b,'overall_score',false);
+    }
+    return 0;
+  });
+  return models;
+}
+
+function renderStats(models) {
+  const totalPulls = models.reduce((s,m)=>s+(m.p||0),0);
+  const owners = new Set(models.map(getOwner));
+  const caps = new Set(models.flatMap(m=>m.c||[]));
+  const withBench = models.filter(m=>getBench(m));
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-val">${models.length}</div><div class="stat-label">Models</div></div>
+    <div class="stat"><div class="stat-val">${owners.size}</div><div class="stat-label">Owners</div></div>
+    <div class="stat"><div class="stat-val">${formatPulls(totalPulls)}</div><div class="stat-label">Pulls</div></div>
+    <div class="stat"><div class="stat-val">${withBench.length}</div><div class="stat-label">📊 Benchmarked</div></div>
+    <div class="stat"><div class="stat-val" style="color:#818cf8">${models.filter(m=>(m.c||[]).includes('cloud')).length}</div><div class="stat-label">☁️ Cloud</div></div>
+  `;
+}
+
+function renderSidebar(models) {
+  const oc = {};
+  models.forEach(m=>{const o=getOwner(m);oc[o]=(oc[o]||0)+1});
+  const sorted = Object.entries(oc).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('sidebar').innerHTML = `<h3>Owners (${sorted.length})</h3>
+    <div class="owner-item ${!activeOwner?'active':''}" onclick="setOwner(null)">All (${models.length})</div>
+    ${sorted.map(([o,c])=>`<div class="owner-item ${activeOwner===o?'active':''}" onclick="setOwner('${o}')"><div class="owner-dot" style="background:${OWNER_COLORS[o]||'#94a3b8'}"></div>${o}<span class="owner-count">${c}</span></div>`).join('')}
+    <h3 style="margin-top:16px">Benchmarks</h3>
+    <div style="font-size:10px;color:var(--muted);line-height:1.5">
+      <b style="color:var(--text)">Key:</b><br>
+      Overall = Composite Avg<br>
+      MMLU = Knowledge<br>
+      HumanEval = Coding<br>
+      MATH = Mathematics<br>
+      GPQA = Science Reasoning<br>
+      GSM8K = Math Word Problems<br>
+      SWE-bench = SW Engineering<br>
+      LiveCode = Live Coding<br>
+      AIME = Math Competition<br>
+      Arena Elo = Chatbot Arena<br>
+      MMMU-Pro = Multimodal Reasoning<br>
+      DocVQA = Document Understanding<br>
+      MathVista = Visual Math<br>
+      MMBench = Multimodal General<br>
+      MTEB Avg = Embedding Overall<br>
+      MTEB Retr = Embedding Retrieval<br>
+      MTEB Class = Embedding Classification
+    </div>
+  `;
+}
+
+function renderCapFilters(models) {
+  const allCaps = new Set(models.flatMap(m=>m.c||[]));
+  document.getElementById('capFilters').innerHTML = [...allCaps].sort().map(c =>
+    `<button class="cap-btn ${activeCaps.has(c)?'active':''} ${c==='cloud'?'cloud':''}" onclick="toggleCap('${c}')">${CAP_ICONS[c]||''} ${c}</button>`
+  ).join('');
+}
+
+function renderUsageBars(usage) {
+  if (!usage) return '';
+  const d = usage[0];
+  let bc = d.usage==='Low'?'low':d.usage==='Medium'?'medium':d.usage==='High'?'high':'extra-high';
+  let bars = '';
+  for(let i=0;i<4;i++) bars += `<div class="usage-bar ${i<d.bars?'filled '+bc:''}"></div>`;
+  return `<div class="usage-level" title="Cloud cost: ${d.usage}">${bars}<span class="usage-label">${d.usage}</span></div>`;
+}
+
+function benchBar(key, val, max) {
+  if (val == null) return '';
+  const pct = Math.min(100, (val / max) * 100);
+  const color = BENCH_COLORS[key];
+  return `<div class="bench-row"><span class="bench-label">${BENCH_NAMES[key]}</span><div class="bench-bar-bg"><div class="bench-bar-fill" style="width:${pct}%;background:${color}"></div></div><span class="bench-val" style="color:${color}">${key==='arena_elo'?val:val.toFixed(val<10?1:0)}</span></div>`;
+}
+
+function renderModelCard(m) {
+  const owner = getOwner(m);
+  const usage = getUsage(m);
+  const isCloud = (m.c||[]).includes('cloud');
+  const bench = getBench(m);
+  const maxPulls = Math.max(...MODELS.map(x=>x.p||0));
+  const pullPct = maxPulls ? ((m.p||0)/maxPulls*100) : 0;
+
+  let benchHtml = '';
+  if (bench) {
+    const showBench = ['mmlu','humaneval','math','gpqa','swe_bench','livecodebench','overall_score'];
+    benchHtml = `<div class="bench-section">${showBench.map(k => benchBar(k, bench[k], BENCH_MAX[k])).join('')}</div>`;
+  } else if (m.n !== 'nomic-embed-text') {
+    benchHtml = `<div class="bench-section"><div style="font-size:10px;color:var(--muted);text-align:center">No benchmark data available</div></div>`;
+  }
+
+  return `<div class="model-card ${isCloud?'cloud-card':''}">
+    <div style="display:flex;justify-content:space-between;align-items:start">
+      <div>
+        <div class="model-name">${m.n}</div>
+        <div class="owner-badge" style="background:${(OWNER_COLORS[owner]||'#94a3b8')}22;color:${OWNER_COLORS[owner]||'#94a3b8'}">
+          <div class="owner-dot" style="background:${OWNER_COLORS[owner]||'#94a3b8'};width:5px;height:5px"></div>
+          ${owner}
+        </div>
+      </div>
+      <span class="model-pulls">${formatPulls(m.p||0)}</span>
+    </div>
+    <div class="model-desc">${m.d||''}</div>
+    ${isCloud && usage ? renderUsageBars(usage) : ''}
+    <div class="model-meta">
+      ${(m.c||[]).map(c=>`<span class="cap-tag ${c}">${CAP_ICONS[c]||''} ${c}</span>`).join('')}
+      ${(m.s||[]).slice(0,3).map(s=>`<span class="size-tag">${s}</span>`).join('')}
+    </div>
+    <div class="popularity-bar"><div class="popularity-fill" style="width:${pullPct}%"></div></div>
+    ${benchHtml}
+    <div class="actions">
+      <button class="btn primary" onclick="copyPull('${m.n}')">📋 Pull</button>
+      ${isCloud ? `<button class="btn" onclick="toggleCompare('${m.n}')">⚖️</button>` : `<button class="btn" onclick="toggleCompare('${m.n}')">⚖️</button>`}
+      <a class="btn" href="https://ollama.com/library/${m.n}" target="_blank" style="text-decoration:none">🔗</a>
+    </div>
+  </div>`;
+}
+
+function renderTableView(models) {
+  const cloudModels = models.filter(m=>(m.c||[]).includes('cloud'));
+  const nonCloud = models.filter(m=>!(m.c||[]).includes('cloud'));
+  const benchModels = models.filter(m=>getBench(m));
+
+  let html = '';
+  if (false && cloudModels.length > 0) {
+    html += `<div class="cloud-pricing"><h3>☁️ Ollama Cloud Pricing</h3><p style="font-size:11px;color:var(--muted);margin-bottom:8px">Cloud models billed by usage tier. More bars = higher cost per request.</p><div class="pricing-tiers">
+      <div class="pricing-tier"><div class="tier-name">Free</div><div class="tier-price">$0/mo</div><div class="tier-info">1 model at a time</div></div>
+      <div class="pricing-tier"><div class="tier-name">Pro</div><div class="tier-price">$20/mo</div><div class="tier-info">3 concurrent models</div></div>
+      <div class="pricing-tier"><div class="tier-name">Max</div><div class="tier-price">$100/mo</div><div class="tier-info">10 concurrent models</div></div>
+    </div></div>`;
+    html += `<h3 style="margin:14px 0 8px;color:#818cf8">☁️ Cloud Models — Cost Comparison</h3>
+    <table class="compare-table"><thead><tr><th data-sort="name" onclick="sortByHeader('name')">Model</th><th data-sort="owner" onclick="sortByHeader('owner')">Owner</th><th>Cloud Tag</th><th data-sort="usage" onclick="sortByHeader('usage')">Usage</th><th data-sort="cost" onclick="sortByHeader('cost')">Cost</th><th>Context</th><th data-sort="mmlu" onclick="sortByHeader('mmlu')">MMLU</th><th data-sort="humaneval" onclick="sortByHeader('humaneval')">HumanEval</th><th data-sort="math" onclick="sortByHeader('math')">MATH</th><th data-sort="gpqa" onclick="sortByHeader('gpqa')">GPQA</th><th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th></tr></thead><tbody>`;
+    cloudModels.forEach(m => {
+      const usage = getUsage(m);
+      const bench = getBench(m);
+      const owner = getOwner(m);
+      if (usage) usage.forEach(u => {
+        let bc = u.usage==='Low'?'low':u.usage==='Medium'?'medium':u.usage==='High'?'high':'extra-high';
+        let dots='';
+        for(let i=0;i<4;i++) dots+=`<div class="cost-dot ${i<u.bars?'on '+bc:''}"></div>`;
+        html += `<tr>
+          <td><strong style="font-family:monospace">${m.n}</strong></td>
+          <td><span style="color:${OWNER_COLORS[owner]||'#94a3b8'}">${owner}</span></td>
+          <td><code>${u.tag}</code></td>
+          <td><strong>${u.usage}</strong></td>
+          <td><div class="cost-indicator">${dots}</div></td>
+          <td>${u.context}</td>
+          <td>${bench&&bench.mmlu!=null?bench.mmlu.toFixed(1):'—'}</td>
+          <td>${bench&&bench.humaneval!=null?bench.humaneval.toFixed(1):'—'}</td>
+          <td>${bench&&bench.math!=null?bench.math.toFixed(1):'—'}</td>
+          <td>${bench&&bench.gpqa!=null?bench.gpqa.toFixed(1):'—'}</td>
+          <td>${formatPulls(m.p||0)}</td>
+        </tr>`;
+      });
+    });
+    html += `</tbody></table>`;
+  }
+
+  // Full benchmark comparison table
+  html += `<h3 style="margin:14px 0 8px">📊 Benchmark Comparison</h3>
+  <div style="overflow-x:auto">
+  <table class="compare-table"><thead><tr><th data-sort="name" onclick="sortByHeader('name')">Model</th><th data-sort="owner" onclick="sortByHeader('owner')">Owner</th><th data-sort="overall" onclick="sortByHeader('overall')">Overall</th><th data-sort="mmlu" onclick="sortByHeader('mmlu')">MMLU</th><th data-sort="humaneval" onclick="sortByHeader('humaneval')">HumanEval</th><th data-sort="math" onclick="sortByHeader('math')">MATH</th><th data-sort="gpqa" onclick="sortByHeader('gpqa')">GPQA</th><th data-sort="gsm8k" onclick="sortByHeader('gsm8k')">GSM8K</th><th data-sort="swe_bench" onclick="sortByHeader('swe_bench')">SWE-bench</th><th data-sort="livecodebench" onclick="sortByHeader('livecodebench')">LiveCode</th><th data-sort="aime" onclick="sortByHeader('aime')">AIME</th><th data-sort="arena_elo" onclick="sortByHeader('arena_elo')">Arena Elo</th><th data-sort="mmmu_pro" onclick="sortByHeader('mmmu_pro')">MMMU-Pro</th><th data-sort="docvqa" onclick="sortByHeader('docvqa')">DocVQA</th><th data-sort="mathvista" onclick="sortByHeader('mathvista')">MathVista</th><th data-sort="mmbench" onclick="sortByHeader('mmbench')">MMBench</th><th data-sort="mteb_avg" onclick="sortByHeader('mteb_avg')">MTEB Avg</th><th data-sort="mteb_retrieval" onclick="sortByHeader('mteb_retrieval')">MTEB Retr</th><th data-sort="mteb_classification" onclick="sortByHeader('mteb_classification')">MTEB Class</th><th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th></tr></thead><tbody>`;
+  models.forEach(m => {
+    const b = getBench(m);
+    const owner = getOwner(m);
+    const bestOverall = Math.max(...models.map(x=>getBench(x)?.overall_score||0));
+    const bestMMLU = Math.max(...models.map(x=>getBench(x)?.mmlu||0));
+    const bestMath = Math.max(...models.map(x=>getBench(x)?.math||0));
+    const bestHE = Math.max(...models.map(x=>getBench(x)?.humaneval||0));
+    html += `<tr>
+      <td><strong style="font-family:monospace">${m.n}</strong></td>
+      <td><span style="color:${OWNER_COLORS[owner]||'#94a3b8'};font-size:11px">${owner}</span></td>
+      <td style="${b?.overall_score===bestOverall?'color:var(--green);font-weight:700':''}">${b?b.overall_score?.toFixed(1):'—'}</td>
+      <td style="${b?.mmlu===bestMMLU?'color:var(--green);font-weight:700':''}">${b?b.mmlu?.toFixed(1):'—'}</td>
+      <td style="${b?.humaneval===bestHE?'color:var(--green);font-weight:700':''}">${b?b.humaneval?.toFixed(1):'—'}</td>
+      <td style="${b?.math===bestMath?'color:var(--green);font-weight:700':''}">${b?b.math?.toFixed(1):'—'}</td>
+      <td style="${b?.gpqa===Math.max(...models.map(x=>getBench(x)?.gpqa||0))?'color:var(--green);font-weight:700':''}">${b&&b.gpqa!=null?b.gpqa.toFixed(1):'—'}</td>
+      <td>${b&&b.gsm8k!=null?b.gsm8k.toFixed(1):'—'}</td>
+      <td style="${b&&b.swe_bench===Math.max(...models.map(x=>getBench(x)?.swe_bench||0))?'color:var(--green);font-weight:700':''}">${b&&b.swe_bench!=null?b.swe_bench.toFixed(1):'—'}</td>
+      <td>${b&&b.livecodebench!=null?b.livecodebench.toFixed(1):'—'}</td>
+      <td>${b&&b.aime!=null?b.aime.toFixed(1):'—'}</td>
+      <td>${b&&b.arena_elo!=null?b.arena_elo:'—'}</td>
+      <td>${b&&b.mmmu_pro!=null?b.mmmu_pro.toFixed(1):'—'}</td>
+      <td>${b&&b.docvqa!=null?b.docvqa.toFixed(1):'—'}</td>
+      <td>${b&&b.mathvista!=null?b.mathvista.toFixed(1):'—'}</td>
+      <td>${b&&b.mmbench!=null?b.mmbench.toFixed(1):'—'}</td>
+      <td>${b&&b.mteb_avg!=null?b.mteb_avg.toFixed(1):'—'}</td>
+      <td>${b&&b.mteb_retrieval!=null?b.mteb_retrieval.toFixed(1):'—'}</td>
+      <td>${b&&b.mteb_classification!=null?b.mteb_classification.toFixed(1):'—'}</td>
+      <td style="color:var(--green);font-size:11px">${formatPulls(m.p||0)}</td>
+    </tr>`;
+  });
+  html += `</tbody></table></div>`;
+  return html;
+}
+
+function renderBenchmarkView(models) {
+  const benchModels = models.filter(m => getBench(m));
+  if (benchModels.length === 0) return '<div class="no-results">No models with benchmark data match your filters.</div>';
+
+  // Sort by overall score descending
+  benchModels.sort((a,b) => (getBench(b)?.overall_score||0) - (getBench(a)?.overall_score||0));
+
+  const benchKeys = ['overall_score','mmlu','humaneval','math','gpqa','gsm8k','swe_bench','livecodebench','aime','arena_elo'];
+  const maxVals = {};
+  benchKeys.forEach(k => { maxVals[k] = Math.max(...benchModels.map(m => getBench(m)?.[k]||0)); });
+
+  let html = `<h3 style="margin-bottom:12px">📊 Benchmark Rankings — ${benchModels.length} Models</h3>`;
+  html += `<div style="overflow-x:auto"><table class="compare-table"><thead><tr><th data-sort="name" onclick="sortByHeader('name')">#</th><th data-sort="name" onclick="sortByHeader('name')">Model</th><th data-sort="owner" onclick="sortByHeader('owner')">Owner</th>`;
+  benchKeys.forEach(k => { html += `<th data-sort="${k}" onclick="sortByHeader('${k}')" style="color:${BENCH_COLORS[k]}">${BENCH_NAMES[k]}</th>`; });
+  html += `<th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th></tr></thead><tbody>`;
+
+  benchModels.forEach((m, i) => {
+    const b = getBench(m);
+    const owner = getOwner(m);
+    html += `<tr${i<3?' style="background:rgba(139,92,246,0.08)"':''}><td style="font-weight:700;color:${i<3?'var(--accent)':'var(--muted)'}">${i+1}</td>
+      <td><strong style="font-family:monospace">${m.n}</strong></td>
+      <td><span style="color:${OWNER_COLORS[owner]||'#94a3b8'};font-size:11px">${owner}</span></td>`;
+    benchKeys.forEach(k => {
+      const v = b?.[k];
+      if (v == null) { html += '<td>—</td>'; return; }
+      const isBest = v === maxVals[k];
+      const pct = (v / BENCH_MAX[k]) * 100;
+      html += `<td style="${isBest?'color:var(--green);font-weight:700':''}">
+        <div style="display:flex;align-items:center;gap:4px">
+          <div style="width:40px;height:4px;background:var(--card2);border-radius:2px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${BENCH_COLORS[k]};border-radius:2px"></div></div>
+          <span style="font-size:11px">${k==='arena_elo'?v:v.toFixed(1)}</span>
+        </div></td>`;
+    });
+    html += `<td style="color:var(--green);font-size:11px">${formatPulls(m.p||0)}</td></tr>`;
+  });
+  html += `</tbody></table></div>`;
+  return html;
+}
+
+function render() {
+  const models = getModels();
+  renderStats(models);
+  renderSidebar(MODELS);
+  renderCapFilters(MODELS);
+  if (models.length === 0) { document.getElementById('content').innerHTML = '<div class="no-results">No models match your filters.</div>'; return; }
+
+  if (viewMode === 'table') {
+    document.getElementById('content').innerHTML = renderTableView(models);
+  } else if (viewMode === 'benchmarks') {
+    document.getElementById('content').innerHTML = renderBenchmarkView(models);
+  } else {
+    const groups = {};
+    models.forEach(m => { const o = getOwner(m); (groups[o] = groups[o]||[]).push(m); });
+    const sortedGroups = Object.entries(groups).sort((a,b) => b[1].reduce((s,m)=>s+(m.p||0),0) - a[1].reduce((s,m)=>s+(m.p||0),0));
+    let html = '';
+    const hasCloud = models.some(m => (m.c||[]).includes('cloud'));
+    if (false && hasCloud) {
+    }
+    sortedGroups.forEach(([owner, oModels]) => {
+      const totalPulls = oModels.reduce((s,m)=>s+(m.p||0),0);
+      html += `<div class="group-header"><div class="group-dot" style="background:${OWNER_COLORS[owner]||'#94a3b8'}"></div><div class="group-name" style="color:${OWNER_COLORS[owner]||'#94a3b8'}">${owner}</div><div class="group-count">${oModels.length} models</div><div class="group-pulls">${formatPulls(totalPulls)} pulls</div></div>`;
+      html += `<div class="models-grid">${oModels.map(renderModelCard).join('')}</div>`;
+    });
+    document.getElementById('content').innerHTML = html;
+  }
+  // Highlight active sort column in table headers
+  highlightSortHeaders();
+}
+
+function highlightSortHeaders() {
+  const sort = document.getElementById('sort').value;
+  const isAsc = sort.endsWith('-asc');
+  // Map sort values to data-sort keys
+  const sortToKey = {
+    'pulls-desc':'pulls','pulls-asc':'pulls','name-asc':'name','name-desc':'name',
+    'usage-asc':'usage','usage-desc':'cost','tags-desc':'pulls','updated-desc':'pulls',
+    'bench-mmlu':'mmlu','bench-mmlu-asc':'mmlu','bench-humaneval':'humaneval','bench-humaneval-asc':'humaneval',
+    'bench-math':'math','bench-math-asc':'math','bench-gpqa':'gpqa','bench-gpqa-asc':'gpqa',
+    'bench-gsm8k':'gsm8k','bench-gsm8k-asc':'gsm8k','bench-swe':'swe_bench','bench-swe-asc':'swe_bench',
+    'bench-livecode':'livecodebench','bench-livecode-asc':'livecodebench',
+    'bench-aime':'aime','bench-aime-asc':'aime','bench-arena':'arena_elo','bench-arena-asc':'arena_elo',
+    'bench-overall':'overall','bench-overall-asc':'overall'
+  };
+  const activeKey = sortToKey[sort] || '';
+  document.querySelectorAll('.compare-table th[data-sort]').forEach(th => {
+    th.classList.remove('sort-desc','sort-asc');
+    if (th.dataset.sort === activeKey) {
+      th.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
+    }
+  });
+}
+
+function setOwner(o) { activeOwner = o; render(); }
+function toggleCap(c) { if(activeCaps.has(c)) activeCaps.delete(c); else activeCaps.add(c); render(); }
+function setView(m) { viewMode = m; document.getElementById('viewCards').classList.toggle('active',m==='cards'); document.getElementById('viewTable').classList.toggle('active',m==='table'); document.getElementById('viewBench').classList.toggle('active',m==='benchmarks'); render(); }
+
+// Click a table header to sort by that column (toggles desc/asc)
+let headerSortKey = null;
+let headerSortDir = 'desc';
+function sortByHeader(key) {
+  const sortMap = {
+    'name':'name-asc','owner':'name-asc','pulls':'pulls-desc','overall':'bench-overall','mmlu':'bench-mmlu',
+    'humaneval':'bench-humaneval','math':'bench-math','gpqa':'bench-gpqa','gsm8k':'bench-gsm8k',
+    'swe_bench':'bench-swe','livecodebench':'bench-livecode','aime':'bench-aime','arena_elo':'bench-arena',
+    'usage':'usage-desc','cost':'usage-desc','context':'name-asc','cloud_tag':'name-asc'
+  };
+  const sortVal = sortMap[key] || 'pulls-desc';
+  // Toggle direction if same key
+  if (headerSortKey === key) {
+    headerSortDir = headerSortDir === 'desc' ? 'asc' : 'desc';
+  } else {
+    headerSortKey = key;
+    headerSortDir = 'desc';
+  }
+  // Set the sort dropdown to the right value
+  const sel = document.getElementById('sort');
+  const baseSort = sortVal.replace(/-desc$/,'').replace(/-asc$/,'');
+  const targetVal = headerSortDir === 'desc' ? baseSort + (baseSort.startsWith('bench-') ? '' : '') : baseSort + '-asc';
+  // Find matching option
+  const opts = [...sel.options].map(o=>o.value);
+  const descVal = baseSort.startsWith('bench-') ? baseSort : sortVal;
+  const ascVal = baseSort.startsWith('bench-') ? baseSort + '-asc' : sortVal.replace('-desc','-asc').replace('-asc-asc','-asc');
+  sel.value = opts.includes(descVal) && headerSortDir === 'desc' ? descVal : opts.includes(ascVal) ? ascVal : sortVal;
+  // Force matching direction
+  if (headerSortDir === 'asc' && !sel.value.endsWith('-asc')) {
+    // Try to find the asc variant
+    const tryAsc = sel.value + '-asc';
+    if (opts.includes(tryAsc)) sel.value = tryAsc;
+  } else if (headerSortDir === 'desc' && sel.value.endsWith('-asc')) {
+    const tryDesc = sel.value.replace('-asc','');
+    if (opts.includes(tryDesc)) sel.value = tryDesc;
+  }
+  render();
+}
+function copyPull(name) { navigator.clipboard.writeText('ollama pull '+name).then(()=>{const b=event.target;b.textContent='✓ Copied!';setTimeout(()=>b.textContent='📋 Pull',1500)}); }
+function toggleCompare(name) { const i=compareList.indexOf(name); if(i>-1) compareList.splice(i,1); else if(compareList.length<5) compareList.push(name); updateCompareBar(); }
+function updateCompareBar() { const b=document.getElementById('compareBar'),items=document.getElementById('compareItems'); if(!compareList.length){b.classList.remove('visible');return} b.classList.add('visible'); items.innerHTML=compareList.map(n=>`<div class="compare-item">${n}<button onclick="toggleCompare('${n}')">×</button></div>`).join(''); }
+function clearCompare() { compareList=[]; updateCompareBar(); }
+
+function showCompare() {
+  const models = compareList.map(n=>MODELS.find(m=>m.n===n)).filter(Boolean);
+  let html = `<button class="modal-close" onclick="document.getElementById('modalOverlay').classList.remove('visible')" style="position:absolute;top:14px;right:14px;background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer">×</button>`;
+  html += `<h2 style="margin-bottom:14px">⚖️ Compare ${models.length} Models</h2>`;
+  html += `<table class="compare-table"><thead><tr><th>Attribute</th>${models.map(m=>`<th>${m.n}</th>`).join('')}</tr></thead><tbody>`;
+  const attrs = [
+    ['Owner', m=>getOwner(m)],
+    ['Description', m=>m.d||'—'],
+    ['Pulls', m=>formatPulls(m.p||0)],
+    ['Capabilities', m=>(m.c||[]).map(c=>`${CAP_ICONS[c]||''} ${c}`).join(', ')],
+    ['Sizes', m=>(m.s||[]).join(', ')||'—'],
+    ['Cloud Usage', m=>{ const u=getUsage(m); return u?u.map(x=>`${x.tag}: ${x.usage} (${x.bars}/4 bars, ${x.context})`).join('<br>'):'Local only'; }],
+    ['Cost Level', m=>{ const u=getUsage(m); if(!u) return 'Free (local)'; const h=Math.max(...u.map(x=>x.bars)); let dots=''; for(let i=0;i<4;i++) dots+=`<div class="cost-dot ${i<h?'on':''}"></div>`; return `<div class="cost-indicator">${dots}</div>`; }],
+  ];
+  // Add benchmark rows
+  BENCH_KEYS.forEach(k => {
+    attrs.push([`📊 ${BENCH_NAMES[k]}`, m=>{ const b=getBench(m); if(!b||b[k]==null) return '—'; return k==='arena_elo'?b[k]:b[k].toFixed(1); }]);
+  });
+  attrs.forEach(([label, fn]) => {
+    html += `<tr><td><strong>${label}</strong></td>${models.map(m=>`<td>${fn(m)}</td>`).join('')}</tr>`;
+  });
+  html += `</tbody></table>`;
+  document.getElementById('modal').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('visible');
+}
+function closeModal(e) { if(e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('visible'); }
+
+render();
+</script>
+</body>
+</html>

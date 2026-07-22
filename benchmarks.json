@@ -1,0 +1,152 @@
+{
+  "deepseek-r1": {
+    "mmlu": 90.8, "mmlu_pro": 84.0, "humaneval": 90.2, "math": 97.3,
+    "gpqa": 71.5, "gsm8k": 95.0, "swe_bench": 49.2, "livecodebench": 65.9,
+    "aime": 89.3, "arena_elo": 1398, "overall_score": 79.5
+  },
+  "deepseek-v3": {
+    "mmlu": 87.1, "mmlu_pro": 64.4, "humaneval": 65.2, "math": 61.6,
+    "gpqa": 57.4, "gsm8k": 89.3, "swe_bench": null, "livecodebench": 35.9,
+    "aime": 25.3, "arena_elo": 1380, "overall_score": 57.9
+  },
+  "deepseek-v4-pro": {
+    "mmlu": 87.2, "mmlu_pro": 87.5, "humaneval": 88.7, "math": 84.1,
+    "gpqa": 90.1, "gsm8k": 98.0, "swe_bench": 80.6, "livecodebench": 93.5,
+    "aime": null, "arena_elo": 1554, "overall_score": 87.7
+  },
+  "deepseek-v4-flash": {
+    "mmlu": 85.0, "mmlu_pro": 86.2, "humaneval": 82.0, "math": 78.0,
+    "gpqa": 88.1, "gsm8k": 94.0, "swe_bench": 79.0, "livecodebench": 91.6,
+    "aime": null, "arena_elo": 1388, "overall_score": 80.3
+  },
+  "llama3.1": {
+    "mmlu": 87.3, "mmlu_pro": 55.0, "humaneval": 89.0, "math": 50.0,
+    "gpqa": 51.1, "gsm8k": 93.0, "swe_bench": null, "livecodebench": 30.5,
+    "aime": 21.3, "arena_elo": 1250, "overall_score": 60.5
+  },
+  "llama3.2": {
+    "mmlu": 69.4, "mmlu_pro": 35.0, "humaneval": 62.0, "math": 30.0,
+    "gpqa": 33.0, "gsm8k": 78.0, "swe_bench": null, "livecodebench": 18.0,
+    "aime": null, "arena_elo": 1100, "overall_score": 38.0
+  },
+  "llama3": {
+    "mmlu": 75.4, "mmlu_pro": 42.0, "humaneval": 74.6, "math": 50.0,
+    "gpqa": 42.1, "gsm8k": 80.8, "swe_bench": 32.4, "livecodebench": 25.0,
+    "aime": null, "arena_elo": 1180, "overall_score": 48.0
+  },
+  "llama4-scout": {
+    "mmlu": 78.3, "mmlu_pro": null, "humaneval": null, "math": null,
+    "gpqa": null, "gsm8k": null, "swe_bench": null, "livecodebench": null,
+    "aime": null, "arena_elo": 1320, "overall_score": 36.0
+  },
+  "qwen3.5": {
+    "mmlu": 88.0, "mmlu_pro": 68.2, "humaneval": 85.0, "math": 78.0,
+    "gpqa": 65.0, "gsm8k": 92.0, "swe_bench": 45.0, "livecodebench": 55.0,
+    "aime": null, "arena_elo": 1450, "overall_score": 65.0
+  },
+  "qwen3": {
+    "mmlu": 83.6, "mmlu_pro": 65.5, "humaneval": 85.4, "math": 71.8,
+    "gpqa": 49.5, "gsm8k": 93.4, "swe_bench": 44.7, "livecodebench": 50.0,
+    "aime": null, "arena_elo": 1350, "overall_score": 55.0
+  },
+  "qwen2.5": {
+    "mmlu": 86.1, "mmlu_pro": 58.1, "humaneval": 58.5, "math": 62.1,
+    "gpqa": 45.9, "gsm8k": 91.5, "swe_bench": null, "livecodebench": 35.0,
+    "aime": null, "arena_elo": 1280, "overall_score": 50.0
+  },
+  "gemma4": {
+    "mmlu": 87.1, "mmlu_pro": 85.2, "humaneval": 80.0, "math": 75.0,
+    "gpqa": 84.3, "gsm8k": 91.2, "swe_bench": null, "livecodebench": 80.0,
+    "aime": 89.2, "arena_elo": 1451, "overall_score": 61.1
+  },
+  "gemma3": {
+    "mmlu": 78.7, "mmlu_pro": 52.9, "humaneval": 60.0, "math": 46.0,
+    "gpqa": 26.3, "gsm8k": 81.2, "swe_bench": null, "livecodebench": 29.1,
+    "aime": 20.8, "arena_elo": 1200, "overall_score": 42.0
+  },
+  "gemma2": {
+    "mmlu": 72.0, "mmlu_pro": 40.0, "humaneval": 50.0, "math": 35.0,
+    "gpqa": 28.0, "gsm8k": 75.0, "swe_bench": null, "livecodebench": 22.0,
+    "aime": null, "arena_elo": 1120, "overall_score": 33.0
+  },
+  "glm-5.1": {
+    "mmlu": 91.7, "mmlu_pro": null, "humaneval": 90.0, "math": 95.0,
+    "gpqa": 94.0, "gsm8k": 97.0, "swe_bench": 77.8, "livecodebench": 85.0,
+    "aime": 95.0, "arena_elo": 1535, "overall_score": 67.8
+  },
+  "glm-5.2": {
+    "mmlu": 89.0, "mmlu_pro": null, "humaneval": 88.0, "math": 90.0,
+    "gpqa": 88.0, "gsm8k": 95.0, "swe_bench": 67.0, "livecodebench": 80.0,
+    "aime": 90.0, "arena_elo": 1480, "overall_score": 64.0
+  },
+  "minimax-m3": {
+    "mmlu": 88.0, "mmlu_pro": null, "humaneval": 85.0, "math": 82.0,
+    "gpqa": 70.0, "gsm8k": 94.0, "swe_bench": 72.0, "livecodebench": 75.0,
+    "aime": null, "arena_elo": 1445, "overall_score": 69.8
+  },
+  "minimax-m2.7": {
+    "mmlu": 86.0, "mmlu_pro": null, "humaneval": 82.0, "math": 75.0,
+    "gpqa": 62.0, "gsm8k": 92.0, "swe_bench": 68.0, "livecodebench": 70.0,
+    "aime": null, "arena_elo": 1420, "overall_score": 64.1
+  },
+  "minimax-m2.5": {
+    "mmlu": 84.0, "mmlu_pro": null, "humaneval": 78.0, "math": 70.0,
+    "gpqa": 58.0, "gsm8k": 90.0, "swe_bench": 62.0, "livecodebench": 65.0,
+    "aime": null, "arena_elo": 1380, "overall_score": 58.0
+  },
+  "nemotron-3-super": {
+    "mmlu": 85.0, "mmlu_pro": null, "humaneval": 90.0, "math": 73.3,
+    "gpqa": 55.8, "gsm8k": 79.0, "swe_bench": null, "livecodebench": null,
+    "aime": null, "arena_elo": 1350, "overall_score": 55.0
+  },
+  "mistral": {
+    "mmlu": 70.0, "mmlu_pro": 38.0, "humaneval": 50.0, "math": 30.0,
+    "gpqa": 29.2, "gsm8k": 75.0, "swe_bench": null, "livecodebench": 15.0,
+    "aime": null, "arena_elo": 1050, "overall_score": 25.0
+  },
+  "mistral-medium-3.5": {
+    "mmlu": 82.0, "mmlu_pro": null, "humaneval": 78.0, "math": 68.4,
+    "gpqa": 74.8, "gsm8k": 90.0, "swe_bench": 77.6, "livecodebench": null,
+    "aime": null, "arena_elo": 1427, "overall_score": 62.0
+  },
+  "mistral-large-3": {
+    "mmlu": 78.2, "mmlu_pro": null, "humaneval": 76.8, "math": 68.4,
+    "gpqa": 46.8, "gsm8k": 82.1, "swe_bench": 34.2, "livecodebench": 26.7,
+    "aime": null, "arena_elo": 1300, "overall_score": 45.0
+  },
+  "phi4": {
+    "mmlu": 76.8, "mmlu_pro": null, "humaneval": 78.2, "math": 72.8,
+    "gpqa": 44.2, "gsm8k": 84.3, "swe_bench": 36.8, "livecodebench": null,
+    "aime": null, "arena_elo": 1220, "overall_score": 48.0
+  },
+  "gpt-oss": {
+    "mmlu": 84.0, "mmlu_pro": null, "humaneval": 82.0, "math": 70.0,
+    "gpqa": 55.0, "gsm8k": 88.0, "swe_bench": 40.0, "livecodebench": 60.0,
+    "aime": null, "arena_elo": 1380, "overall_score": 50.0
+  },
+  "kimi-k2.5": {
+    "mmlu": 88.0, "mmlu_pro": null, "humaneval": 99.0, "math": 88.0,
+    "gpqa": 70.0, "gsm8k": 95.0, "swe_bench": 76.8, "livecodebench": 88.0,
+    "aime": null, "arena_elo": 1500, "overall_score": 59.6
+  },
+  "kimi-k2.6": {
+    "mmlu": 89.0, "mmlu_pro": null, "humaneval": 95.0, "math": 85.0,
+    "gpqa": 72.0, "gsm8k": 94.0, "swe_bench": 72.0, "livecodebench": 89.6,
+    "aime": null, "arena_elo": 1484, "overall_score": 57.0
+  },
+  "kimi-k2.7-code": {
+    "mmlu": 86.0, "mmlu_pro": null, "humaneval": 96.0, "math": 80.0,
+    "gpqa": 68.0, "gsm8k": 92.0, "swe_bench": 70.0, "livecodebench": 85.0,
+    "aime": null, "arena_elo": 1460, "overall_score": 61.9
+  },
+  "granite4.1": {
+    "mmlu": 72.0, "mmlu_pro": null, "humaneval": 65.0, "math": 50.0,
+    "gpqa": 40.0, "gsm8k": 82.0, "swe_bench": 35.0, "livecodebench": null,
+    "aime": null, "arena_elo": 1150, "overall_score": 38.0
+  },
+  "nomic-embed-text": {
+    "mmlu": null, "mmlu_pro": null, "humaneval": null, "math": null,
+    "gpqa": null, "gsm8k": null, "swe_bench": null, "livecodebench": null,
+    "aime": null, "arena_elo": null, "overall_score": null
+  }
+}

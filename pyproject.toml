@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "open-ollama"
+version = "0.1.0"
+description = "Open-source dashboard for Ollama models with comparative analytics"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [
+    {name = "John Kalfayan", email = "john@collide.io"}
+]
+license = {text = "MIT"}
+
+[project.optional-dependencies]
+scraping = ["requests>=0.31.0", "beautifulsoup4>=4.12.0"]
+analytics = ["pandas>=2.2.0", "numpy>=1.26.0"]
+async = ["httpx>=0.27.0", "uvicorn>=0.30.0"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pyright>=1.1.357",
+    "mypy>=1.11.0"
+]
