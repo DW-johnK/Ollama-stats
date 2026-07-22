@@ -218,6 +218,13 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
 .bench-toggle:hover{border-color:var(--accent);color:var(--text)}
 .bench-toggle.active{background:#4f46e5;color:white;border-color:#6366f1}
 
+/* Collapsible column groups */
+.vision-col, .embed-col { transition: opacity 0.2s; }
+.vision-col.hidden, .embed-col.hidden { display: none; }
+
+/* Size tags */
+.size-tag { display:inline-block; padding:1px 5px; border-radius:4px; background:var(--card2); color:var(--text); font-size:10px; font-family:monospace; margin:1px; }
+
 .no-results{text-align:center;padding:50px 20px;color:var(--muted);font-size:14px}
 </style>
 </head>
@@ -659,72 +666,63 @@ function renderTableView(models) {
   const benchModels = models.filter(m=>getBench(m));
 
   let html = '';
-  if (false && cloudModels.length > 0) {
-    html += `<div class="cloud-pricing"><h3>☁️ Ollama Cloud Pricing</h3><p style="font-size:11px;color:var(--muted);margin-bottom:8px">Cloud models billed by usage tier. More bars = higher cost per request.</p><div class="pricing-tiers">
-      <div class="pricing-tier"><div class="tier-name">Free</div><div class="tier-price">$0/mo</div><div class="tier-info">1 model at a time</div></div>
-      <div class="pricing-tier"><div class="tier-name">Pro</div><div class="tier-price">$20/mo</div><div class="tier-info">3 concurrent models</div></div>
-      <div class="pricing-tier"><div class="tier-name">Max</div><div class="tier-price">$100/mo</div><div class="tier-info">10 concurrent models</div></div>
-    </div></div>`;
-    html += `<h3 style="margin:14px 0 8px;color:#818cf8">☁️ Cloud Models — Cost Comparison</h3>
-    <table class="compare-table"><thead><tr><th data-sort="name" onclick="sortByHeader('name')">Model</th><th data-sort="owner" onclick="sortByHeader('owner')">Owner</th><th>Cloud Tag</th><th data-sort="usage" onclick="sortByHeader('usage')">Usage</th><th data-sort="cost" onclick="sortByHeader('cost')">Cost</th><th>Context</th><th data-sort="mmlu" onclick="sortByHeader('mmlu')">MMLU</th><th data-sort="humaneval" onclick="sortByHeader('humaneval')">HumanEval</th><th data-sort="math" onclick="sortByHeader('math')">MATH</th><th data-sort="gpqa" onclick="sortByHeader('gpqa')">GPQA</th><th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th></tr></thead><tbody>`;
-    cloudModels.forEach(m => {
-      const usage = getUsage(m);
-      const bench = getBench(m);
-      const owner = getOwner(m);
-      if (usage) usage.forEach(u => {
-        let bc = u.usage==='Low'?'low':u.usage==='Medium'?'medium':u.usage==='High'?'high':'extra-high';
-        let dots='';
-        for(let i=0;i<4;i++) dots+=`<div class="cost-dot ${i<u.bars?'on '+bc:''}"></div>`;
-        html += `<tr>
-          <td><strong style="font-family:monospace">${m.n}</strong></td>
-          <td><span style="color:${OWNER_COLORS[owner]||'#94a3b8'}">${owner}</span></td>
-          <td><code>${u.tag}</code></td>
-          <td><strong>${u.usage}</strong></td>
-          <td><div class="cost-indicator">${dots}</div></td>
-          <td>${u.context}</td>
-          <td>${bench&&bench.mmlu!=null?bench.mmlu.toFixed(1):'—'}</td>
-          <td>${bench&&bench.humaneval!=null?bench.humaneval.toFixed(1):'—'}</td>
-          <td>${bench&&bench.math!=null?bench.math.toFixed(1):'—'}</td>
-          <td>${bench&&bench.gpqa!=null?bench.gpqa.toFixed(1):'—'}</td>
-          <td>${formatPulls(m.p||0)}</td>
-        </tr>`;
-      });
-    });
-    html += `</tbody></table>`;
-  }
 
-  // Full benchmark comparison table
-  html += `<h3 style="margin:14px 0 8px">📊 Benchmark Comparison</h3>
-  <div style="overflow-x:auto">
-  <table class="compare-table"><thead><tr><th data-sort="name" onclick="sortByHeader('name')">Model</th><th data-sort="owner" onclick="sortByHeader('owner')">Owner</th><th data-sort="overall" onclick="sortByHeader('overall')">Overall</th><th data-sort="mmlu" onclick="sortByHeader('mmlu')">MMLU</th><th data-sort="humaneval" onclick="sortByHeader('humaneval')">HumanEval</th><th data-sort="math" onclick="sortByHeader('math')">MATH</th><th data-sort="gpqa" onclick="sortByHeader('gpqa')">GPQA</th><th data-sort="gsm8k" onclick="sortByHeader('gsm8k')">GSM8K</th><th data-sort="swe_bench" onclick="sortByHeader('swe_bench')">SWE-bench</th><th data-sort="livecodebench" onclick="sortByHeader('livecodebench')">LiveCode</th><th data-sort="aime" onclick="sortByHeader('aime')">AIME</th><th data-sort="arena_elo" onclick="sortByHeader('arena_elo')">Arena Elo</th><th data-sort="mmmu_pro" onclick="sortByHeader('mmmu_pro')">MMMU-Pro</th><th data-sort="docvqa" onclick="sortByHeader('docvqa')">DocVQA</th><th data-sort="mathvista" onclick="sortByHeader('mathvista')">MathVista</th><th data-sort="mmbench" onclick="sortByHeader('mmbench')">MMBench</th><th data-sort="mteb_avg" onclick="sortByHeader('mteb_avg')">MTEB Avg</th><th data-sort="mteb_retrieval" onclick="sortByHeader('mteb_retrieval')">MTEB Retr</th><th data-sort="mteb_classification" onclick="sortByHeader('mteb_classification')">MTEB Class</th><th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th></tr></thead><tbody>`;
+  // ── Table: All models with metadata + benchmarks ──
+  const textBenchKeys = ['mmlu','humaneval','math','gpqa','gsm8k','swe_bench','livecodebench','aime','arena_elo'];
+  const visionBenchKeys = ['mmmu_pro','docvqa','mathvista','mmbench'];
+  const embedBenchKeys = ['mteb_avg','mteb_retrieval','mteb_classification'];
+
+  html += `<div style="margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+    <button class="bench-toggle active" onclick="toggleColGroup('vision')" id="toggleVision">👁 Vision</button>
+    <button class="bench-toggle active" onclick="toggleColGroup('embedding')" id="toggleEmbedding">📊 Embedding</button>
+  </div>`;
+
+  html += `<div style="overflow-x:auto"><table class="compare-table"><thead><tr>
+    <th data-sort="name" onclick="sortByHeader('name')">Model</th>
+    <th data-sort="owner" onclick="sortByHeader('owner')">Owner</th>
+    <th>Sizes</th>
+    <th>Caps</th>
+    <th data-sort="pulls" onclick="sortByHeader('pulls')">Pulls</th>
+    <th data-sort="overall" onclick="sortByHeader('overall')">Overall</th>`;
+  textBenchKeys.forEach(k => { html += `<th data-sort="${k}" onclick="sortByHeader('${k}')">${BENCH_NAMES[k]}</th>`; });
+  html += `<th class="vision-col" data-sort="mmmu_pro" onclick="sortByHeader('mmmu_pro')">MMMU-Pro</th>
+    <th class="vision-col" data-sort="docvqa" onclick="sortByHeader('docvqa')">DocVQA</th>
+    <th class="vision-col" data-sort="mathvista" onclick="sortByHeader('mathvista')">MathVista</th>
+    <th class="vision-col" data-sort="mmbench" onclick="sortByHeader('mmbench')">MMBench</th>
+    <th class="embed-col" data-sort="mteb_avg" onclick="sortByHeader('mteb_avg')">MTEB Avg</th>
+    <th class="embed-col" data-sort="mteb_retrieval" onclick="sortByHeader('mteb_retrieval')">MTEB Retr</th>
+    <th class="embed-col" data-sort="mteb_classification" onclick="sortByHeader('mteb_classification')">MTEB Class</th>
+  </tr></thead><tbody>`;
+
   models.forEach(m => {
     const b = getBench(m);
     const owner = getOwner(m);
-    const bestOverall = Math.max(...models.map(x=>getBench(x)?.overall_score||0));
-    const bestMMLU = Math.max(...models.map(x=>getBench(x)?.mmlu||0));
-    const bestMath = Math.max(...models.map(x=>getBench(x)?.math||0));
-    const bestHE = Math.max(...models.map(x=>getBench(x)?.humaneval||0));
+    const sizes = (m.s||[]).length > 0 ? m.s.map(s=>`<span class="size-tag">${s}</span>`).join(' ') : '—';
+    const caps = (m.c||[]).length > 0 ? m.c.map(c=>`<span class="cap-tag ${c}">${c}</span>`).join(' ') : '—';
+    const usage = getUsage(m);
+    const ctx = usage ? usage.map(u=>u.context).join(', ') : '—';
+    const costDots = usage ? (() => { let d=''; const h=Math.max(...usage.map(x=>x.bars)); let bc=h<=1?'low':h===2?'medium':h===3?'high':'extra-high'; for(let i=0;i<4;i++) d+=`<div class="cost-dot ${i<h?'on '+bc:''}"></div>`; return `<div class="cost-indicator">${d}</div>`; })() : '—';
+
     html += `<tr>
       <td><strong style="font-family:monospace">${m.n}</strong></td>
-      <td><span style="color:${OWNER_COLORS[owner]||'#94a3b8'};font-size:11px">${owner}</span></td>
-      <td style="${b?.overall_score===bestOverall?'color:var(--green);font-weight:700':''}">${b?b.overall_score?.toFixed(1):'—'}</td>
-      <td style="${b?.mmlu===bestMMLU?'color:var(--green);font-weight:700':''}">${b?b.mmlu?.toFixed(1):'—'}</td>
-      <td style="${b?.humaneval===bestHE?'color:var(--green);font-weight:700':''}">${b?b.humaneval?.toFixed(1):'—'}</td>
-      <td style="${b?.math===bestMath?'color:var(--green);font-weight:700':''}">${b?b.math?.toFixed(1):'—'}</td>
-      <td style="${b?.gpqa===Math.max(...models.map(x=>getBench(x)?.gpqa||0))?'color:var(--green);font-weight:700':''}">${b&&b.gpqa!=null?b.gpqa.toFixed(1):'—'}</td>
-      <td>${b&&b.gsm8k!=null?b.gsm8k.toFixed(1):'—'}</td>
-      <td style="${b&&b.swe_bench===Math.max(...models.map(x=>getBench(x)?.swe_bench||0))?'color:var(--green);font-weight:700':''}">${b&&b.swe_bench!=null?b.swe_bench.toFixed(1):'—'}</td>
-      <td>${b&&b.livecodebench!=null?b.livecodebench.toFixed(1):'—'}</td>
-      <td>${b&&b.aime!=null?b.aime.toFixed(1):'—'}</td>
-      <td>${b&&b.arena_elo!=null?b.arena_elo:'—'}</td>
-      <td>${b&&b.mmmu_pro!=null?b.mmmu_pro.toFixed(1):'—'}</td>
-      <td>${b&&b.docvqa!=null?b.docvqa.toFixed(1):'—'}</td>
-      <td>${b&&b.mathvista!=null?b.mathvista.toFixed(1):'—'}</td>
-      <td>${b&&b.mmbench!=null?b.mmbench.toFixed(1):'—'}</td>
-      <td>${b&&b.mteb_avg!=null?b.mteb_avg.toFixed(1):'—'}</td>
-      <td>${b&&b.mteb_retrieval!=null?b.mteb_retrieval.toFixed(1):'—'}</td>
-      <td>${b&&b.mteb_classification!=null?b.mteb_classification.toFixed(1):'—'}</td>
+      <td><span style="color:${OWNER_COLORS[owner]||'var(--muted)'};font-size:11px">${owner}</span></td>
+      <td>${sizes}</td>
+      <td>${caps}</td>
       <td style="color:var(--green);font-size:11px">${formatPulls(m.p||0)}</td>
+      <td style="${b?.overall_score===Math.max(...models.map(x=>getBench(x)?.overall_score||0))?'color:var(--green);font-weight:700':''}">${b?b.overall_score?.toFixed(1):'—'}</td>`;
+    textBenchKeys.forEach(k => {
+      const v = b && b[k] != null ? b[k] : null;
+      const best = Math.max(...models.map(x=>getBench(x)?.[k]||0));
+      const style = v === best ? 'color:var(--green);font-weight:700' : '';
+      html += `<td style="${style}">${v != null ? (k==='arena_elo'?v:v.toFixed(1)) : '—'}</td>`;
+    });
+    html += `<td class="vision-col">${b&&b.mmmu_pro!=null?b.mmmu_pro.toFixed(1):'—'}</td>
+      <td class="vision-col">${b&&b.docvqa!=null?b.docvqa.toFixed(1):'—'}</td>
+      <td class="vision-col">${b&&b.mathvista!=null?b.mathvista.toFixed(1):'—'}</td>
+      <td class="vision-col">${b&&b.mmbench!=null?b.mmbench.toFixed(1):'—'}</td>
+      <td class="embed-col">${b&&b.mteb_avg!=null?b.mteb_avg.toFixed(1):'—'}</td>
+      <td class="embed-col">${b&&b.mteb_retrieval!=null?b.mteb_retrieval.toFixed(1):'—'}</td>
+      <td class="embed-col">${b&&b.mteb_classification!=null?b.mteb_classification.toFixed(1):'—'}</td>
     </tr>`;
   });
   html += `</tbody></table></div>`;
@@ -826,6 +824,17 @@ function highlightSortHeaders() {
 function setOwner(o) { activeOwner = o; render(); }
 function toggleCap(c) { if(activeCaps.has(c)) activeCaps.delete(c); else activeCaps.add(c); render(); }
 function setView(m) { viewMode = m; document.getElementById('viewCards').classList.toggle('active',m==='cards'); document.getElementById('viewTable').classList.toggle('active',m==='table'); document.getElementById('viewBench').classList.toggle('active',m==='benchmarks'); render(); }
+
+// ── Collapsible column groups ──
+const colGroups = { vision: true, embedding: true };
+function toggleColGroup(group) {
+  colGroups[group] = !colGroups[group];
+  const cls = group === 'vision' ? 'vision-col' : 'embed-col';
+  const btnId = group === 'vision' ? 'toggleVision' : 'toggleEmbedding';
+  document.querySelectorAll('.' + cls).forEach(el => el.classList.toggle('hidden', !colGroups[group]));
+  const btn = document.getElementById(btnId);
+  if (btn) { btn.classList.toggle('active', colGroups[group]); }
+}
 
 // Click a table header to sort by that column (toggles desc/asc)
 let headerSortKey = null;
