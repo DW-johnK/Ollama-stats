@@ -170,6 +170,7 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
 .compare-table th{background:var(--card2);padding:8px 10px;text-align:left;border-bottom:2px solid var(--border);font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
 .compare-table td{padding:7px 10px;border-bottom:1px solid var(--border)}
 .compare-table tr:hover td{background:var(--row-hover)}
+.bench-group-row th{font-size:10px!important;text-transform:none!important;letter-spacing:0!important;border-bottom:none!important}
 
 /* Group Header */
 .group-header{display:flex;align-items:center;gap:10px;padding:10px 0 6px;margin-top:12px;border-bottom:1px solid var(--border)}
@@ -263,7 +264,7 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
       <input type="text" id="search" placeholder="Search models, owners..." oninput="render()">
     </div>
-    <select id="sort" onchange="render()">
+    <select id="sort" onchange="autoShowGroups();render()">
       <option value="pulls-desc">Most Popular</option>
       <option value="pulls-asc">Least Popular</option>
       <option value="name-asc">Name A→Z</option>
@@ -785,11 +786,20 @@ function renderTableView(models) {
   const embedBenchKeys = ['mteb_avg','mteb_retrieval','mteb_classification'];
 
   html += `<div style="margin-bottom:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-    <button class="bench-toggle active" onclick="toggleColGroup('vision')" id="toggleVision">👁 Vision</button>
-    <button class="bench-toggle active" onclick="toggleColGroup('embedding')" id="toggleEmbedding">📊 Embedding</button>
+    <button class="bench-toggle${colGroups.vision?' active':''}" onclick="toggleColGroup('vision')" id="toggleVision">👁 Vision</button>
+    <button class="bench-toggle${colGroups.embedding?' active':''}" onclick="toggleColGroup('embedding')" id="toggleEmbedding">📊 Embedding</button>
   </div>`;
 
-  html += `<div style="overflow-x:auto"><table class="compare-table"><thead><tr>
+  const visCls = colGroups.vision ? '' : ' hidden';
+  const embCls = colGroups.embedding ? '' : ' hidden';
+  const mainColCount = 8 + textBenchKeys.length; // Model, Owner, Sizes, Caps, Pulls, Cost, Context, Overall + main benches
+  html += `<div style="overflow-x:auto"><table class="compare-table"><thead>
+  <tr class="bench-group-row">
+    <th colspan="${mainColCount}" style="border:none;background:none"></th>
+    <th colspan="4" class="vision-col${visCls} bench-group-th" style="text-align:center;font-size:11px;font-weight:600;color:#818cf8;padding:4px 8px;border-radius:6px 6px 0 0;background:rgba(129,140,248,0.08)">👁 Vision</th>
+    <th colspan="3" class="embed-col${embCls} bench-group-th" style="text-align:center;font-size:11px;font-weight:600;color:#c084fc;padding:4px 8px;border-radius:6px 6px 0 0;background:rgba(192,132,252,0.08)">📊 Embedding</th>
+  </tr>
+  <tr>
     <th data-sort="name" onclick="sortByHeader('name')">Model</th>
     <th data-sort="owner" onclick="sortByHeader('owner')">Owner</th>
     <th>Sizes</th>
@@ -799,13 +809,13 @@ function renderTableView(models) {
     <th data-sort="context" onclick="sortByHeader('context')" style="cursor:pointer">Context</th>
     <th data-sort="overall" onclick="sortByHeader('overall')">Overall</th>`;
   textBenchKeys.forEach(k => { html += `<th data-sort="${k}" onclick="sortByHeader('${k}')">${BENCH_NAMES[k]}</th>`; });
-  html += `<th class="vision-col" data-sort="mmmu_pro" onclick="sortByHeader('mmmu_pro')">MMMU-Pro</th>
-    <th class="vision-col" data-sort="docvqa" onclick="sortByHeader('docvqa')">DocVQA</th>
-    <th class="vision-col" data-sort="mathvista" onclick="sortByHeader('mathvista')">MathVista</th>
-    <th class="vision-col" data-sort="mmbench" onclick="sortByHeader('mmbench')">MMBench</th>
-    <th class="embed-col" data-sort="mteb_avg" onclick="sortByHeader('mteb_avg')">MTEB Avg</th>
-    <th class="embed-col" data-sort="mteb_retrieval" onclick="sortByHeader('mteb_retrieval')">MTEB Retr</th>
-    <th class="embed-col" data-sort="mteb_classification" onclick="sortByHeader('mteb_classification')">MTEB Class</th>
+  html += `<th class="vision-col${visCls}" data-sort="mmmu_pro" onclick="sortByHeader('mmmu_pro')">MMMU-Pro</th>
+    <th class="vision-col${visCls}" data-sort="docvqa" onclick="sortByHeader('docvqa')">DocVQA</th>
+    <th class="vision-col${visCls}" data-sort="mathvista" onclick="sortByHeader('mathvista')">MathVista</th>
+    <th class="vision-col${visCls}" data-sort="mmbench" onclick="sortByHeader('mmbench')">MMBench</th>
+    <th class="embed-col${embCls}" data-sort="mteb_avg" onclick="sortByHeader('mteb_avg')">MTEB Avg</th>
+    <th class="embed-col${embCls}" data-sort="mteb_retrieval" onclick="sortByHeader('mteb_retrieval')">MTEB Retr</th>
+    <th class="embed-col${embCls}" data-sort="mteb_classification" onclick="sortByHeader('mteb_classification')">MTEB Class</th>
   </tr></thead><tbody>`;
 
   models.forEach(m => {
@@ -832,14 +842,14 @@ function renderTableView(models) {
       const style = v === best ? 'color:var(--green);font-weight:700' : '';
       html += `<td style="${style}">${v != null ? (k==='arena_elo'?v:v.toFixed(1)) : '—'}</td>`;
     });
-    html += `<td class="vision-col">${b&&b.mmmu_pro!=null?b.mmmu_pro.toFixed(1):'—'}</td>
-      <td class="vision-col">${b&&b.docvqa!=null?b.docvqa.toFixed(1):'—'}</td>
-      <td class="vision-col">${b&&b.mathvista!=null?b.mathvista.toFixed(1):'—'}</td>
-      <td class="vision-col">${b&&b.mmbench!=null?b.mmbench.toFixed(1):'—'}</td>
-      <td class="embed-col">${b&&b.mteb_avg!=null?b.mteb_avg.toFixed(1):'—'}</td>
-      <td class="embed-col">${b&&b.mteb_retrieval!=null?b.mteb_retrieval.toFixed(1):'—'}</td>
-      <td class="embed-col">${b&&b.mteb_classification!=null?b.mteb_classification.toFixed(1):'—'}</td>
-    </tr>`;
+    html += `<td class="vision-col${visCls}">${b&&b.mmmu_pro!=null?b.mmmu_pro.toFixed(1):'—'}</td>
+      <td class="vision-col${visCls}">${b&&b.docvqa!=null?b.docvqa.toFixed(1):'—'}</td>
+      <td class="vision-col${visCls}">${b&&b.mathvista!=null?b.mathvista.toFixed(1):'—'}</td>
+      <td class="vision-col${visCls}">${b&&b.mmbench!=null?b.mmbench.toFixed(1):'—'}</td>
+      <td class="embed-col${embCls}">${b&&b.mteb_avg!=null?b.mteb_avg.toFixed(1):'—'}</td>
+      <td class="embed-col${embCls}">${b&&b.mteb_retrieval!=null?b.mteb_retrieval.toFixed(1):'—'}</td>
+      <td class="embed-col${embCls}">${b&&b.mteb_classification!=null?b.mteb_classification.toFixed(1):'—'}</td>`;
+    html += '</tr>';
   });
   html += `</tbody></table></div>`;
   return html;
@@ -944,20 +954,69 @@ function toggleCap(c) { if(activeCaps.has(c)) activeCaps.delete(c); else activeC
 function setView(m) { viewMode = m; document.getElementById('viewCards').classList.toggle('active',m==='cards'); document.getElementById('viewTable').classList.toggle('active',m==='table'); document.getElementById('viewBench').classList.toggle('active',m==='benchmarks'); render(); }
 
 // ── Collapsible column groups ──
-const colGroups = { vision: true, embedding: true };
+const colGroups = { vision: false, embedding: false };
 function toggleColGroup(group) {
   colGroups[group] = !colGroups[group];
-  const cls = group === 'vision' ? 'vision-col' : 'embed-col';
-  const btnId = group === 'vision' ? 'toggleVision' : 'toggleEmbedding';
-  document.querySelectorAll('.' + cls).forEach(el => el.classList.toggle('hidden', !colGroups[group]));
-  const btn = document.getElementById(btnId);
-  if (btn) { btn.classList.toggle('active', colGroups[group]); }
+  render(); // Re-render to update column visibility and button state
+}
+
+// Auto-show Vision/Embedding columns when sorting by their benchmarks or Overall
+function autoShowGroups() {
+  const sort = document.getElementById('sort').value;
+  const visionSorts = ['bench-mmmu','bench-mmmu-asc','bench-docvqa','bench-docvqa-asc','bench-mathvista','bench-mathvista-asc','bench-mmbench','bench-mmbench-asc'];
+  const embedSorts = ['bench-mteb','bench-mteb-asc','bench-mteb-retrieval','bench-mteb-retrieval-asc','bench-mteb-classification','bench-mteb-classification-asc'];
+  if (visionSorts.includes(sort) && !colGroups.vision) toggleColGroup('vision');
+  if (embedSorts.includes(sort) && !colGroups.embedding) toggleColGroup('embedding');
+  if (sort === 'bench-overall' || sort === 'bench-overall-asc') {
+    const visionKeys = ['mmmu_pro','docvqa','mathvista','mmbench'];
+    const embedKeys = ['mteb_avg','mteb_retrieval','mteb_classification'];
+    const mainKeys = ['mmlu','humaneval','math','gpqa','gsm8k'];
+    let needVision = false, needEmbed = false;
+    for (const m of MODELS) {
+      const b = BENCHMARKS[m.n];
+      if (!b || b.overall_score == null) continue;
+      const hasMain = mainKeys.some(k => b[k] != null);
+      const hasVis = visionKeys.some(k => b[k] != null);
+      const hasEmb = embedKeys.some(k => b[k] != null);
+      if (!hasMain && hasVis) needVision = true;
+      if (!hasMain && hasEmb) needEmbed = true;
+    }
+    if (needVision && !colGroups.vision) toggleColGroup('vision');
+    if (needEmbed && !colGroups.embedding) toggleColGroup('embedding');
+  }
 }
 
 // Click a table header to sort by that column (toggles desc/asc)
 let headerSortKey = null;
 let headerSortDir = 'desc';
 function sortByHeader(key) {
+  // Auto-show Vision/Embedding columns when sorting by their benchmarks
+  const visionKeys = ['mmmu_pro','docvqa','mathvista','mmbench'];
+  const embedKeys = ['mteb_avg','mteb_retrieval','mteb_classification'];
+  if (visionKeys.includes(key) && !colGroups.vision) toggleColGroup('vision');
+  if (embedKeys.includes(key) && !colGroups.embedding) toggleColGroup('embedding');
+  // When sorting by Overall, auto-show groups if top model has only that type of data
+  if (key === 'overall') {
+    // Check if any model in view has only vision or only embedding data
+    const visibleModels = getModels();
+    const hasVisionOnly = visibleModels.some(m => {
+      const b = BENCHMARKS[m.n];
+      if (!b || b.overall_score == null) return false;
+      const hasMain = ['mmlu','humaneval','math','gpqa','gsm8k'].some(k => b[k] != null);
+      const hasVis = visionKeys.some(k => b[k] != null);
+      return !hasMain && hasVis;
+    });
+    const hasEmbedOnly = visibleModels.some(m => {
+      const b = BENCHMARKS[m.n];
+      if (!b || b.overall_score == null) return false;
+      const hasMain = ['mmlu','humaneval','math','gpqa','gsm8k'].some(k => b[k] != null);
+      const hasEmb = embedKeys.some(k => b[k] != null);
+      return !hasMain && hasEmb;
+    });
+    if (hasVisionOnly && !colGroups.vision) toggleColGroup('vision');
+    if (hasEmbedOnly && !colGroups.embedding) toggleColGroup('embedding');
+  }
+
   const sortMap = {
     'name':'name-asc','owner':'name-asc','pulls':'pulls-desc','overall':'bench-overall','mmlu':'bench-mmlu',
     'humaneval':'bench-humaneval','math':'bench-math','gpqa':'bench-gpqa','gsm8k':'bench-gsm8k',
@@ -983,7 +1042,6 @@ function sortByHeader(key) {
   sel.value = opts.includes(descVal) && headerSortDir === 'desc' ? descVal : opts.includes(ascVal) ? ascVal : sortVal;
   // Force matching direction
   if (headerSortDir === 'asc' && !sel.value.endsWith('-asc')) {
-    // Try to find the asc variant
     const tryAsc = sel.value + '-asc';
     if (opts.includes(tryAsc)) sel.value = tryAsc;
   } else if (headerSortDir === 'desc' && sel.value.endsWith('-asc')) {
