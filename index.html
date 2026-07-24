@@ -792,14 +792,7 @@ function renderTableView(models) {
 
   const visCls = colGroups.vision ? '' : ' hidden';
   const embCls = colGroups.embedding ? '' : ' hidden';
-  const mainColCount = 8 + textBenchKeys.length; // Model, Owner, Sizes, Caps, Pulls, Cost, Context, Overall + main benches
-  html += `<div style="overflow-x:auto"><table class="compare-table"><thead>
-  <tr class="bench-group-row">
-    <th colspan="${mainColCount}" style="border:none;background:none"></th>
-    <th colspan="4" class="vision-col${visCls} bench-group-th" style="text-align:center;font-size:11px;font-weight:600;color:#818cf8;padding:4px 8px;border-radius:6px 6px 0 0;background:rgba(129,140,248,0.08)">👁 Vision</th>
-    <th colspan="3" class="embed-col${embCls} bench-group-th" style="text-align:center;font-size:11px;font-weight:600;color:#c084fc;padding:4px 8px;border-radius:6px 6px 0 0;background:rgba(192,132,252,0.08)">📊 Embedding</th>
-  </tr>
-  <tr>
+  html += `<div style="overflow-x:auto"><table class="compare-table"><thead><tr>
     <th data-sort="name" onclick="sortByHeader('name')">Model</th>
     <th data-sort="owner" onclick="sortByHeader('owner')">Owner</th>
     <th>Sizes</th>
@@ -816,6 +809,11 @@ function renderTableView(models) {
     <th class="embed-col${embCls}" data-sort="mteb_avg" onclick="sortByHeader('mteb_avg')">MTEB Avg</th>
     <th class="embed-col${embCls}" data-sort="mteb_retrieval" onclick="sortByHeader('mteb_retrieval')">MTEB Retr</th>
     <th class="embed-col${embCls}" data-sort="mteb_classification" onclick="sortByHeader('mteb_classification')">MTEB Class</th>
+  </tr>
+  <tr class="bench-group-row">
+    <th colspan="${8 + textBenchKeys.length}" style="border:none;background:none"></th>
+    <th colspan="4" class="vision-col${visCls} bench-group-th" style="text-align:center;font-size:10px;font-weight:700;letter-spacing:.5px;color:#818cf8;padding:3px 8px;border-radius:0 0 6px 6px;background:rgba(129,140,248,0.1);border-top:2px solid #818cf8">👁 Vision</th>
+    <th colspan="3" class="embed-col${embCls} bench-group-th" style="text-align:center;font-size:10px;font-weight:700;letter-spacing:.5px;color:#c084fc;padding:3px 8px;border-radius:0 0 6px 6px;background:rgba(192,132,252,0.1);border-top:2px solid #c084fc">📊 Embedding</th>
   </tr></thead><tbody>`;
 
   models.forEach(m => {
