@@ -35,17 +35,12 @@ DATA_DIR.mkdir(exist_ok=True)
 # ─── STEP 1: Scrape Ollama Search Page ─────────────────────────────────────
 
 def scrape_ollama_models():
-    """Scrape model list from ollama.com/search via multiple pages."""
+    """Scrape model list from ollama.com/library pages (server-rendered, full data)."""
     models = []
     
-    # Ollama search is a JS-rendered SPA, so we use the library page which has
-    # more structured data. We'll scrape the search page for popular models.
-    # The search page loads models progressively, so we extract what we can.
-    
-    # Try the main search page first
     print("[1/4] Scraping Ollama model catalog...")
     
-    # Load existing data as baseline
+    # Load existing rich data as baseline (keeps cloud usage info etc.)
     existing_path = SCRIPT_DIR / "ollama_rich_models.json"
     existing = {}
     if existing_path.exists():
@@ -54,14 +49,13 @@ def scrape_ollama_models():
                 existing[m['name']] = m
         print(f"  Loaded {len(existing)} existing models as baseline")
     
-    # Scrape search pages (popular, newest)
+    # Scrape library pages — server-rendered, contains ALL models with descriptions
     search_urls = [
-        "https://ollama.com/search",
-        "https://ollama.com/search?o=popular",
-        "https://ollama.com/search?o=newest",
+        "https://ollama.com/library?page=1&sort=popular",
+        "https://ollama.com/library?page=1&sort=newest",
     ]
     
-    all_model_names = set()
+    seen_names = set()
     
     for url in search_urls:
         try:
@@ -71,43 +65,178 @@ def scrape_ollama_models():
             with urllib.request.urlopen(req, timeout=30) as resp:
                 html = resp.read().decode('utf-8', errors='replace')
             
-            # Extract model names from the page (they appear as /library/MODEL_NAME links)
-            # Pattern: href="/library/MODEL_NAME"
-            names = re.findall(r'href="/library/([\w\-\.]+)"', html)
-            all_model_names.update(names)
-            print(f"  Found {len(names)} model links from {url}")
+            # Extract model entries: each is a <li> with border-b class
+            # Pattern: href="/library/MODEL_NAME" ... h2 ... MODEL_NAME ... /h2 ... p ... description ... /p ... span tags (capabilities + sizes)
+            raw_blocks = re.findall(
+                r'<a href="/library/([\w\-\.]+)"[^>]*class="group[^"]*"[^>]*>(.*?)</a>',
+                html, re.DOTALL
+            )
+            
+            for name, inner in raw_blocks:
+                if ':' in name or len(name) <= 1:
+                    continue
+                if name in seen_names:
+                    continue
+                seen_names.add(name)
+                
+                desc_match = re.search(r'<p[^>]*>(.*?)</p>', inner)
+                description = desc_match.group(1).strip() if desc_match else ''
+                
+                # Extract capability tags — they use various bg colors (indigo, cyan, etc.)
+                cap_tags = re.findall(
+                    r'<span[^>]*class="[^"]*bg-[a-z]+-50[^"]*"[^>]*>([^<]+)</span>',
+                    inner
+                )
+                capabilities = [c.strip().lower() for c in cap_tags 
+                              if c.strip().lower() in ('vision','tools','thinking','audio','cloud','embedding')]
+                
+                # Extract size tags
+                size_tags = re.findall(
+                    r'<span[^>]*class="[^"]*bg-\[#ddf4ff\][^"]*"[^>]*>([^<]+)</span>',
+                    inner
+                )
+                sizes = [s.strip() for s in size_tags]
+                
+                # Extract pulls count from the outer li
+                model_entry = models  # will collect then match
+                
+                models.append({
+                    'name': name,
+                    'description': description,
+                    'pulls': 0,  # filled below
+                    'pullsDisplay': '',
+                    'tagsCount': 0,
+                    'capabilities': capabilities,
+                    'sizes': sizes,
+                    'updated': '',
+                    'owner': ''
+                })
+            
+            # Now extract pulls from the same HTML — they appear after the size tags
+            # Pattern: "X.XM Pulls" etc.
+            pull_pattern = re.compile(r'(\d[\d,.]*\s*[KMB]?\s*Pulls)', re.IGNORECASE)
+            all_pull_matches = pull_pattern.findall(html)
+            
+            print(f"  Found {len(raw_blocks)} model entries from {url}")
         except Exception as e:
             print(f"  Warning: Failed to scrape {url}: {e}")
     
-    # Also scrape individual model pages for top models to get cloud/usage data
-    # The search page is JS-rendered so we may not get full data; supplement with
-    # known model names from our existing dataset
-    for name in existing:
-        all_model_names.add(name)
+    # Merge with existing rich data
+    model_map = {m['name']: m for m in models}
     
-    # Filter out tag-style paths (like "llama3.1:70b")
-    model_names = sorted([n for n in all_model_names if ':' not in n and len(n) > 1])
-    print(f"  Total unique models: {len(model_names)}")
-    
-    # Build model data from what we have + new discoveries
-    for name in model_names:
-        if name in existing:
-            models.append(existing[name])
-        else:
-            models.append({
-                'name': name,
-                'description': '',
-                'pulls': 0,
-                'pullsDisplay': '',
-                'tagsCount': 0,
-                'capabilities': [],
-                'sizes': [],
-                'updated': '',
-                'owner': name.split('-')[0].split('_')[0].title()
+    # Fill in pulls from the HTML (the order matches)
+    for url in search_urls:
+        try:
+            req = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) OpenOllamaBot/1.0'
             })
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                html = resp.read().decode('utf-8', errors='replace')
+            
+            # Find all <li> blocks
+            li_blocks = re.findall(
+                r'<li\s+class="flex items-baseline border-b[^>]*>(.*?)</li>',
+                html, re.DOTALL
+            )
+            for block in li_blocks:
+                name_match = re.search(r'href="/library/([\w\-\.]+)"', block)
+                if not name_match:
+                    continue
+                name = name_match.group(1)
+                if name not in model_map:
+                    continue
+                
+                pulls_match = re.search(r'([\d,]+\.?\d*\s*[KMB]?)\s*Pulls', block, re.IGNORECASE)
+                if pulls_match:
+                    pulls_str = pulls_match.group(1).strip()
+                    display = f"{pulls_str} Pulls"
+                    # Parse numeric value
+                    pulls_str_clean = pulls_str.replace(',', '')
+                    if 'K' in pulls_str:
+                        pulls = int(round(float(pulls_str_clean.replace('K', '')) * 1000))
+                    elif 'M' in pulls_str:
+                        pulls = int(round(float(pulls_str_clean.replace('M', '')) * 1000000))
+                    elif 'B' in pulls_str:
+                        pulls = int(round(float(pulls_str_clean.replace('B', '')) * 1000000000))
+                    else:
+                        pulls = int(float(pulls_str_clean))
+                    model_map[name]['pulls'] = pulls
+                    model_map[name]['pullsDisplay'] = display
+                
+                tags_match = re.search(r'<span[^>]*>(\d+)\s*Tags?<', block, re.IGNORECASE)
+                if tags_match:
+                    model_map[name]['tagsCount'] = int(tags_match.group(1))
+                
+                updated_match = re.search(r'Updated\s+(.+?)</', block, re.IGNORECASE)
+                if updated_match:
+                    model_map[name]['updated'] = updated_match.group(1).strip()
+        except Exception as e:
+            print(f"  Warning: Failed to extract pulls: {e}")
     
-    return models
+    # Merge with existing rich data
+    for name, m in model_map.items():
+        if name in existing:
+            # Keep existing rich data but update pulls/capabilities from page
+            ex = existing[name]
+            if m['pulls'] > 0:
+                ex['pulls'] = m['pulls']
+                ex['pullsDisplay'] = m['pullsDisplay']
+            if m['capabilities']:
+                ex['capabilities'] = m['capabilities']
+            if m['sizes']:
+                ex['sizes'] = m['sizes']
+            if m['description'] and not ex.get('description'):
+                ex['description'] = m['description']
+            if m['updated']:
+                ex['updated'] = m['updated']
+            if m['tagsCount'] > 0:
+                ex['tagsCount'] = m['tagsCount']
+            model_map[name] = ex
+    
+    final_models = sorted(model_map.values(), key=lambda x: x.get('pulls', 0), reverse=True)
+    print(f"  Total unique models: {len(final_models)}")
+    return final_models
 
+
+def scrape_context_windows(models):
+    """Scrape individual model pages for context window data.
+    Only hits models that don't already have context from cloud data.
+    """
+    import concurrent.futures
+    
+    print("  Scraping context window data from model pages...")
+    
+    def fetch_context(model_name):
+        try:
+            url = f"https://ollama.com/library/{model_name}"
+            req = urllib.request.Request(url, headers={
+                'User-Agent': 'Mozilla/5.0 OpenOllamaBot/1.0'
+            })
+            with urllib.request.urlopen(req, timeout=12) as resp:
+                html = resp.read().decode('utf-8', errors='replace')
+            
+            # Extract context windows: "XK context window", "XM context window"
+            ctxs = re.findall(r'(\d+\.?\d*[KMB]?)\s*context window', html, re.IGNORECASE)
+            # Convert to canonical form (uppercase K/M/B)
+            ctxs = [c.upper() for c in ctxs]
+            # Deduplicate preserving order
+            seen = set()
+            unique = []
+            for c in ctxs:
+                if c not in seen:
+                    seen.add(c)
+                    unique.append(c)
+            return model_name, unique
+        except Exception:
+            return model_name, []
+    
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
+        results = list(executor.map(fetch_context, [m['name'] for m in models]))
+    
+    ctx_map = {name: ctxs for name, ctxs in results}
+    found = sum(1 for _, ctxs in results if ctxs)
+    print(f"  Found context data for {found}/{len(models)} models")
+    return ctx_map
 
 def scrape_model_details(model_name):
     """Scrape individual model page for description, tags, capabilities."""
@@ -360,6 +489,117 @@ OWNER_MAP = {
     "sqlcoder": "Defog", "moondream": "Moondream",
     "tinyllama": "TinyLlama", "dbrx": "Databricks", "tulu3": "AI2",
     "alfred": "Alfred",
+    "nemotron-3.5-lightning": "NVIDIA", "nemotron-3-ultra": "NVIDIA",
+    "nemotron-cascade-2": "NVIDIA", "nemotron-3-nano": "NVIDIA", "nemotron-mini": "NVIDIA",
+    "laguna-s-2.1": "Laguna", "laguna-xs-2.1": "Laguna", "laguna-xs.2": "Laguna",
+    "kimi-k3": "Moonshot AI",
+    "muse-glimmer": "Meta",
+    "north-mini-code-1.0": "Cohere",
+    "granite4.1-guardian": "IBM",
+    "minicpm-v4.5": "OpenBMB", "minicpm-v4.6": "OpenBMB",
+    "qwen3-embedding": "Alibaba Cloud", "qwen3-next": "Alibaba Cloud",
+    "gpt-oss-safeguard": "OpenAI",
+    "embeddinggemma": "Google DeepMind", "functiongemma": "Google DeepMind",
+    "shieldgemma": "Google DeepMind",
+    "phind-codellama": "Phind", "deepseek-ocr": "DeepSeek",
+    "olmo-3": "AI2", "deepseek-v3.1": "DeepSeek",
+    "cogito-2.1": "DeepCogito", "devstral-small-2": "Devstral",
+    "devstral-2": "Devstral", "devstral": "Devstral",
+    "qwen3-coder-next": "Alibaba Cloud", "qwen3-vl": "Alibaba Cloud",
+    "phi4-mini": "Microsoft", "phi4-mini-reasoning": "Microsoft", "phi4-multimodal": "Microsoft",
+    "ministral-3": "Mistral AI",
+    "mistral-large-3": "Mistral AI",
+    "mistral-small3.1": "Mistral AI", "mistral-small3.2": "Mistral AI",
+    "mistrallite": "Mistral AI",
+    "magistral": "Mistral AI",
+    "codestral": "Mistral AI",
+    "mathstral": "Mistral AI",
+    "orca-mini": "Microsoft",
+    "orca2": "Microsoft",
+    "phi": "Microsoft",
+    "phi3.5": "Microsoft",
+    "qwen2-math": "Alibaba Cloud",
+    "translategemma": "Google DeepMind",
+    "gemma3n": "Google DeepMind",
+    "glm-4.7-flash": "Zhipu AI",
+    "glm4": "Zhipu AI",
+    "medgemma": "Google DeepMind",
+    "medgemma1.5": "Google DeepMind",
+    "granite3.2": "IBM", "granite3.2-vision": "IBM", "granite3.3": "IBM",
+    "granite3-dense": "IBM", "granite3-moe": "IBM", "granite3-guardian": "IBM",
+    "granite3.1-dense": "IBM", "granite-embedding": "IBM",
+    "llama-guard3": "Meta", "llama3-chatqa": "Meta",
+    "llama3-gradient": "Meta", "llama3-groq-tool-use": "Meta",
+    "llama2-uncensored": "Meta", "llama2-chinese": "Meta", "llama-pro": "Meta",
+    "llava-llama3": "LMMS Lab", "llava-phi3": "LMMS Lab",
+    "nomic-embed-text-v2-moe": "Nomic AI",
+    "snowflake-arctic-embed2": "Snowflake",
+    "bge-large": "BAAI",
+    "qwen3.6": "Alibaba Cloud",
+    "qwen2.5vl": "Alibaba Cloud",
+    "qwq": "Alibaba Cloud",
+    "qwen2.5-coder": "Alibaba Cloud",
+    "nous-hermes2": "Nous Research",
+    "nous-hermes2-mixtral": "Nous Research",
+    "hermes3": "Nous Research",
+    "dolphin3": "Eric Hartford",
+    "dolphin-mistral": "Eric Hartford", "dolphin-mixtral": "Eric Hartford",
+    "dolphin-phi": "Eric Hartford", "dolphincoder": "Eric Hartford",
+    "megadolphin": "Eric Hartford",
+    "vicuna": "LMSYS", "wizardlm": "Microsoft", "wizardlm2": "Microsoft",
+    "wizardcoder": "Microsoft", "wizard-math": "Microsoft",
+    "wizard-vicuna": "MelodysDreamj", "wizard-vicuna-uncensored": "Eric Hartford",
+    "wizardlm-uncensored": "Eric Hartford",
+    "openchat": "OpenChat",
+    "openhermes": "Nous Research",
+    "nexusraven": "Nexusflow",
+    "starcoder": "BigCode", "starcoder2": "BigCode",
+    "codebooga": "Booga",
+    "codegeex4": "Zhipu AI",
+    "sqlcoder": "Defog",
+    "codellama": "Meta",
+    "yi": "01.AI", "yi-coder": "01.AI",
+    "deepscaler": "DeepScale",
+    "openthinker": "OpenThinker",
+    "smollm": "HuggingFace", "smollm2": "HuggingFace",
+    "zephyr": "HuggingFace",
+    "marco-o1": "Alibaba Cloud",
+    "smallthinker": "Community",
+    "solar": "Upstage", "solar-pro": "Upstage",
+    "falcon": "TII", "falcon2": "TII", "falcon3": "TII",
+    "aya": "Cohere", "aya-expanse": "Cohere",
+    "command-r7b": "Cohere", "command-r7b-arabic": "Cohere",
+    "granite-code": "IBM",
+    "internlm2": "Shanghai AI Lab",
+    "reader-lm": "Jina AI",
+    "stable-code": "Stability AI", "stablelm-zephyr": "Stability AI",
+    "stablelm2": "Stability AI", "stable-beluga": "Stability AI",
+    "starling-lm": "Berkeley",
+    "tinydolphin": "Microsoft",
+    "xwinlm": "Microsoft",
+    "nuextract": "NuMind",
+    "paraphrase-multilingual": "Sentence Transformers",
+    "sailor2": "Sailor",
+    "samantha-mistral": "Community",
+    "notus": "Argilla", "notux": "Argilla",
+    "athene-v2": "Nexusflow",
+    "bespoke-minicheck": "Bespoke Labs",
+    "codeqwen": "Alibaba Cloud",
+    "deepcoder": "DeepSeek",
+    "duckdb-nsql": "MotherDuck",
+    "everythinglm": "Eric Hartford",
+    "exaone-deep": "LG AI Research", "exaone3.5": "LG AI Research",
+    "firefunction-v2": "Fireworks AI",
+    "goliath": "Goliath",
+    "magicoder": "Magicoder",
+    "meditron": "EPFL",
+    "medllama2": "Community",
+    "nf4": "HuggingFace",
+    "open-orca-platypus2": "Open-Orca",
+    "opencoder": "OpenCoder",
+    "rnj-1": "Essential AI",
+    "yarn-llama2": "Yarn", "yarn-mistral": "Yarn",
+    "nemotron": "NVIDIA",
 }
 
 # Cloud model usage levels
@@ -491,7 +731,8 @@ def rebuild_dashboard(models, benchmarks):
         'tc': m.get('tagsCount', 0),
         'c': m.get('capabilities', []),
         's': m.get('sizes', []),
-        'u': m.get('updated', '')
+        'u': m.get('updated', ''),
+        'ctx': m.get('ctx', [])
     } for m in models], separators=(',', ':'))
     
     # Build compact benchmarks object
@@ -580,6 +821,13 @@ if __name__ == '__main__':
     for m in models:
         if 'owner' not in m or not m['owner']:
             m['owner'] = OWNER_MAP.get(m['name'], m['name'].split('-')[0].split('_')[0].title())
+    
+    # Enrich models with context window data from model pages
+    ctx_map = scrape_context_windows(models)
+    for m in models:
+        ctx = ctx_map.get(m['name'], [])
+        if ctx:
+            m['ctx'] = ctx
     
     # Step 3: Rebuild dashboard
     rebuild_dashboard(models, benchmarks)
