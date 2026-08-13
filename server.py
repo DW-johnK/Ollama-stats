@@ -31,3 +31,4 @@ if __name__ == '__main__':
     httpd = socketserver.TCPServer(("0.0.0.0", PORT), Handler)
     print(f"Serving Open Ollama on 0.0.0.0:{PORT}")
     httpd.serve_forever()
+
