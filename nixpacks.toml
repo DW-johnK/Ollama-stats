@@ -1,0 +1,5 @@
+[phases.setup]
+nixPkgs = ["python311"]
+
+[deploy.launch]
+command = "python3 server.py"
