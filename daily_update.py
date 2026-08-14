@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Open Ollama Dashboard — Daily Update Pipeline
+OllamaStats Dashboard — Daily Update Pipeline
 ===============================================
 Scrapes Ollama model data + benchmark data, then rebuilds index.html.
 
@@ -36,8 +36,6 @@ DATA_DIR.mkdir(exist_ok=True)
 
 def scrape_ollama_models():
     """Scrape model list from ollama.com/library pages (server-rendered, full data)."""
-    models = []
-    
     print("[1/4] Scraping Ollama model catalog...")
     
     # Load existing rich data as baseline (keeps cloud usage info etc.)
@@ -49,13 +47,13 @@ def scrape_ollama_models():
                 existing[m['name']] = m
         print(f"  Loaded {len(existing)} existing models as baseline")
     
-    # Scrape library pages — server-rendered, contains ALL models with descriptions
     search_urls = [
         "https://ollama.com/library?page=1&sort=popular",
         "https://ollama.com/library?page=1&sort=newest",
     ]
     
     seen_names = set()
+    model_map = {}
     
     for url in search_urls:
         try:
@@ -65,24 +63,32 @@ def scrape_ollama_models():
             with urllib.request.urlopen(req, timeout=30) as resp:
                 html = resp.read().decode('utf-8', errors='replace')
             
-            # Extract model entries: each is a <li> with border-b class
-            # Pattern: href="/library/MODEL_NAME" ... h2 ... MODEL_NAME ... /h2 ... p ... description ... /p ... span tags (capabilities + sizes)
-            raw_blocks = re.findall(
-                r'<a href="/library/([\w\-\.]+)"[^>]*class="group[^"]*"[^>]*>(.*?)</a>',
+            # Extract each model entry from its <li> block — contains everything
+            li_blocks = re.findall(
+                r'<li[^>]*class="[^"]*flex[^"]*items-baseline[^"]*border-b[^"]*"[^>]*>(.*?)</li>',
                 html, re.DOTALL
             )
             
-            for name, inner in raw_blocks:
+            for block in li_blocks:
+                name_match = re.search(r'href="/library/([\w\-\.]+)"', block)
+                if not name_match:
+                    continue
+                name = name_match.group(1)
                 if ':' in name or len(name) <= 1:
                     continue
                 if name in seen_names:
-                    continue
+                    # Second page may have better data — update pulls/tags
+                    pass
                 seen_names.add(name)
+                
+                # Extract description from the <a> block inside
+                a_block = re.search(r'<a[^>]*class="group[^"]*"[^>]*>(.*?)</a>', block, re.DOTALL)
+                inner = a_block.group(1) if a_block else ''
                 
                 desc_match = re.search(r'<p[^>]*>(.*?)</p>', inner)
                 description = desc_match.group(1).strip() if desc_match else ''
                 
-                # Extract capability tags — they use various bg colors (indigo, cyan, etc.)
+                # Extract capability tags
                 cap_tags = re.findall(
                     r'<span[^>]*class="[^"]*bg-[a-z]+-50[^"]*"[^>]*>([^<]+)</span>',
                     inner
@@ -97,60 +103,13 @@ def scrape_ollama_models():
                 )
                 sizes = [s.strip() for s in size_tags]
                 
-                # Extract pulls count from the outer li
-                model_entry = models  # will collect then match
-                
-                models.append({
-                    'name': name,
-                    'description': description,
-                    'pulls': 0,  # filled below
-                    'pullsDisplay': '',
-                    'tagsCount': 0,
-                    'capabilities': capabilities,
-                    'sizes': sizes,
-                    'updated': '',
-                    'owner': ''
-                })
-            
-            # Now extract pulls from the same HTML — they appear after the size tags
-            # Pattern: "X.XM Pulls" etc.
-            pull_pattern = re.compile(r'(\d[\d,.]*\s*[KMB]?\s*Pulls)', re.IGNORECASE)
-            all_pull_matches = pull_pattern.findall(html)
-            
-            print(f"  Found {len(raw_blocks)} model entries from {url}")
-        except Exception as e:
-            print(f"  Warning: Failed to scrape {url}: {e}")
-    
-    # Merge with existing rich data
-    model_map = {m['name']: m for m in models}
-    
-    # Fill in pulls from the HTML (the order matches)
-    for url in search_urls:
-        try:
-            req = urllib.request.Request(url, headers={
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) OpenOllamaBot/1.0'
-            })
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                html = resp.read().decode('utf-8', errors='replace')
-            
-            # Find all <li> blocks
-            li_blocks = re.findall(
-                r'<li\s+class="flex items-baseline border-b[^>]*>(.*?)</li>',
-                html, re.DOTALL
-            )
-            for block in li_blocks:
-                name_match = re.search(r'href="/library/([\w\-\.]+)"', block)
-                if not name_match:
-                    continue
-                name = name_match.group(1)
-                if name not in model_map:
-                    continue
-                
+                # Extract pulls count from the <li> block
+                pulls = 0
+                pullsDisplay = ''
                 pulls_match = re.search(r'([\d,]+\.?\d*\s*[KMB]?)\s*Pulls', block, re.IGNORECASE)
                 if pulls_match:
                     pulls_str = pulls_match.group(1).strip()
-                    display = f"{pulls_str} Pulls"
-                    # Parse numeric value
+                    pullsDisplay = f"{pulls_str} Pulls"
                     pulls_str_clean = pulls_str.replace(',', '')
                     if 'K' in pulls_str:
                         pulls = int(round(float(pulls_str_clean.replace('K', '')) * 1000))
@@ -160,23 +119,38 @@ def scrape_ollama_models():
                         pulls = int(round(float(pulls_str_clean.replace('B', '')) * 1000000000))
                     else:
                         pulls = int(float(pulls_str_clean))
-                    model_map[name]['pulls'] = pulls
-                    model_map[name]['pullsDisplay'] = display
                 
-                tags_match = re.search(r'<span[^>]*>(\d+)\s*Tags?<', block, re.IGNORECASE)
+                # Tags count
+                tagsCount = 0
+                tags_match = re.search(r'>(\d+)\s*Tags?<', block, re.IGNORECASE)
                 if tags_match:
-                    model_map[name]['tagsCount'] = int(tags_match.group(1))
+                    tagsCount = int(tags_match.group(1))
                 
-                updated_match = re.search(r'Updated\s+(.+?)</', block, re.IGNORECASE)
+                # Updated date
+                updated = ''
+                updated_match = re.search(r'Updated\s+(.+?)<', block, re.IGNORECASE)
                 if updated_match:
-                    model_map[name]['updated'] = updated_match.group(1).strip()
+                    updated = updated_match.group(1).strip()
+                
+                model_map[name] = {
+                    'name': name,
+                    'description': description,
+                    'pulls': pulls,
+                    'pullsDisplay': pullsDisplay,
+                    'tagsCount': tagsCount,
+                    'capabilities': capabilities,
+                    'sizes': sizes,
+                    'updated': updated,
+                    'owner': ''
+                }
+            
+            print(f"  Found {len(li_blocks)} model entries from {url}")
         except Exception as e:
-            print(f"  Warning: Failed to extract pulls: {e}")
+            print(f"  Warning: Failed to scrape {url}: {e}")
     
     # Merge with existing rich data
     for name, m in model_map.items():
         if name in existing:
-            # Keep existing rich data but update pulls/capabilities from page
             ex = existing[name]
             if m['pulls'] > 0:
                 ex['pulls'] = m['pulls']
@@ -808,7 +782,7 @@ def print_summary(models, benchmarks):
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("Open Ollama Dashboard — Daily Update")
+    print("OllamaStats Dashboard — Daily Update")
     print("=" * 60)
     
     # Step 1: Scrape models
