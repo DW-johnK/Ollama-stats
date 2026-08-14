@@ -1,4 +1,4 @@
-# 🦙 Open Ollama — Model Explorer, Comparator & Benchmarks
+# 🦙 OllamaStats — Model Explorer, Comparator & Benchmarks
 
 An open-source dashboard for exploring, comparing, and benchmarking AI models available on [ollama.com](https://ollama.com). Browse 99+ models across 16 owners, compare benchmarks side-by-side, filter by capabilities, and sort by cost — all in a single self-contained HTML file.
 
