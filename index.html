@@ -264,52 +264,6 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
       <input type="text" id="search" placeholder="Search models, owners..." oninput="render()">
     </div>
-    <select id="sort" onchange="autoShowGroups();render()">
-      <option value="pulls-desc">Most Popular</option>
-      <option value="pulls-asc">Least Popular</option>
-      <option value="name-asc">Name A→Z</option>
-      <option value="name-desc">Name Z→A</option>
-      <option value="tags-desc">Most Tags</option>
-      <option value="updated-desc">Newest</option>
-      <option value="usage-asc">Cost: Low→High</option>
-      <option value="usage-desc">Cost: High→Low</option>
-      <option value="context-asc">Context: Short→Long</option>
-      <option value="context-desc">Context: Long→Short</option>
-      <option value="bench-mmlu">MMLU ↓</option>
-      <option value="bench-mmlu-asc">MMLU ↑</option>
-      <option value="bench-humaneval">HumanEval ↓</option>
-      <option value="bench-humaneval-asc">HumanEval ↑</option>
-      <option value="bench-math">MATH ↓</option>
-      <option value="bench-math-asc">MATH ↑</option>
-      <option value="bench-gpqa">GPQA ↓</option>
-      <option value="bench-gpqa-asc">GPQA ↑</option>
-      <option value="bench-gsm8k">GSM8K ↓</option>
-      <option value="bench-gsm8k-asc">GSM8K ↑</option>
-      <option value="bench-swe">SWE-bench ↓</option>
-      <option value="bench-swe-asc">SWE-bench ↑</option>
-      <option value="bench-livecode">LiveCodeBench ↓</option>
-      <option value="bench-livecode-asc">LiveCodeBench ↑</option>
-      <option value="bench-aime">AIME ↓</option>
-      <option value="bench-aime-asc">AIME ↑</option>
-      <option value="bench-arena">Arena Elo ↓</option>
-      <option value="bench-arena-asc">Arena Elo ↑</option>
-      <option value="bench-mmmu">MMMU-Pro ↓</option>
-      <option value="bench-mmmu-asc">MMMU-Pro ↑</option>
-      <option value="bench-docvqa">DocVQA ↓</option>
-      <option value="bench-docvqa-asc">DocVQA ↑</option>
-      <option value="bench-mathvista">MathVista ↓</option>
-      <option value="bench-mathvista-asc">MathVista ↑</option>
-      <option value="bench-mmbench">MMBench ↓</option>
-      <option value="bench-mmbench-asc">MMBench ↑</option>
-      <option value="bench-mteb">MTEB Avg ↓</option>
-      <option value="bench-mteb-asc">MTEB Avg ↑</option>
-      <option value="bench-mteb-retrieval">MTEB Retrieval ↓</option>
-      <option value="bench-mteb-retrieval-asc">MTEB Retrieval ↑</option>
-      <option value="bench-mteb-classification">MTEB Classification ↓</option>
-      <option value="bench-mteb-classification-asc">MTEB Classification ↑</option>
-      <option value="bench-overall">Overall Score ↓</option>
-      <option value="bench-overall-asc">Overall Score ↑</option>
-    </select>
   </div>
 </div>
 
@@ -321,6 +275,52 @@ select{background:var(--input-bg);color:var(--text);border:1px solid var(--borde
     <button class="view-btn" onclick="setView('table')" id="viewTable">Table</button>
     <button class="view-btn" onclick="setView('benchmarks')" id="viewBench">📊 Benchmarks</button>
   </div>
+  <select id="sort" onchange="autoShowGroups();render()" style="margin-left:8px">
+    <option value="pulls-desc">Most Popular</option>
+    <option value="pulls-asc">Least Popular</option>
+    <option value="name-asc">Name A→Z</option>
+    <option value="name-desc">Name Z→A</option>
+    <option value="tags-desc">Most Tags</option>
+    <option value="updated-desc">Newest</option>
+    <option value="usage-asc">Cost: Low→High</option>
+    <option value="usage-desc">Cost: High→Low</option>
+    <option value="context-asc">Context: Short→Long</option>
+    <option value="context-desc">Context: Long→Short</option>
+    <option value="bench-mmlu">MMLU ↓</option>
+    <option value="bench-mmlu-asc">MMLU ↑</option>
+    <option value="bench-humaneval">HumanEval ↓</option>
+    <option value="bench-humaneval-asc">HumanEval ↑</option>
+    <option value="bench-math">MATH ↓</option>
+    <option value="bench-math-asc">MATH ↑</option>
+    <option value="bench-gpqa">GPQA ↓</option>
+    <option value="bench-gpqa-asc">GPQA ↑</option>
+    <option value="bench-gsm8k">GSM8K ↓</option>
+    <option value="bench-gsm8k-asc">GSM8K ↑</option>
+    <option value="bench-swe">SWE-bench ↓</option>
+    <option value="bench-swe-asc">SWE-bench ↑</option>
+    <option value="bench-livecode">LiveCodeBench ↓</option>
+    <option value="bench-livecode-asc">LiveCodeBench ↑</option>
+    <option value="bench-aime">AIME ↓</option>
+    <option value="bench-aime-asc">AIME ↑</option>
+    <option value="bench-arena">Arena Elo ↓</option>
+    <option value="bench-arena-asc">Arena Elo ↑</option>
+    <option value="bench-mmmu">MMMU-Pro ↓</option>
+    <option value="bench-mmmu-asc">MMMU-Pro ↑</option>
+    <option value="bench-docvqa">DocVQA ↓</option>
+    <option value="bench-docvqa-asc">DocVQA ↑</option>
+    <option value="bench-mathvista">MathVista ↓</option>
+    <option value="bench-mathvista-asc">MathVista ↑</option>
+    <option value="bench-mmbench">MMBench ↓</option>
+    <option value="bench-mmbench-asc">MMBench ↑</option>
+    <option value="bench-mteb">MTEB Avg ↓</option>
+    <option value="bench-mteb-asc">MTEB Avg ↑</option>
+    <option value="bench-mteb-retrieval">MTEB Retrieval ↓</option>
+    <option value="bench-mteb-retrieval-asc">MTEB Retrieval ↑</option>
+    <option value="bench-mteb-classification">MTEB Classification ↓</option>
+    <option value="bench-mteb-classification-asc">MTEB Classification ↑</option>
+    <option value="bench-overall">Overall Score ↓</option>
+    <option value="bench-overall-asc">Overall Score ↑</option>
+  </select>
 </div>
 
 <div class="filter-panels">
