@@ -543,6 +543,7 @@ function getMaxContext(model) {
 }
 function getBench(model) { return BENCHMARKS[model.n] || null; }
 function formatPulls(n) { if (n>=1e6) return (n/1e6).toFixed(1)+'M'; if (n>=1e3) return (n/1e3).toFixed(1)+'K'; return n.toString(); }
+function parseUpdated(s) { if (!s) return Infinity; const m = s.match(/(\d+)\s*(year|month|week|day|hour|minute)s?\s+ago/i); if (!m) return Infinity; const n = parseInt(m[1]); const unit = m[2].toLowerCase(); const mult = {year:31557600,month:2629800,week:604800,day:86400,hour:3600,minute:60}; return n * (mult[unit]||Infinity); }
 
 function getModels() {
   let models = [...MODELS];
@@ -613,6 +614,7 @@ function getModels() {
       case 'name-asc': return a.n.localeCompare(b.n);
       case 'name-desc': return b.n.localeCompare(a.n);
       case 'tags-desc': return (b.tc||0)-(a.tc||0);
+      case 'updated-desc': return parseUpdated(a.u) - parseUpdated(b.u);
       case 'usage-asc': { const ua=getUsage(a),ub=getUsage(b); return (ua?Math.min(...ua.map(x=>USAGE_ORDER[x.usage]||0)):99)-(ub?Math.min(...ub.map(x=>USAGE_ORDER[x.usage]||0)):99); }
       case 'usage-desc': { const ua=getUsage(a),ub=getUsage(b); return (ub?Math.max(...ub.map(x=>USAGE_ORDER[x.usage]||0)):0)-(ua?Math.max(...ua.map(x=>USAGE_ORDER[x.usage]||0)):0); }
       case 'context-asc': { const ca=getMaxContext(a),cb=getMaxContext(b); return (ca??Infinity)-(cb??Infinity); }
@@ -1003,7 +1005,7 @@ function render() {
       else if (sort === 'usage-desc') oModels.sort((a,b) => { const ua=getUsage(a),ub=getUsage(b); return (ub?Math.max(...ub.map(x=>USAGE_ORDER[x.usage]||0)):0)-(ua?Math.max(...ua.map(x=>USAGE_ORDER[x.usage]||0)):0); });
       else if (sort === 'pulls-asc') oModels.sort((a,b) => (a.p||0)-(b.p||0));
       else if (sort === 'tags-desc') oModels.sort((a,b) => (b.tc||0)-(a.tc||0));
-      else if (sort === 'updated-desc') oModels.sort((a,b) => (b.p||0)-(a.p||0)); // Use pulls as proxy
+      else if (sort === 'updated-desc') oModels.sort((a,b) => parseUpdated(a.u) - parseUpdated(b.u));
       else oModels.sort((a,b) => (b.p||0)-(a.p||0)); // default: pulls-desc
       const totalPulls = oModels.reduce((s,m)=>s+(m.p||0),0);
       html += `<div class="group-header"><div class="group-dot" style="background:${OWNER_COLORS[owner]||'#94a3b8'}"></div><div class="group-name" style="color:${OWNER_COLORS[owner]||'#94a3b8'}">${owner}</div><div class="group-count">${oModels.length} models</div><div class="group-pulls">${formatPulls(totalPulls)} pulls</div></div>`;
@@ -1021,7 +1023,7 @@ function highlightSortHeaders() {
   // Map sort values to data-sort keys
   const sortToKey = {
     'pulls-desc':'pulls','pulls-asc':'pulls','name-asc':'name','name-desc':'name',
-    'usage-asc':'usage','usage-desc':'cost','context-asc':'context','context-desc':'context','tags-desc':'pulls','updated-desc':'pulls',
+    'usage-asc':'usage','usage-desc':'cost','context-asc':'context','context-desc':'context','tags-desc':'pulls','updated-desc':'updated',
     'bench-mmlu':'mmlu','bench-mmlu-asc':'mmlu','bench-humaneval':'humaneval','bench-humaneval-asc':'humaneval',
     'bench-math':'math','bench-math-asc':'math','bench-gpqa':'gpqa','bench-gpqa-asc':'gpqa',
     'bench-gsm8k':'gsm8k','bench-gsm8k-asc':'gsm8k','bench-swe':'swe_bench','bench-swe-asc':'swe_bench',

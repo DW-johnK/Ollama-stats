@@ -104,9 +104,11 @@ def scrape_ollama_models():
                 sizes = [s.strip() for s in size_tags]
                 
                 # Extract pulls count from the <li> block
+                # HTML structure: <span>118.4M</span><span ...>&nbsp;Pulls</span>
                 pulls = 0
                 pullsDisplay = ''
-                pulls_match = re.search(r'([\d,]+\.?\d*\s*[KMB]?)\s*Pulls', block, re.IGNORECASE)
+                # Allow HTML tags between number and "Pulls" text
+                pulls_match = re.search(r'([\d,]+\.?\d*\s*[KMB]?)</span>(?:<[^>]+>)*\s*(?:&nbsp;)?Pulls', block, re.IGNORECASE)
                 if pulls_match:
                     pulls_str = pulls_match.group(1).strip()
                     pullsDisplay = f"{pulls_str} Pulls"
@@ -120,15 +122,15 @@ def scrape_ollama_models():
                     else:
                         pulls = int(float(pulls_str_clean))
                 
-                # Tags count
+                # Tags count — same pattern: <span>93</span><span ...>&nbsp;Tags</span>
                 tagsCount = 0
-                tags_match = re.search(r'>(\d+)\s*Tags?<', block, re.IGNORECASE)
+                tags_match = re.search(r'>(\d+)\s*</span>(?:<[^>]+>)*\s*(?:&nbsp;)?Tags?<', block, re.IGNORECASE)
                 if tags_match:
                     tagsCount = int(tags_match.group(1))
                 
-                # Updated date
+                # Updated date — <span ...>Updated&nbsp;</span><span>1 year ago</span>
                 updated = ''
-                updated_match = re.search(r'Updated\s+(.+?)<', block, re.IGNORECASE)
+                updated_match = re.search(r'Updated(?:&nbsp;)?</span>\s*<span[^>]*>\s*(.+?)</span>', block, re.IGNORECASE)
                 if updated_match:
                     updated = updated_match.group(1).strip()
                 
