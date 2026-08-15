@@ -96,7 +96,7 @@
       "12b",
       "27b"
     ],
-    "updated": "11 months ago",
+    "updated": "1 year ago",
     "owner": "Google DeepMind",
     "ctx": [
       "128K",
@@ -147,7 +147,7 @@
       "32b",
       "235b"
     ],
-    "updated": "9 months ago",
+    "updated": "10 months ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "40K",
@@ -166,7 +166,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "to version 0.3.",
+    "updated": "1 year ago",
     "owner": "Mistral AI",
     "ctx": [
       "32K"
@@ -184,7 +184,7 @@
       "9b",
       "27b"
     ],
-    "updated": "1 year ago",
+    "updated": "2 years ago",
     "owner": "Google DeepMind",
     "ctx": [
       "8K"
@@ -227,7 +227,7 @@
       "26b",
       "31b"
     ],
-    "updated": "2 weeks ago",
+    "updated": "16 hours ago",
     "owner": "Google DeepMind",
     "ctx": [
       "128K",
@@ -268,7 +268,7 @@
       "3.8b",
       "14b"
     ],
-    "updated": "1 year ago",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "128K"
@@ -315,7 +315,7 @@
       "13b",
       "34b"
     ],
-    "updated": "to version 1.6.",
+    "updated": "2 years ago",
     "owner": "LMMS Lab",
     "ctx": [
       "32K",
@@ -355,7 +355,7 @@
       "20b",
       "120b"
     ],
-    "updated": "9 months ago",
+    "updated": "10 months ago",
     "owner": "OpenAI",
     "ctx": [
       "128K"
@@ -450,7 +450,7 @@
       "2b",
       "7b"
     ],
-    "updated": "to version 1.1",
+    "updated": "2 years ago",
     "owner": "Google DeepMind",
     "ctx": [
       "8K"
@@ -467,7 +467,7 @@
       "tools"
     ],
     "sizes": [],
-    "updated": "5 months ago",
+    "updated": "6 months ago",
     "owner": "Zhipu AI",
     "ctx": [
       "128K"
@@ -526,7 +526,7 @@
     "sizes": [
       "12b"
     ],
-    "updated": "12 months ago",
+    "updated": "1 year ago",
     "owner": "Mistral AI",
     "ctx": [
       "1000K"
@@ -544,7 +544,7 @@
     "sizes": [
       "567m"
     ],
-    "updated": "1 year ago",
+    "updated": "2 years ago",
     "owner": "BAAI",
     "ctx": [
       "8K"
@@ -622,7 +622,7 @@
       "32b",
       "235b"
     ],
-    "updated": "8 months ago",
+    "updated": "9 months ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -661,7 +661,7 @@
       "27b",
       "35b"
     ],
-    "updated": "1 month ago",
+    "updated": "21 hours ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -923,7 +923,7 @@
     "sizes": [
       "120b"
     ],
-    "updated": "4 months ago",
+    "updated": "5 months ago",
     "owner": "NVIDIA",
     "ctx": [
       "256K"
@@ -999,7 +999,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "3 months ago",
+    "updated": "4 months ago",
     "owner": "Zhipu AI",
     "ctx": [
       "198K"
@@ -1210,7 +1210,7 @@
       "1b",
       "3b"
     ],
-    "updated": "8 months ago",
+    "updated": "9 months ago",
     "owner": "IBM",
     "ctx": [
       "128K",
@@ -1279,7 +1279,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "to version 3.5-0106.",
+    "updated": "2 years ago",
     "owner": "Nous Research",
     "ctx": [
       "8K"
@@ -1367,7 +1367,7 @@
     "sizes": [
       "24b"
     ],
-    "updated": "4 months ago",
+    "updated": "5 months ago",
     "owner": "Liquid AI",
     "ctx": [
       "32K"
@@ -1405,7 +1405,7 @@
     "sizes": [
       "33b"
     ],
-    "updated": "2 months ago",
+    "updated": "3 months ago",
     "owner": "NVIDIA",
     "ctx": [
       "128K"
@@ -1510,7 +1510,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "1 month ago",
+    "updated": "2 months ago",
     "owner": "MiniMax",
     "ctx": [
       "1M",
@@ -1530,7 +1530,7 @@
       "9b",
       "35b"
     ],
-    "updated": "3 weeks ago",
+    "updated": "1 month ago",
     "owner": "Ornith",
     "ctx": [
       "256K"
@@ -1568,7 +1568,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "2 months ago",
+    "updated": "3 months ago",
     "owner": "DeepSeek",
     "ctx": [
       "1M"
@@ -1586,7 +1586,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "2 months ago",
+    "updated": "2 weeks ago",
     "owner": "DeepSeek",
     "ctx": [
       "1M"
@@ -1658,7 +1658,7 @@
     "sizes": [
       "128b"
     ],
-    "updated": "2 months ago",
+    "updated": "3 months ago",
     "owner": "Mistral AI",
     "ctx": [
       "256K"
@@ -1677,7 +1677,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "1 month ago",
+    "updated": "2 months ago",
     "owner": "Moonshot AI",
     "ctx": [
       "256K"
@@ -1717,7 +1717,7 @@
       "4b",
       "8b"
     ],
-    "updated": "",
+    "updated": "10 months ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "40K",
@@ -1737,7 +1737,7 @@
       "13b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "2K",
@@ -1755,7 +1755,7 @@
       "7b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Meta",
     "ctx": [
       "2K"
@@ -1774,7 +1774,7 @@
     "sizes": [
       "24b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Mistral AI",
     "ctx": [
       "128K"
@@ -1792,7 +1792,7 @@
     "sizes": [
       "8b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "LMMS Lab",
     "ctx": [
       "8K"
@@ -1810,7 +1810,7 @@
       "360m",
       "1.7b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "HuggingFace",
     "ctx": [
       "2K"
@@ -1830,7 +1830,7 @@
       "12b",
       "27b"
     ],
-    "updated": "",
+    "updated": "7 months ago",
     "owner": "Google DeepMind",
     "ctx": [
       "128K"
@@ -1847,7 +1847,7 @@
       "e2b",
       "e4b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Google DeepMind",
     "ctx": [
       "32K"
@@ -1863,7 +1863,7 @@
       "tools"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "6 months ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -1880,7 +1880,7 @@
       "8x7b",
       "8x22b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Eric Hartford",
     "ctx": [
       "32K",
@@ -1899,7 +1899,7 @@
     "sizes": [
       "300m"
     ],
-    "updated": "",
+    "updated": "11 months ago",
     "owner": "Google DeepMind",
     "ctx": [
       "2K"
@@ -1915,7 +1915,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "to version 2.8.",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "32K"
@@ -1931,7 +1931,7 @@
     "sizes": [
       "2.7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "2K"
@@ -1947,7 +1947,7 @@
     "sizes": [
       "2.7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "2K"
@@ -1966,7 +1966,7 @@
     "sizes": [
       "24b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Mistral AI",
     "ctx": [
       "39K",
@@ -1984,7 +1984,7 @@
       "thinking"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "2 months ago",
     "owner": "Zhipu AI",
     "ctx": [
       "198K"
@@ -2005,7 +2005,7 @@
       "8b",
       "14b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Mistral AI",
     "ctx": [
       "256K"
@@ -2023,7 +2023,7 @@
     "sizes": [
       "3.8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Microsoft",
     "ctx": [
       "128K"
@@ -2039,7 +2039,7 @@
     "sizes": [
       "22b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Mistral AI",
     "ctx": [
       "32K"
@@ -2058,7 +2058,7 @@
     "sizes": [
       "1.2b"
     ],
-    "updated": "",
+    "updated": "6 months ago",
     "owner": "Lfm2.5",
     "ctx": [
       "125K"
@@ -2076,7 +2076,7 @@
       "13b",
       "30b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "2K"
@@ -2095,7 +2095,7 @@
       "7b",
       "15b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "BigCode",
     "ctx": [
       "8K"
@@ -2111,7 +2111,7 @@
     "sizes": [
       "9b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Zhipu AI",
     "ctx": [
       "128K"
@@ -2129,7 +2129,7 @@
       "13b",
       "33b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "LMSYS",
     "ctx": [
       "4K",
@@ -2147,7 +2147,7 @@
       "7b",
       "8x22b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "32K",
@@ -2165,7 +2165,7 @@
       "7b",
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Nous",
     "ctx": [
       "4K"
@@ -2183,7 +2183,7 @@
       "40b",
       "180b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "TII",
     "ctx": [
       "2K"
@@ -2199,7 +2199,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "64K"
@@ -2213,7 +2213,7 @@
     "tagsCount": 0,
     "capabilities": [],
     "sizes": [],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Nous Research",
     "ctx": [
       "32K"
@@ -2231,7 +2231,7 @@
       "7b",
       "72b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "4K"
@@ -2247,7 +2247,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Neural",
     "ctx": [
       "32K"
@@ -2266,7 +2266,7 @@
       "2b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "128K"
@@ -2283,7 +2283,7 @@
       "10.7b",
       "34b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Nous Research",
     "ctx": [
       "4K"
@@ -2300,7 +2300,7 @@
       "8b",
       "35b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Cohere",
     "ctx": [
       "8K"
@@ -2317,7 +2317,7 @@
       "7b",
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Meta",
     "ctx": [
       "4K"
@@ -2333,7 +2333,7 @@
     "sizes": [
       "3b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Stability AI",
     "ctx": [
       "16K"
@@ -2350,7 +2350,7 @@
       "1.5b",
       "9b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "01.AI",
     "ctx": [
       "128K"
@@ -2366,7 +2366,7 @@
     "sizes": [
       "33b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "16K"
@@ -2383,7 +2383,7 @@
       "1.6b",
       "12b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Stability AI",
     "ctx": [
       "4K"
@@ -2400,7 +2400,7 @@
       "8b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Meta",
     "ctx": [
       "8K"
@@ -2417,7 +2417,7 @@
       "1b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Meta",
     "ctx": [
       "128K"
@@ -2436,7 +2436,7 @@
       "2b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "4K"
@@ -2455,7 +2455,7 @@
       "2b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "128K"
@@ -2471,7 +2471,7 @@
     "sizes": [
       "3.8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Microsoft",
     "ctx": [
       "128K"
@@ -2489,7 +2489,7 @@
       "13b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "32K",
@@ -2509,7 +2509,7 @@
     "sizes": [
       "24b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Devstral",
     "ctx": [
       "128K"
@@ -2528,7 +2528,7 @@
       "7b",
       "20b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Shanghai AI Lab",
     "ctx": [
       "32K",
@@ -2548,7 +2548,7 @@
       "8b",
       "32b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Cohere",
     "ctx": [
       "8K"
@@ -2565,7 +2565,7 @@
       "7b",
       "15b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "16K"
@@ -2581,7 +2581,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Community",
     "ctx": [
       "32K"
@@ -2598,7 +2598,7 @@
       "8b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Meta",
     "ctx": [
       "1M",
@@ -2618,7 +2618,7 @@
       "8b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Meta",
     "ctx": [
       "8K"
@@ -2635,7 +2635,7 @@
       "7b",
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "4K"
@@ -2654,7 +2654,7 @@
     "sizes": [
       "2b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "16K"
@@ -2670,7 +2670,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Berkeley",
     "ctx": [
       "8K"
@@ -2686,7 +2686,7 @@
     "sizes": [
       "34b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Phind",
     "ctx": [
       "16K"
@@ -2703,7 +2703,7 @@
       "7b",
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Yarn",
     "ctx": [
       "64K"
@@ -2719,7 +2719,7 @@
     "sizes": [
       "10.7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Upstage",
     "ctx": [
       "4K"
@@ -2736,7 +2736,7 @@
       "1.5b",
       "14b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "DeepSeek",
     "ctx": [
       "128K"
@@ -2755,7 +2755,7 @@
       "1b",
       "3b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "4K"
@@ -2774,7 +2774,7 @@
     "sizes": [
       "24b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Devstral",
     "ctx": [
       "384K",
@@ -2793,7 +2793,7 @@
     "sizes": [
       "278m"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Sentence Transformers",
     "ctx": [
       "512"
@@ -2811,7 +2811,7 @@
       "13b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Stability AI",
     "ctx": [
       "4K"
@@ -2828,7 +2828,7 @@
       "7b",
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "4K"
@@ -2846,7 +2846,7 @@
       "9b",
       "27b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Google DeepMind",
     "ctx": [
       "8K"
@@ -2863,7 +2863,7 @@
       "0.5b",
       "1.5b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Jina AI",
     "ctx": [
       "250K"
@@ -2877,7 +2877,7 @@
     "tagsCount": 0,
     "capabilities": [],
     "sizes": [],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Meta",
     "ctx": [
       "4K"
@@ -2893,7 +2893,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Yarn",
     "ctx": [
       "32K"
@@ -2907,7 +2907,7 @@
     "tagsCount": 0,
     "capabilities": [],
     "sizes": [],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Microsoft",
     "ctx": [
       "2K",
@@ -2924,7 +2924,7 @@
     "sizes": [
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Nexusflow",
     "ctx": [
       "16K"
@@ -2942,7 +2942,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Bakllava",
     "ctx": [
       "32K"
@@ -2959,7 +2959,7 @@
       "7b",
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "EPFL",
     "ctx": [
       "2K",
@@ -2979,7 +2979,7 @@
     "sizes": [
       "24b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Mistral AI",
     "ctx": [
       "128K"
@@ -2997,7 +2997,7 @@
       "7.8b",
       "32b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "LG AI Research",
     "ctx": [
       "32K"
@@ -3016,26 +3016,10 @@
     "sizes": [
       "671b"
     ],
-    "updated": "",
+    "updated": "10 months ago",
     "owner": "DeepSeek",
     "ctx": [
       "160K"
-    ]
-  },
-  {
-    "name": "tinydolphin",
-    "description": "An experimental 1.1B parameter model trained on the new Dolphin 2.8 dataset by Eric Hartford and based on TinyLlama.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [],
-    "sizes": [
-      "1.1b"
-    ],
-    "updated": "",
-    "owner": "Microsoft",
-    "ctx": [
-      "4K"
     ]
   },
   {
@@ -3048,10 +3032,26 @@
       "embedding"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Nomic AI",
     "ctx": [
       "512"
+    ]
+  },
+  {
+    "name": "tinydolphin",
+    "description": "An experimental 1.1B parameter model trained on the new Dolphin 2.8 dataset by Eric Hartford and based on TinyLlama.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [],
+    "sizes": [
+      "1.1b"
+    ],
+    "updated": "2 years ago",
+    "owner": "Microsoft",
+    "ctx": [
+      "4K"
     ]
   },
   {
@@ -3066,7 +3066,7 @@
     "sizes": [
       "4b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "NVIDIA",
     "ctx": [
       "4K"
@@ -3087,7 +3087,7 @@
       "4b",
       "30b"
     ],
-    "updated": "with a 4B parameter count model.",
+    "updated": "5 months ago",
     "owner": "NVIDIA",
     "ctx": [
       "1M",
@@ -3104,7 +3104,7 @@
     "sizes": [
       "9b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Zhipu AI",
     "ctx": [
       "128K"
@@ -3120,7 +3120,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Mistral",
     "ctx": [
       "32K"
@@ -3136,7 +3136,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Community",
     "ctx": [
       "4K"
@@ -3152,7 +3152,7 @@
     "sizes": [
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "4K"
@@ -3169,7 +3169,7 @@
       "1.5b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "OpenCoder",
     "ctx": [
       "8K",
@@ -3188,7 +3188,7 @@
     "sizes": [
       "70b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "NVIDIA",
     "ctx": [
       "128K"
@@ -3204,7 +3204,7 @@
     "sizes": [
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Codeup",
     "ctx": [
       "4K"
@@ -3220,7 +3220,7 @@
     "sizes": [
       "8x7b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Nous Research",
     "ctx": [
       "32K"
@@ -3238,7 +3238,7 @@
     "sizes": [
       "72b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Nexusflow",
     "ctx": [
       "32K"
@@ -3257,7 +3257,7 @@
     "sizes": [
       "80b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -3273,7 +3273,7 @@
     "sizes": [
       "120b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "4K"
@@ -3289,7 +3289,7 @@
     "sizes": [
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Eric Hartford",
     "ctx": [
       "16K"
@@ -3305,7 +3305,7 @@
     "sizes": [
       "22b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Upstage",
     "ctx": [
       "4K"
@@ -3321,7 +3321,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Magicoder",
     "ctx": [
       "16K"
@@ -3339,7 +3339,7 @@
       "7.8b",
       "32b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "LG AI Research",
     "ctx": [
       "32K"
@@ -3355,7 +3355,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Mistral AI",
     "ctx": [
       "32K"
@@ -3371,7 +3371,7 @@
     "sizes": [
       "11b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "TII",
     "ctx": [
       "2K"
@@ -3387,7 +3387,7 @@
     "sizes": [
       "3.8b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "NuMind",
     "ctx": [
       "4K"
@@ -3403,7 +3403,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Argilla",
     "ctx": [
       "32K"
@@ -3419,7 +3419,7 @@
     "sizes": [
       "8x7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Argilla",
     "ctx": [
       "32K"
@@ -3435,7 +3435,7 @@
     "sizes": [
       "3b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Stability AI",
     "ctx": [
       "4K"
@@ -3451,7 +3451,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Bespoke Labs",
     "ctx": [
       "32K"
@@ -3467,7 +3467,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "MotherDuck",
     "ctx": [
       "16K"
@@ -3483,7 +3483,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Mistral AI",
     "ctx": [
       "32K"
@@ -3501,7 +3501,7 @@
     "sizes": [
       "70b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Fireworks AI",
     "ctx": [
       "8K"
@@ -3519,7 +3519,7 @@
     "sizes": [
       "3b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "DeepSeek",
     "ctx": [
       "8K"
@@ -3535,7 +3535,7 @@
     "sizes": [
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "MelodysDreamj",
     "ctx": [
       "2K"
@@ -3551,7 +3551,7 @@
     "sizes": [
       "13b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Open-Orca",
     "ctx": [
       "4K"
@@ -3569,7 +3569,7 @@
     "sizes": [
       "8b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Essential AI",
     "ctx": [
       "32K"
@@ -3585,7 +3585,7 @@
     "sizes": [
       "34b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Booga",
     "ctx": [
       "16K"
@@ -3599,7 +3599,7 @@
     "tagsCount": 0,
     "capabilities": [],
     "sizes": [],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "Goliath",
     "ctx": [
       "4K"
@@ -3618,7 +3618,7 @@
       "2b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "128K"
@@ -3638,7 +3638,7 @@
       "7b",
       "32b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "AI2",
     "ctx": [
       "64K"
@@ -3655,7 +3655,7 @@
       "70b",
       "671b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "R1",
     "ctx": [
       "128K",
@@ -3674,7 +3674,7 @@
       "8b",
       "20b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Sailor",
     "ctx": [
       "32K"
@@ -3693,7 +3693,7 @@
       "30m",
       "278m"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "512"
@@ -3711,7 +3711,7 @@
     "sizes": [
       "123b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Devstral",
     "ctx": [
       "256K"
@@ -3728,7 +3728,7 @@
       "2b",
       "8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "IBM",
     "ctx": [
       "8K"
@@ -3746,7 +3746,7 @@
     "sizes": [
       "3.8b"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "LMMS Lab",
     "ctx": [
       "4K"
@@ -3764,7 +3764,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Cohere",
     "ctx": [
       "8K"
@@ -3780,7 +3780,7 @@
     "sizes": [
       "3.8b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Microsoft",
     "ctx": [
       "128K"
@@ -3796,7 +3796,7 @@
     "sizes": [
       "236b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Deepseek",
     "ctx": [
       "4K"
@@ -3815,7 +3815,7 @@
     "sizes": [
       "32b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Olmo",
     "ctx": [
       "64K"
@@ -3833,7 +3833,7 @@
     "sizes": [
       "335m"
     ],
-    "updated": "",
+    "updated": "2 years ago",
     "owner": "BAAI",
     "ctx": [
       "512"
@@ -3852,7 +3852,7 @@
       "4b",
       "27b"
     ],
-    "updated": "",
+    "updated": "4 months ago",
     "owner": "Google DeepMind",
     "ctx": [
       "128K"
@@ -3868,7 +3868,7 @@
     "sizes": [
       "3b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Community",
     "ctx": [
       "32K"
@@ -3884,7 +3884,7 @@
     "sizes": [
       "671b"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "DeepCogito",
     "ctx": [
       "160K"
@@ -3900,7 +3900,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "32K"
@@ -3918,7 +3918,7 @@
     "sizes": [
       "7b"
     ],
-    "updated": "",
+    "updated": "1 year ago",
     "owner": "Cohere",
     "ctx": [
       "16K"
@@ -3936,7 +3936,7 @@
     "sizes": [
       "270m"
     ],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Google DeepMind",
     "ctx": [
       "32K"
@@ -3956,7 +3956,7 @@
       "20b",
       "120b"
     ],
-    "updated": "",
+    "updated": "9 months ago",
     "owner": "OpenAI",
     "ctx": [
       "128K"
@@ -3975,7 +3975,7 @@
     "sizes": [
       "30b"
     ],
-    "updated": "",
+    "updated": "4 months ago",
     "owner": "NVIDIA",
     "ctx": [
       "256K"
@@ -3993,7 +3993,7 @@
     "sizes": [
       "4b"
     ],
-    "updated": "version of the MedGemma 4B model.",
+    "updated": "4 months ago",
     "owner": "Google DeepMind",
     "ctx": [
       "128K"
@@ -4012,7 +4012,7 @@
     "sizes": [
       "8b"
     ],
-    "updated": "",
+    "updated": "2 months ago",
     "owner": "Lfm2.5",
     "ctx": [
       "125K"
@@ -4030,28 +4030,10 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "8 months ago",
     "owner": "Mistral AI",
     "ctx": [
       "256K"
-    ]
-  },
-  {
-    "name": "laguna-s-2.1",
-    "description": "Our most capable model to date, designed for long-horizon work. 70.2% on Terminal-Bench 2.1 at 118B-A8B.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "tools",
-      "thinking"
-    ],
-    "sizes": [],
-    "updated": "",
-    "owner": "Laguna",
-    "ctx": [
-      "256K",
-      "1M"
     ]
   },
   {
@@ -4068,10 +4050,28 @@
     "sizes": [
       "30b"
     ],
-    "updated": "",
+    "updated": "20 hours ago",
     "owner": "Meta",
     "ctx": [
       "128K"
+    ]
+  },
+  {
+    "name": "laguna-s-2.1",
+    "description": "Our most capable model to date, designed for long-horizon work. 70.2% on Terminal-Bench 2.1 at 118B-A8B.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "tools",
+      "thinking"
+    ],
+    "sizes": [],
+    "updated": "2 weeks ago",
+    "owner": "Laguna",
+    "ctx": [
+      "256K",
+      "1M"
     ]
   },
   {
@@ -4086,8 +4086,28 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "2 months ago",
     "owner": "NVIDIA",
+    "ctx": [
+      "256K"
+    ]
+  },
+  {
+    "name": "qwen3.8",
+    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "vision",
+      "tools",
+      "thinking"
+    ],
+    "sizes": [
+      "27b"
+    ],
+    "updated": "18 hours ago",
+    "owner": "Qwen3.8",
     "ctx": [
       "256K"
     ]
@@ -4103,7 +4123,7 @@
       "thinking"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "1 month ago",
     "owner": "Cohere",
     "ctx": [
       "488K"
@@ -4122,7 +4142,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "2 weeks ago",
     "owner": "Moonshot AI",
     "ctx": [
       "1M"
@@ -4140,28 +4160,10 @@
     "sizes": [
       "1b"
     ],
-    "updated": "",
+    "updated": "2 months ago",
     "owner": "OpenBMB",
     "ctx": [
       "256K"
-    ]
-  },
-  {
-    "name": "minicpm-v4.5",
-    "description": "A GPT-4o Level MLLM for Single Image, Multi Image and High-FPS Video Understanding on Your Phone",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "vision"
-    ],
-    "sizes": [
-      "8b"
-    ],
-    "updated": "",
-    "owner": "OpenBMB",
-    "ctx": [
-      "40K"
     ]
   },
   {
@@ -4177,11 +4179,29 @@
     "sizes": [
       "30b"
     ],
-    "updated": "",
+    "updated": "3 days ago",
     "owner": "NVIDIA",
     "ctx": [
       "1M",
       "256K"
+    ]
+  },
+  {
+    "name": "minicpm-v4.5",
+    "description": "A GPT-4o Level MLLM for Single Image, Multi Image and High-FPS Video Understanding on Your Phone",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "vision"
+    ],
+    "sizes": [
+      "8b"
+    ],
+    "updated": "2 months ago",
+    "owner": "OpenBMB",
+    "ctx": [
+      "40K"
     ]
   },
   {
@@ -4195,7 +4215,7 @@
       "thinking"
     ],
     "sizes": [],
-    "updated": "",
+    "updated": "2 weeks ago",
     "owner": "Laguna",
     "ctx": [
       "128K",
@@ -4215,30 +4235,10 @@
     "sizes": [
       "8b"
     ],
-    "updated": "",
+    "updated": "2 months ago",
     "owner": "IBM",
     "ctx": [
       "128K"
-    ]
-  },
-  {
-    "name": "qwen3.8",
-    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "vision",
-      "tools",
-      "thinking"
-    ],
-    "sizes": [
-      "27b"
-    ],
-    "updated": "",
-    "owner": "Qwen3.8",
-    "ctx": [
-      "256K"
     ]
   }
 ]
