@@ -227,7 +227,7 @@
       "26b",
       "31b"
     ],
-    "updated": "16 hours ago",
+    "updated": "yesterday",
     "owner": "Google DeepMind",
     "ctx": [
       "128K",
@@ -661,7 +661,7 @@
       "27b",
       "35b"
     ],
-    "updated": "21 hours ago",
+    "updated": "yesterday",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -981,7 +981,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "4 months ago",
+    "updated": "5 months ago",
     "owner": "MiniMax",
     "ctx": [
       "200K"
@@ -1568,7 +1568,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "3 months ago",
+    "updated": "2 days ago",
     "owner": "DeepSeek",
     "ctx": [
       "1M"
@@ -1604,7 +1604,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "1 month ago",
+    "updated": "2 months ago",
     "owner": "Zhipu AI",
     "ctx": [
       "976K"
@@ -1697,7 +1697,7 @@
       "33B",
       "3B"
     ],
-    "updated": "2 weeks ago",
+    "updated": "3 weeks ago",
     "owner": "Laguna",
     "ctx": [
       "256K"
@@ -3004,6 +3004,22 @@
     ]
   },
   {
+    "name": "nomic-embed-text-v2-moe",
+    "description": "nomic-embed-text-v2-moe is a multilingual MoE text embedding model that excels at multilingual retrieval.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "embedding"
+    ],
+    "sizes": [],
+    "updated": "8 months ago",
+    "owner": "Nomic AI",
+    "ctx": [
+      "512"
+    ]
+  },
+  {
     "name": "deepseek-v3.1",
     "description": "DeepSeek-V3.1-Terminus is a hybrid model that supports both thinking mode and non-thinking mode.",
     "pulls": 0,
@@ -3020,22 +3036,6 @@
     "owner": "DeepSeek",
     "ctx": [
       "160K"
-    ]
-  },
-  {
-    "name": "nomic-embed-text-v2-moe",
-    "description": "nomic-embed-text-v2-moe is a multilingual MoE text embedding model that excels at multilingual retrieval.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "embedding"
-    ],
-    "sizes": [],
-    "updated": "8 months ago",
-    "owner": "Nomic AI",
-    "ctx": [
-      "512"
     ]
   },
   {
@@ -4019,6 +4019,46 @@
     ]
   },
   {
+    "name": "muse-glimmer",
+    "description": "Meta&#39;s latest open model built for always-on local agents. 30B parameters, licensed under Apache 2.0 and runs on a single GPU \u2014 tuned for tool use, long tasks, and failure recovery.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "vision",
+      "tools",
+      "thinking"
+    ],
+    "sizes": [
+      "30b"
+    ],
+    "updated": "yesterday",
+    "owner": "Meta",
+    "ctx": [
+      "128K"
+    ]
+  },
+  {
+    "name": "qwen3.8",
+    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "vision",
+      "tools",
+      "thinking"
+    ],
+    "sizes": [
+      "27b"
+    ],
+    "updated": "yesterday",
+    "owner": "Qwen3.8",
+    "ctx": [
+      "256K"
+    ]
+  },
+  {
     "name": "mistral-large-3",
     "description": "A general-purpose multimodal mixture-of-experts model for production-grade tasks and enterprise workloads.",
     "pulls": 0,
@@ -4034,26 +4074,6 @@
     "owner": "Mistral AI",
     "ctx": [
       "256K"
-    ]
-  },
-  {
-    "name": "muse-glimmer",
-    "description": "Meta&#39;s latest open model built for always-on local agents. 30B parameters, licensed under Apache 2.0 and runs on a single GPU \u2014 tuned for tool use, long tasks, and failure recovery.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "vision",
-      "tools",
-      "thinking"
-    ],
-    "sizes": [
-      "30b"
-    ],
-    "updated": "20 hours ago",
-    "owner": "Meta",
-    "ctx": [
-      "128K"
     ]
   },
   {
@@ -4088,26 +4108,6 @@
     "sizes": [],
     "updated": "2 months ago",
     "owner": "NVIDIA",
-    "ctx": [
-      "256K"
-    ]
-  },
-  {
-    "name": "qwen3.8",
-    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "vision",
-      "tools",
-      "thinking"
-    ],
-    "sizes": [
-      "27b"
-    ],
-    "updated": "18 hours ago",
-    "owner": "Qwen3.8",
     "ctx": [
       "256K"
     ]
@@ -4179,7 +4179,7 @@
     "sizes": [
       "30b"
     ],
-    "updated": "3 days ago",
+    "updated": "4 days ago",
     "owner": "NVIDIA",
     "ctx": [
       "1M",
@@ -4215,7 +4215,7 @@
       "thinking"
     ],
     "sizes": [],
-    "updated": "2 weeks ago",
+    "updated": "3 weeks ago",
     "owner": "Laguna",
     "ctx": [
       "128K",
