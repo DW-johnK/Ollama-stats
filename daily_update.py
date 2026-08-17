@@ -664,21 +664,66 @@ def scrape_benchmarks():
         with urllib.request.urlopen(req, timeout=30) as resp:
             html = resp.read().decode('utf-8', errors='replace')
         
-        # Parse the benchmark table from HTML
-        # tokencalculator has a table with model names and benchmark scores
-        # We extract what we can and merge with our baselines
         print(f"  Fetched tokencalculator page ({len(html)} chars)")
         
-        # Try to find JSON data or table rows
-        # The site may use dynamic rendering, so we do our best
-        rows = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
-        for row in rows:
-            cells = re.findall(r'<td[^>]*>(.*?)</td>', row, re.DOTALL)
-            if len(cells) >= 3:
-                model_name = re.sub(r'<[^>]+>', '', cells[0]).strip().lower().replace(' ', '-')
-                # Try to extract scores from cells
-                # This is a best-effort parse; format varies
+        # Parse the benchmark HTML table
+        # Columns: Model, Provider, MMLU, HumanEval, MATH, GPQA, GSM8K, SWE-bench, MT-Bench, MMMU
+        tc_name_map = {
+            'deepseek-v4.5': 'deepseek-v4.5', 'deepseek-r2': 'deepseek-r2',
+            'qwen-3.8': 'qwen3.8',
+            'llama-5-maverick': 'llama4-maverick',
+            'llama-5-scout': 'llama4-scout',
+            'glm-5': 'glm-5',
+            'mistral-large-3.1': 'mistral-large-3',
+        }
         
+        rows = re.findall(r'<tr[^>]*>(.*?)</tr>', html, re.DOTALL)
+        tc_count = 0
+        for row in rows:
+            cells = re.findall(r'<t[dh][^>]*>(.*?)</t[dh]>', row, re.DOTALL)
+            if len(cells) < 9:
+                continue
+            # Clean cell text (remove HTML tags and ★ entity)
+            clean_cells = [re.sub(r'<[^>]+>', '', c).strip().replace('&#9733;', '').strip() for c in cells]
+            model_display = clean_cells[0]
+            model_key = model_display.lower().replace(' ', '-')
+            # Map to our model name
+            ollama_name = tc_name_map.get(model_key)
+            if ollama_name is None:
+                # Try fuzzy match for models not in our map
+                continue
+            if ollama_name == '':
+                ollama_name = model_key
+            if ollama_name not in benchmarks:
+                continue
+            
+            # Extract numeric scores
+            def parse_score(s):
+                s = s.replace('★', '').strip()
+                try: return float(s)
+                except: return None
+            
+            mmlu = parse_score(clean_cells[2]) if len(clean_cells) > 2 else None
+            humaneval = parse_score(clean_cells[3]) if len(clean_cells) > 3 else None
+            math = parse_score(clean_cells[4]) if len(clean_cells) > 4 else None
+            gpqa = parse_score(clean_cells[5]) if len(clean_cells) > 5 else None
+            gsm8k = parse_score(clean_cells[6]) if len(clean_cells) > 6 else None
+            swe_bench = parse_score(clean_cells[7]) if len(clean_cells) > 7 else None
+            mmmu = parse_score(clean_cells[9]) if len(clean_cells) > 9 else None
+            
+            # Merge: only update fields that are currently None or missing
+            b = benchmarks[ollama_name]
+            updated = False
+            for field, val in [('mmlu', mmlu), ('humaneval', humaneval), ('math', math),
+                                ('gpqa', gpqa), ('gsm8k', gsm8k), ('swe_bench', swe_bench),
+                                ('mmmu_pro', mmmu)]:
+                if val is not None and (field not in b or b.get(field) is None):
+                    b[field] = val
+                    updated = True
+            if updated:
+                tc_count += 1
+        
+        print(f"  Updated {tc_count} models from tokencalculator")
         print(f"  Benchmark baseline: {len(benchmarks)} models")
     except Exception as e:
         print(f"  Warning: Could not scrape tokencalculator: {e}")
