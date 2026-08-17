@@ -227,7 +227,7 @@
       "26b",
       "31b"
     ],
-    "updated": "yesterday",
+    "updated": "2 days ago",
     "owner": "Google DeepMind",
     "ctx": [
       "128K",
@@ -661,7 +661,7 @@
       "27b",
       "35b"
     ],
-    "updated": "yesterday",
+    "updated": "2 days ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -1568,7 +1568,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "2 days ago",
+    "updated": "3 days ago",
     "owner": "DeepSeek",
     "ctx": [
       "1M"
@@ -1954,6 +1954,23 @@
     ]
   },
   {
+    "name": "glm-4.7-flash",
+    "description": "As the strongest model in the 30B class, GLM-4.7-Flash offers a new option for lightweight deployment that balances performance and efficiency.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "tools",
+      "thinking"
+    ],
+    "sizes": [],
+    "updated": "2 months ago",
+    "owner": "Zhipu AI",
+    "ctx": [
+      "198K"
+    ]
+  },
+  {
     "name": "magistral",
     "description": "Magistral is a small, efficient reasoning model with 24B parameters.",
     "pulls": 0,
@@ -1971,23 +1988,6 @@
     "ctx": [
       "39K",
       "128K"
-    ]
-  },
-  {
-    "name": "glm-4.7-flash",
-    "description": "As the strongest model in the 30B class, GLM-4.7-Flash offers a new option for lightweight deployment that balances performance and efficiency.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "tools",
-      "thinking"
-    ],
-    "sizes": [],
-    "updated": "2 months ago",
-    "owner": "Zhipu AI",
-    "ctx": [
-      "198K"
     ]
   },
   {
@@ -2528,7 +2528,7 @@
       "7b",
       "20b"
     ],
-    "updated": "1 year ago",
+    "updated": "2 years ago",
     "owner": "Shanghai AI Lab",
     "ctx": [
       "32K",
@@ -3519,7 +3519,7 @@
     "sizes": [
       "3b"
     ],
-    "updated": "8 months ago",
+    "updated": "9 months ago",
     "owner": "DeepSeek",
     "ctx": [
       "8K"
@@ -3822,24 +3822,6 @@
     ]
   },
   {
-    "name": "bge-large",
-    "description": "Embedding model from BAAI mapping texts to vectors.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "embedding"
-    ],
-    "sizes": [
-      "335m"
-    ],
-    "updated": "2 years ago",
-    "owner": "BAAI",
-    "ctx": [
-      "512"
-    ]
-  },
-  {
     "name": "medgemma",
     "description": "MedGemma is a collection of Gemma 3 variants that are trained for performance on medical text and image comprehension.",
     "pulls": 0,
@@ -3856,6 +3838,24 @@
     "owner": "Google DeepMind",
     "ctx": [
       "128K"
+    ]
+  },
+  {
+    "name": "bge-large",
+    "description": "Embedding model from BAAI mapping texts to vectors.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "embedding"
+    ],
+    "sizes": [
+      "335m"
+    ],
+    "updated": "2 years ago",
+    "owner": "BAAI",
+    "ctx": [
+      "512"
     ]
   },
   {
@@ -3884,7 +3884,7 @@
     "sizes": [
       "671b"
     ],
-    "updated": "8 months ago",
+    "updated": "9 months ago",
     "owner": "DeepCogito",
     "ctx": [
       "160K"
@@ -3922,6 +3922,26 @@
     "owner": "Cohere",
     "ctx": [
       "16K"
+    ]
+  },
+  {
+    "name": "qwen3.8",
+    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
+    "pulls": 0,
+    "pullsDisplay": "",
+    "tagsCount": 0,
+    "capabilities": [
+      "vision",
+      "tools",
+      "thinking"
+    ],
+    "sizes": [
+      "27b"
+    ],
+    "updated": "2 days ago",
+    "owner": "Qwen3.8",
+    "ctx": [
+      "256K"
     ]
   },
   {
@@ -4032,30 +4052,10 @@
     "sizes": [
       "30b"
     ],
-    "updated": "yesterday",
+    "updated": "2 days ago",
     "owner": "Meta",
     "ctx": [
       "128K"
-    ]
-  },
-  {
-    "name": "qwen3.8",
-    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
-    "pulls": 0,
-    "pullsDisplay": "",
-    "tagsCount": 0,
-    "capabilities": [
-      "vision",
-      "tools",
-      "thinking"
-    ],
-    "sizes": [
-      "27b"
-    ],
-    "updated": "yesterday",
-    "owner": "Qwen3.8",
-    "ctx": [
-      "256K"
     ]
   },
   {
@@ -4123,7 +4123,7 @@
       "thinking"
     ],
     "sizes": [],
-    "updated": "1 month ago",
+    "updated": "2 months ago",
     "owner": "Cohere",
     "ctx": [
       "488K"
@@ -4179,7 +4179,7 @@
     "sizes": [
       "30b"
     ],
-    "updated": "4 days ago",
+    "updated": "5 days ago",
     "owner": "NVIDIA",
     "ctx": [
       "1M",
