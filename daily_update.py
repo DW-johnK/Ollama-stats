@@ -62,13 +62,36 @@ def scrape_ollama_models():
             })
             with urllib.request.urlopen(req, timeout=30) as resp:
                 html = resp.read().decode('utf-8', errors='replace')
-            
+
+            print(f"  Fetched {url} ({len(html)} chars)")
             # Extract each model entry from its <li> block — contains everything
             li_blocks = re.findall(
                 r'<li[^>]*class="[^"]*flex[^"]*items-baseline[^"]*border-b[^"]*"[^>]*>(.*?)</li>',
                 html, re.DOTALL
             )
             
+            if not li_blocks:
+                # Fallback: try lenient <li> matching (class order may differ)
+                all_li = re.findall(r'<li[^>]*>(.*?)</li>', html, re.DOTALL)
+                li_blocks = [b for b in all_li if '/library/' in b]
+                print(f"  Strict <li> found 0, lenient fallback found {len(li_blocks)}")
+            else:
+                print(f"  Strict <li> found {len(li_blocks)} blocks")
+
+            # Debug: check pulls extraction on first block
+            if li_blocks:
+                sample = li_blocks[0]
+                nm = re.search(r'href="/library/([\w\-\.]+)"', sample)
+                pm1 = re.search(r'([\d,]+\.?\d*\s*[KMB]?)</span>\s*(?:<[^>]+>)*\s*(?:&nbsp;)?Pulls', sample, re.IGNORECASE)
+                pm2 = re.search(r'([\d,]+\.?\d*\s*[KMB]?)\s*Pulls', sample, re.IGNORECASE)
+                nm_val = nm.group(1) if nm else 'NONE'
+                pm1_val = pm1.group(1) if pm1 else 'FAIL'
+                pm2_val = pm2.group(1) if pm2 else 'FAIL'
+                print(f'  DEBUG: name={nm_val}, regex1={pm1_val}, regex2={pm2_val}')
+                idx = sample.lower().find('pulls')
+                if idx >= 0:
+                    print(f"  DEBUG pulls ctx: ...{sample[max(0,idx-60):idx+60]}...")
+
             for block in li_blocks:
                 name_match = re.search(r'href="/library/([\w\-\.]+)"', block)
                 if not name_match:
@@ -108,7 +131,7 @@ def scrape_ollama_models():
                 pulls = 0
                 pullsDisplay = ''
                 # Allow HTML tags between number and "Pulls" text
-                pulls_match = re.search(r'([\d,]+\.?\d*\s*[KMB]?)</span>(?:<[^>]+>)*\s*(?:&nbsp;)?Pulls', block, re.IGNORECASE)
+                pulls_match = re.search(r'([\d,]+\.?\d*\s*[KMB]?)</span>\s*(?:<[^>]+>)*\s*(?:&nbsp;)?Pulls', block, re.IGNORECASE)
                 if pulls_match:
                     pulls_str = pulls_match.group(1).strip()
                     pullsDisplay = f"{pulls_str} Pulls"
@@ -124,7 +147,7 @@ def scrape_ollama_models():
                 
                 # Tags count — same pattern: <span>93</span><span ...>&nbsp;Tags</span>
                 tagsCount = 0
-                tags_match = re.search(r'>(\d+)\s*</span>(?:<[^>]+>)*\s*(?:&nbsp;)?Tags?<', block, re.IGNORECASE)
+                tags_match = re.search(r'>(\d+)\s*</span>\s*(?:<[^>]+>)*\s*(?:&nbsp;)?Tags?<', block, re.IGNORECASE)
                 if tags_match:
                     tagsCount = int(tags_match.group(1))
                 
@@ -146,7 +169,10 @@ def scrape_ollama_models():
                     'owner': ''
                 }
             
-            print(f"  Found {len(li_blocks)} model entries from {url}")
+            pulls_count = sum(1 for m in model_map.values() if m['pulls'] > 0)
+            updated_count = sum(1 for m in model_map.values() if m['updated'])
+            tags_count = sum(1 for m in model_map.values() if m['tagsCount'] > 0)
+            print(f"  Found {len(li_blocks)} model entries from {url} (pulls={pulls_count}, updated={updated_count}, tags={tags_count})")
         except Exception as e:
             print(f"  Warning: Failed to scrape {url}: {e}")
     
