@@ -734,7 +734,8 @@ def rebuild_dashboard(models, benchmarks):
         'c': m.get('capabilities', []),
         's': m.get('sizes', []),
         'u': m.get('updated', ''),
-        'ctx': m.get('ctx', [])
+        'ctx': m.get('ctx', []),
+        'o': m.get('owner', '')
     } for m in models], separators=(',', ':'))
     
     # Build compact benchmarks object
