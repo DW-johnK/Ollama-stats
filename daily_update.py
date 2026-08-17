@@ -585,6 +585,23 @@ OWNER_MAP = {
     "rnj-1": "Essential AI",
     "yarn-llama2": "Yarn", "yarn-mistral": "Yarn",
     "nemotron": "NVIDIA",
+    "llama4": "Meta",
+    "lfm2.5-thinking": "Liquid AI",
+    "lfm2.5": "Liquid AI",
+    "nous-hermes": "Nous Research",
+    "neural-chat": "Intel",
+    "bakllava": "Skunkworks AI",
+    "mistral-openorca": "Mistral AI",
+    "codeup": "CodeUp",
+    "r1-1776": "DeepSeek",
+    "deepseek-v2.5": "DeepSeek",
+    "olmo-3.1": "AI2",
+    "qwen3.8": "Alibaba Cloud",
+    "cogito": "DeepCogito",
+    "mxbai-embed-large": "Mixedbread AI",
+    "llava-llama3": "LMMS Lab",
+    "llava-phi3": "LMMS Lab",
+    "laguna-xs.2": "Laguna",
 }
 
 # Cloud model usage levels
