@@ -74,23 +74,6 @@ def scrape_ollama_models():
                 # Fallback: try lenient <li> matching (class order may differ)
                 all_li = re.findall(r'<li[^>]*>(.*?)</li>', html, re.DOTALL)
                 li_blocks = [b for b in all_li if '/library/' in b]
-                print(f"  Strict <li> found 0, lenient fallback found {len(li_blocks)}")
-            else:
-                print(f"  Strict <li> found {len(li_blocks)} blocks")
-
-            # Debug: check pulls extraction on first block
-            if li_blocks:
-                sample = li_blocks[0]
-                nm = re.search(r'href="/library/([\w\-\.]+)"', sample)
-                pm1 = re.search(r'([\d,]+\.?\d*\s*[KMB]?)</span>\s*(?:<[^>]+>)*\s*(?:&nbsp;)?Pulls', sample, re.IGNORECASE)
-                pm2 = re.search(r'([\d,]+\.?\d*\s*[KMB]?)\s*Pulls', sample, re.IGNORECASE)
-                nm_val = nm.group(1) if nm else 'NONE'
-                pm1_val = pm1.group(1) if pm1 else 'FAIL'
-                pm2_val = pm2.group(1) if pm2 else 'FAIL'
-                print(f'  DEBUG: name={nm_val}, regex1={pm1_val}, regex2={pm2_val}')
-                idx = sample.lower().find('pulls')
-                if idx >= 0:
-                    print(f"  DEBUG pulls ctx: ...{sample[max(0,idx-60):idx+60]}...")
 
             for block in li_blocks:
                 name_match = re.search(r'href="/library/([\w\-\.]+)"', block)
