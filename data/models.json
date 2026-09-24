@@ -48,8 +48,8 @@
   {
     "name": "nomic-embed-text",
     "description": "A high-performing open embedding model with a large token context window.",
-    "pulls": 86800000,
-    "pullsDisplay": "86.8M Pulls",
+    "pulls": 86900000,
+    "pullsDisplay": "86.9M Pulls",
     "tagsCount": 3,
     "capabilities": [
       "embedding"
@@ -64,8 +64,8 @@
   {
     "name": "llama3.2",
     "description": "Meta's Llama 3.2 goes small with 1B and 3B models.",
-    "pulls": 84100000,
-    "pullsDisplay": "84.1M Pulls",
+    "pulls": 84200000,
+    "pullsDisplay": "84.2M Pulls",
     "tagsCount": 63,
     "capabilities": [
       "tools"
@@ -83,8 +83,8 @@
   {
     "name": "qwen2.5",
     "description": "Qwen2.5 models are pretrained on Alibaba's latest large-scale dataset, encompassing up to 18 trillion tokens.",
-    "pulls": 40800000,
-    "pullsDisplay": "40.8M Pulls",
+    "pulls": 40900000,
+    "pullsDisplay": "40.9M Pulls",
     "tagsCount": 133,
     "capabilities": [
       "tools"
@@ -130,8 +130,8 @@
   {
     "name": "qwen3",
     "description": "Qwen3 is the latest generation of large language models in Qwen series.",
-    "pulls": 37800000,
-    "pullsDisplay": "37.8M Pulls",
+    "pulls": 37900000,
+    "pullsDisplay": "37.9M Pulls",
     "tagsCount": 58,
     "capabilities": [
       "tools",
@@ -210,7 +210,7 @@
       "26b",
       "31b"
     ],
-    "updated": "16 hours ago",
+    "updated": "yesterday",
     "owner": "Google DeepMind",
     "ctx": [
       "128K",
@@ -260,8 +260,8 @@
   {
     "name": "qwen3.5",
     "description": "Qwen 3.5 is a family of open-source multimodal models that delivers exceptional utility and performance.",
-    "pulls": 20800000,
-    "pullsDisplay": "20.8M Pulls",
+    "pulls": 20900000,
+    "pullsDisplay": "20.9M Pulls",
     "tagsCount": 64,
     "capabilities": [
       "vision",
@@ -325,8 +325,8 @@
   {
     "name": "mxbai-embed-large",
     "description": "State-of-the-art large embedding model from mixedbread.ai",
-    "pulls": 14900000,
-    "pullsDisplay": "14.9M Pulls",
+    "pulls": 15000000,
+    "pullsDisplay": "15M Pulls",
     "tagsCount": 4,
     "capabilities": [
       "embedding"
@@ -364,8 +364,8 @@
   {
     "name": "qwen3-coder",
     "description": "Alibaba's performant long context models for agentic and coding tasks.",
-    "pulls": 9400000,
-    "pullsDisplay": "9.4M Pulls",
+    "pulls": 9500000,
+    "pullsDisplay": "9.5M Pulls",
     "tagsCount": 9,
     "capabilities": [
       "tools"
@@ -374,7 +374,7 @@
       "30b",
       "480b"
     ],
-    "updated": "12 months ago",
+    "updated": "1 year ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "256K"
@@ -400,8 +400,8 @@
   {
     "name": "qwen",
     "description": "Qwen 1.5 is a series of large language models by Alibaba Cloud spanning from 0.5B to 110B parameters",
-    "pulls": 7800000,
-    "pullsDisplay": "7.8M Pulls",
+    "pulls": 7900000,
+    "pullsDisplay": "7.9M Pulls",
     "tagsCount": 379,
     "capabilities": [
       "cloud"
@@ -494,8 +494,8 @@
   {
     "name": "qwen3.6",
     "description": "Qwen3.6 delivers substantial upgrades in agentic coding and thinking preservation.",
-    "pulls": 6700000,
-    "pullsDisplay": "6.7M Pulls",
+    "pulls": 6800000,
+    "pullsDisplay": "6.8M Pulls",
     "tagsCount": 35,
     "capabilities": [
       "vision",
@@ -736,7 +736,7 @@
       "4b",
       "8b"
     ],
-    "updated": "12 months ago",
+    "updated": "1 year ago",
     "owner": "Alibaba Cloud",
     "ctx": [
       "40K",
@@ -1028,6 +1028,26 @@
     ]
   },
   {
+    "name": "qwen3.8",
+    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
+    "pulls": 2500000,
+    "pullsDisplay": "2.5M Pulls",
+    "tagsCount": 12,
+    "capabilities": [
+      "vision",
+      "tools",
+      "thinking"
+    ],
+    "sizes": [
+      "27b"
+    ],
+    "updated": "1 month ago",
+    "owner": "Alibaba Cloud",
+    "ctx": [
+      "256K"
+    ]
+  },
+  {
     "name": "mistral-small3.2",
     "description": "An update to Mistral Small that improves on function calling, instruction following, and less repetition errors.",
     "pulls": 2500000,
@@ -1044,26 +1064,6 @@
     "owner": "Mistral AI",
     "ctx": [
       "128K"
-    ]
-  },
-  {
-    "name": "qwen3.8",
-    "description": "Qwen3.8 delivers substantial gains across coding, professional work, research, and long-horizon agentic tasks.",
-    "pulls": 2400000,
-    "pullsDisplay": "2.4M Pulls",
-    "tagsCount": 12,
-    "capabilities": [
-      "vision",
-      "tools",
-      "thinking"
-    ],
-    "sizes": [
-      "27b"
-    ],
-    "updated": "1 month ago",
-    "owner": "Alibaba Cloud",
-    "ctx": [
-      "256K"
     ]
   },
   {
@@ -1176,24 +1176,6 @@
     ]
   },
   {
-    "name": "smollm",
-    "description": "\ud83e\ude90 A family of small models with 135M, 360M, and 1.7B parameters, trained on a new high-quality dataset.",
-    "pulls": 2200000,
-    "pullsDisplay": "2.2M Pulls",
-    "tagsCount": 94,
-    "capabilities": [],
-    "sizes": [
-      "135m",
-      "360m",
-      "1.7b"
-    ],
-    "updated": "2 years ago",
-    "owner": "HuggingFace",
-    "ctx": [
-      "2K"
-    ]
-  },
-  {
     "name": "embeddinggemma",
     "description": "EmbeddingGemma is a 300M parameter embedding model from Google.",
     "pulls": 2200000,
@@ -1207,6 +1189,24 @@
     ],
     "updated": "1 year ago",
     "owner": "Google DeepMind",
+    "ctx": [
+      "2K"
+    ]
+  },
+  {
+    "name": "smollm",
+    "description": "\ud83e\ude90 A family of small models with 135M, 360M, and 1.7B parameters, trained on a new high-quality dataset.",
+    "pulls": 2200000,
+    "pullsDisplay": "2.2M Pulls",
+    "tagsCount": 94,
+    "capabilities": [],
+    "sizes": [
+      "135m",
+      "360m",
+      "1.7b"
+    ],
+    "updated": "2 years ago",
+    "owner": "HuggingFace",
     "ctx": [
       "2K"
     ]
@@ -1362,8 +1362,8 @@
   {
     "name": "dolphin-mistral",
     "description": "The uncensored Dolphin model based on Mistral that excels at coding tasks. Updated to version 2.8.",
-    "pulls": 1700000,
-    "pullsDisplay": "1.7M Pulls",
+    "pulls": 1800000,
+    "pullsDisplay": "1.8M Pulls",
     "tagsCount": 120,
     "capabilities": [],
     "sizes": [
@@ -1669,6 +1669,26 @@
     ]
   },
   {
+    "name": "devstral-small-2",
+    "description": "24B model that excels at using tools to explore codebases, editing multiple files and power software engineering agents.",
+    "pulls": 1300000,
+    "pullsDisplay": "1.3M Pulls",
+    "tagsCount": 6,
+    "capabilities": [
+      "vision",
+      "tools"
+    ],
+    "sizes": [
+      "24b"
+    ],
+    "updated": "9 months ago",
+    "owner": "Devstral",
+    "ctx": [
+      "384K",
+      "256K"
+    ]
+  },
+  {
     "name": "zephyr",
     "description": "Zephyr is a series of fine-tuned versions of the Mistral and Mixtral models that are trained to act as helpful assistants.",
     "pulls": 1300000,
@@ -1719,26 +1739,6 @@
     "owner": "DeepSeek",
     "ctx": [
       "128K"
-    ]
-  },
-  {
-    "name": "devstral-small-2",
-    "description": "24B model that excels at using tools to explore codebases, editing multiple files and power software engineering agents.",
-    "pulls": 1300000,
-    "pullsDisplay": "1.3M Pulls",
-    "tagsCount": 6,
-    "capabilities": [
-      "vision",
-      "tools"
-    ],
-    "sizes": [
-      "24b"
-    ],
-    "updated": "9 months ago",
-    "owner": "Devstral",
-    "ctx": [
-      "384K",
-      "256K"
     ]
   },
   {
@@ -1811,6 +1811,36 @@
     ]
   },
   {
+    "name": "openhermes",
+    "description": "OpenHermes 2.5 is a 7B model fine-tuned by Teknium on Mistral with fully open datasets.",
+    "pulls": 1200000,
+    "pullsDisplay": "1.2M Pulls",
+    "tagsCount": 35,
+    "capabilities": [],
+    "sizes": [],
+    "updated": "2 years ago",
+    "owner": "Nous Research",
+    "ctx": [
+      "32K"
+    ]
+  },
+  {
+    "name": "wizardcoder",
+    "description": "State-of-the-art code generation model",
+    "pulls": 1200000,
+    "pullsDisplay": "1.2M Pulls",
+    "tagsCount": 67,
+    "capabilities": [],
+    "sizes": [
+      "33b"
+    ],
+    "updated": "2 years ago",
+    "owner": "Microsoft",
+    "ctx": [
+      "16K"
+    ]
+  },
+  {
     "name": "deepseek-v2",
     "description": "A strong, economical, and efficient Mixture-of-Experts language model.",
     "pulls": 1200000,
@@ -1844,36 +1874,6 @@
     "ctx": [
       "32K",
       "64K"
-    ]
-  },
-  {
-    "name": "openhermes",
-    "description": "OpenHermes 2.5 is a 7B model fine-tuned by Teknium on Mistral with fully open datasets.",
-    "pulls": 1200000,
-    "pullsDisplay": "1.2M Pulls",
-    "tagsCount": 35,
-    "capabilities": [],
-    "sizes": [],
-    "updated": "2 years ago",
-    "owner": "Nous Research",
-    "ctx": [
-      "32K"
-    ]
-  },
-  {
-    "name": "wizardcoder",
-    "description": "State-of-the-art code generation model",
-    "pulls": 1200000,
-    "pullsDisplay": "1.2M Pulls",
-    "tagsCount": 67,
-    "capabilities": [],
-    "sizes": [
-      "33b"
-    ],
-    "updated": "2 years ago",
-    "owner": "Microsoft",
-    "ctx": [
-      "16K"
     ]
   },
   {
@@ -2192,22 +2192,6 @@
     ]
   },
   {
-    "name": "phi3.5",
-    "description": "A lightweight AI model with 3.8 billion parameters with performance overtaking similarly and larger sized models.",
-    "pulls": 1000000,
-    "pullsDisplay": "1M Pulls",
-    "tagsCount": 17,
-    "capabilities": [],
-    "sizes": [
-      "3.8b"
-    ],
-    "updated": "2 years ago",
-    "owner": "Microsoft",
-    "ctx": [
-      "128K"
-    ]
-  },
-  {
     "name": "granite3.1-dense",
     "description": "The IBM Granite 2B and 8B models are text-only dense LLMs trained on over 12 trillion tokens of data, demonstrated significant improvements over their predecessors in performance and speed in IBM\u2019s initial testing.",
     "pulls": 1000000,
@@ -2222,6 +2206,22 @@
     ],
     "updated": "1 year ago",
     "owner": "IBM",
+    "ctx": [
+      "128K"
+    ]
+  },
+  {
+    "name": "phi3.5",
+    "description": "A lightweight AI model with 3.8 billion parameters with performance overtaking similarly and larger sized models.",
+    "pulls": 1000000,
+    "pullsDisplay": "1M Pulls",
+    "tagsCount": 17,
+    "capabilities": [],
+    "sizes": [
+      "3.8b"
+    ],
+    "updated": "2 years ago",
+    "owner": "Microsoft",
     "ctx": [
       "128K"
     ]
@@ -2373,8 +2373,8 @@
   {
     "name": "yarn-llama2",
     "description": "An extension of Llama 2 that supports a context of up to 128k tokens.",
-    "pulls": 997700,
-    "pullsDisplay": "997.7K Pulls",
+    "pulls": 998900,
+    "pullsDisplay": "998.9K Pulls",
     "tagsCount": 67,
     "capabilities": [],
     "sizes": [
@@ -2390,8 +2390,8 @@
   {
     "name": "starling-lm",
     "description": "Starling is a large language model trained by reinforcement learning from AI feedback focused on improving chatbot helpfulness.",
-    "pulls": 994600,
-    "pullsDisplay": "994.6K Pulls",
+    "pulls": 995400,
+    "pullsDisplay": "995.4K Pulls",
     "tagsCount": 36,
     "capabilities": [],
     "sizes": [
@@ -2406,8 +2406,8 @@
   {
     "name": "phind-codellama",
     "description": "Code generation model based on Code Llama.",
-    "pulls": 988600,
-    "pullsDisplay": "988.6K Pulls",
+    "pulls": 989500,
+    "pullsDisplay": "989.5K Pulls",
     "tagsCount": 49,
     "capabilities": [],
     "sizes": [
@@ -2422,8 +2422,8 @@
   {
     "name": "solar",
     "description": "A compact, yet powerful 10.7B large language model designed for single-turn conversation.",
-    "pulls": 975600,
-    "pullsDisplay": "975.6K Pulls",
+    "pulls": 976300,
+    "pullsDisplay": "976.3K Pulls",
     "tagsCount": 32,
     "capabilities": [],
     "sizes": [
@@ -2438,8 +2438,8 @@
   {
     "name": "granite3-moe",
     "description": "The IBM Granite 1B and 3B models are the first mixture of experts (MoE) Granite models from IBM designed for low latency usage.",
-    "pulls": 964000,
-    "pullsDisplay": "964K Pulls",
+    "pulls": 964800,
+    "pullsDisplay": "964.8K Pulls",
     "tagsCount": 33,
     "capabilities": [
       "tools"
@@ -2457,8 +2457,8 @@
   {
     "name": "stable-beluga",
     "description": "Llama 2 based model fine tuned on an Orca-style dataset. Originally called Free Willy.",
-    "pulls": 956300,
-    "pullsDisplay": "956.3K Pulls",
+    "pulls": 957300,
+    "pullsDisplay": "957.3K Pulls",
     "tagsCount": 49,
     "capabilities": [],
     "sizes": [
@@ -2475,8 +2475,8 @@
   {
     "name": "deepcoder",
     "description": "DeepCoder is a fully open-Source 14B coder model at O3-mini level, with a 1.5B version also available.",
-    "pulls": 955200,
-    "pullsDisplay": "955.2K Pulls",
+    "pulls": 955600,
+    "pullsDisplay": "955.6K Pulls",
     "tagsCount": 9,
     "capabilities": [],
     "sizes": [
@@ -2490,27 +2490,26 @@
     ]
   },
   {
-    "name": "orca2",
-    "description": "Orca 2 is built by Microsoft research, and are a fine-tuned version of Meta&#39;s Llama 2 models.  The model is designed to excel particularly in reasoning.",
-    "pulls": 946700,
-    "pullsDisplay": "946.7K Pulls",
-    "tagsCount": 33,
-    "capabilities": [],
-    "sizes": [
-      "7b",
-      "13b"
+    "name": "nomic-embed-text-v2-moe",
+    "description": "nomic-embed-text-v2-moe is a multilingual MoE text embedding model that excels at multilingual retrieval.",
+    "pulls": 951300,
+    "pullsDisplay": "951.3K Pulls",
+    "tagsCount": 1,
+    "capabilities": [
+      "embedding"
     ],
-    "updated": "2 years ago",
-    "owner": "Microsoft",
+    "sizes": [],
+    "updated": "9 months ago",
+    "owner": "Nomic AI",
     "ctx": [
-      "4K"
+      "512"
     ]
   },
   {
     "name": "shieldgemma",
     "description": "ShieldGemma is set of instruction tuned models for evaluating the safety of text prompt input and text output responses against a set of defined safety policies.",
-    "pulls": 946500,
-    "pullsDisplay": "946.5K Pulls",
+    "pulls": 947500,
+    "pullsDisplay": "947.5K Pulls",
     "tagsCount": 49,
     "capabilities": [],
     "sizes": [
@@ -2525,26 +2524,27 @@
     ]
   },
   {
-    "name": "nomic-embed-text-v2-moe",
-    "description": "nomic-embed-text-v2-moe is a multilingual MoE text embedding model that excels at multilingual retrieval.",
-    "pulls": 943000,
-    "pullsDisplay": "943K Pulls",
-    "tagsCount": 1,
-    "capabilities": [
-      "embedding"
+    "name": "orca2",
+    "description": "Orca 2 is built by Microsoft research, and are a fine-tuned version of Meta&#39;s Llama 2 models.  The model is designed to excel particularly in reasoning.",
+    "pulls": 947500,
+    "pullsDisplay": "947.5K Pulls",
+    "tagsCount": 33,
+    "capabilities": [],
+    "sizes": [
+      "7b",
+      "13b"
     ],
-    "sizes": [],
-    "updated": "9 months ago",
-    "owner": "Nomic AI",
+    "updated": "2 years ago",
+    "owner": "Microsoft",
     "ctx": [
-      "512"
+      "4K"
     ]
   },
   {
     "name": "paraphrase-multilingual",
     "description": "Sentence-transformers model that can be used for tasks like clustering or semantic search.",
-    "pulls": 942600,
-    "pullsDisplay": "942.6K Pulls",
+    "pulls": 942800,
+    "pullsDisplay": "942.8K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "embedding"
@@ -2561,8 +2561,8 @@
   {
     "name": "reader-lm",
     "description": "A series of models that convert HTML content to Markdown content, which is useful for content conversion tasks.",
-    "pulls": 938500,
-    "pullsDisplay": "938.5K Pulls",
+    "pulls": 939200,
+    "pullsDisplay": "939.2K Pulls",
     "tagsCount": 33,
     "capabilities": [],
     "sizes": [
@@ -2578,8 +2578,8 @@
   {
     "name": "wizardlm",
     "description": "General use model based on Llama 2.",
-    "pulls": 929000,
-    "pullsDisplay": "929K Pulls",
+    "pulls": 930200,
+    "pullsDisplay": "930.2K Pulls",
     "tagsCount": 73,
     "capabilities": [],
     "sizes": [],
@@ -2593,8 +2593,8 @@
   {
     "name": "llama-pro",
     "description": "An expansion of Llama 2 that specializes in integrating both general language understanding and domain-specific knowledge, particularly in programming and mathematics.",
-    "pulls": 921100,
-    "pullsDisplay": "921.1K Pulls",
+    "pulls": 921700,
+    "pullsDisplay": "921.7K Pulls",
     "tagsCount": 33,
     "capabilities": [],
     "sizes": [],
@@ -2607,8 +2607,8 @@
   {
     "name": "yarn-mistral",
     "description": "An extension of Mistral to support context windows of 64K or 128K.",
-    "pulls": 911400,
-    "pullsDisplay": "911.4K Pulls",
+    "pulls": 912000,
+    "pullsDisplay": "912K Pulls",
     "tagsCount": 33,
     "capabilities": [],
     "sizes": [
@@ -2623,8 +2623,8 @@
   {
     "name": "nexusraven",
     "description": "Nexus Raven is a 13B instruction tuned model for function calling tasks.",
-    "pulls": 905600,
-    "pullsDisplay": "905.6K Pulls",
+    "pulls": 906300,
+    "pullsDisplay": "906.3K Pulls",
     "tagsCount": 32,
     "capabilities": [],
     "sizes": [
@@ -2639,8 +2639,8 @@
   {
     "name": "meditron",
     "description": "Open-source medical large language model adapted from Llama 2 to the medical domain.",
-    "pulls": 893100,
-    "pullsDisplay": "893.1K Pulls",
+    "pulls": 895100,
+    "pullsDisplay": "895.1K Pulls",
     "tagsCount": 22,
     "capabilities": [],
     "sizes": [
@@ -2657,8 +2657,8 @@
   {
     "name": "bakllava",
     "description": "BakLLaVA is a multimodal model consisting of the Mistral 7B base model augmented with the LLaVA  architecture.",
-    "pulls": 892700,
-    "pullsDisplay": "892.7K Pulls",
+    "pulls": 893100,
+    "pullsDisplay": "893.1K Pulls",
     "tagsCount": 17,
     "capabilities": [
       "vision"
@@ -2675,8 +2675,8 @@
   {
     "name": "nemotron-3-nano",
     "description": "Nemotron-3-Nano is a new Standard for Efficient, Open, and Intelligent Agentic Models, now updated with a 4B parameter count model.",
-    "pulls": 853500,
-    "pullsDisplay": "853.5K Pulls",
+    "pulls": 855900,
+    "pullsDisplay": "855.9K Pulls",
     "tagsCount": 9,
     "capabilities": [
       "tools",
@@ -2697,8 +2697,8 @@
   {
     "name": "command-r-plus",
     "description": "Command R+ is a powerful, scalable LLM purpose-built to excel at real-world enterprise use cases.",
-    "pulls": 806300,
-    "pullsDisplay": "806.3K Pulls",
+    "pulls": 806800,
+    "pullsDisplay": "806.8K Pulls",
     "tagsCount": 21,
     "capabilities": [
       "tools"
@@ -2715,8 +2715,8 @@
   {
     "name": "mistral-small3.1",
     "description": "Building upon Mistral Small 3, Mistral Small 3.1 (2503) adds state-of-the-art vision understanding and enhances long context capabilities up to 128k tokens without compromising text performance.",
-    "pulls": 791400,
-    "pullsDisplay": "791.4K Pulls",
+    "pulls": 791700,
+    "pullsDisplay": "791.7K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "vision",
@@ -2734,8 +2734,8 @@
   {
     "name": "exaone-deep",
     "description": "EXAONE Deep exhibits superior capabilities in various reasoning tasks including math and coding benchmarks, ranging from 2.4B to 32B parameters developed and released by LG AI Research.",
-    "pulls": 770600,
-    "pullsDisplay": "770.6K Pulls",
+    "pulls": 771000,
+    "pullsDisplay": "771K Pulls",
     "tagsCount": 13,
     "capabilities": [],
     "sizes": [
@@ -2752,8 +2752,8 @@
   {
     "name": "mistral-openorca",
     "description": "Mistral OpenOrca is a 7 billion parameter model, fine-tuned on top of the Mistral 7B model using the OpenOrca dataset.",
-    "pulls": 754600,
-    "pullsDisplay": "754.6K Pulls",
+    "pulls": 766100,
+    "pullsDisplay": "766.1K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -2768,8 +2768,8 @@
   {
     "name": "tinydolphin",
     "description": "An experimental 1.1B parameter model trained on the new Dolphin 2.8 dataset by Eric Hartford and based on TinyLlama.",
-    "pulls": 731800,
-    "pullsDisplay": "731.8K Pulls",
+    "pulls": 732200,
+    "pullsDisplay": "732.2K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -2784,8 +2784,8 @@
   {
     "name": "deepseek-v3.1",
     "description": "DeepSeek-V3.1-Terminus is a hybrid model that supports both thinking mode and non-thinking mode.",
-    "pulls": 729300,
-    "pullsDisplay": "729.3K Pulls",
+    "pulls": 729400,
+    "pullsDisplay": "729.4K Pulls",
     "tagsCount": 7,
     "capabilities": [
       "tools",
@@ -2803,8 +2803,8 @@
   {
     "name": "medllama2",
     "description": "Fine-tuned Llama 2 model to answer medical questions based on an open source medical dataset.",
-    "pulls": 724300,
-    "pullsDisplay": "724.3K Pulls",
+    "pulls": 726100,
+    "pullsDisplay": "726.1K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -2819,8 +2819,8 @@
   {
     "name": "nemotron-mini",
     "description": "A commercial-friendly small language model by NVIDIA optimized for roleplay, RAG QA, and function calling.",
-    "pulls": 717200,
-    "pullsDisplay": "717.2K Pulls",
+    "pulls": 717700,
+    "pullsDisplay": "717.7K Pulls",
     "tagsCount": 17,
     "capabilities": [
       "tools"
@@ -2837,8 +2837,8 @@
   {
     "name": "codegeex4",
     "description": "A versatile model for AI software development scenarios, including code completion.",
-    "pulls": 696100,
-    "pullsDisplay": "696.1K Pulls",
+    "pulls": 696500,
+    "pullsDisplay": "696.5K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -2853,8 +2853,8 @@
   {
     "name": "nemotron3",
     "description": "NVIDIA Nemotron 3 Nano Omni is a multimodal large language model.",
-    "pulls": 665300,
-    "pullsDisplay": "665.3K Pulls",
+    "pulls": 665700,
+    "pullsDisplay": "665.7K Pulls",
     "tagsCount": 4,
     "capabilities": [
       "vision",
@@ -2873,8 +2873,8 @@
   {
     "name": "opencoder",
     "description": "OpenCoder is an open and reproducible code LLM family which includes 1.5B and 8B models, supporting chat in English and Chinese languages.",
-    "pulls": 651800,
-    "pullsDisplay": "651.8K Pulls",
+    "pulls": 652500,
+    "pullsDisplay": "652.5K Pulls",
     "tagsCount": 9,
     "capabilities": [],
     "sizes": [
@@ -2891,8 +2891,8 @@
   {
     "name": "wizardlm-uncensored",
     "description": "Uncensored version of Wizard LM model",
-    "pulls": 650800,
-    "pullsDisplay": "650.8K Pulls",
+    "pulls": 651200,
+    "pullsDisplay": "651.2K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -2907,8 +2907,8 @@
   {
     "name": "nemotron",
     "description": "Llama-3.1-Nemotron-70B-Instruct is a large language model customized by NVIDIA to improve the helpfulness of LLM generated responses to user queries.",
-    "pulls": 629400,
-    "pullsDisplay": "629.4K Pulls",
+    "pulls": 629900,
+    "pullsDisplay": "629.9K Pulls",
     "tagsCount": 17,
     "capabilities": [
       "tools"
@@ -2925,8 +2925,8 @@
   {
     "name": "reflection",
     "description": "A high-performing model trained with Reflection-tuning that teaches a LLM to detect mistakes in its reasoning.",
-    "pulls": 621800,
-    "pullsDisplay": "621.8K Pulls",
+    "pulls": 622100,
+    "pullsDisplay": "622.1K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -2941,8 +2941,8 @@
   {
     "name": "codeup",
     "description": "Great code generation model based on Llama2.",
-    "pulls": 600500,
-    "pullsDisplay": "600.5K Pulls",
+    "pulls": 600900,
+    "pullsDisplay": "600.9K Pulls",
     "tagsCount": 19,
     "capabilities": [],
     "sizes": [
@@ -2957,8 +2957,8 @@
   {
     "name": "nous-hermes2-mixtral",
     "description": "The Nous Hermes 2 model from Nous Research, now trained over Mixtral.",
-    "pulls": 596000,
-    "pullsDisplay": "596K Pulls",
+    "pulls": 596400,
+    "pullsDisplay": "596.4K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -2973,8 +2973,8 @@
   {
     "name": "athene-v2",
     "description": "Athene-V2 is a 72B parameter model which excels at code completion, mathematics, and log extraction tasks.",
-    "pulls": 594900,
-    "pullsDisplay": "594.9K Pulls",
+    "pulls": 595200,
+    "pullsDisplay": "595.2K Pulls",
     "tagsCount": 17,
     "capabilities": [
       "tools"
@@ -2991,8 +2991,8 @@
   {
     "name": "qwen3-next",
     "description": "The first installment in the Qwen3-Next series with strong performance in terms of both parameter efficiency and inference speed.",
-    "pulls": 591500,
-    "pullsDisplay": "591.5K Pulls",
+    "pulls": 591800,
+    "pullsDisplay": "591.8K Pulls",
     "tagsCount": 9,
     "capabilities": [
       "tools",
@@ -3010,8 +3010,8 @@
   {
     "name": "megadolphin",
     "description": "MegaDolphin-2.2-120b is a transformation of Dolphin-2.2-70b created by interleaving the model with itself.",
-    "pulls": 574200,
-    "pullsDisplay": "574.2K Pulls",
+    "pulls": 574600,
+    "pullsDisplay": "574.6K Pulls",
     "tagsCount": 19,
     "capabilities": [],
     "sizes": [
@@ -3026,8 +3026,8 @@
   {
     "name": "everythinglm",
     "description": "Uncensored Llama2 based model with support for a 16K context window.",
-    "pulls": 571300,
-    "pullsDisplay": "571.3K Pulls",
+    "pulls": 571700,
+    "pullsDisplay": "571.7K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -3042,8 +3042,8 @@
   {
     "name": "solar-pro",
     "description": "Solar Pro Preview: an advanced large language model (LLM) with 22 billion parameters designed to fit into a single GPU",
-    "pulls": 564100,
-    "pullsDisplay": "564.1K Pulls",
+    "pulls": 564500,
+    "pullsDisplay": "564.5K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -3058,8 +3058,8 @@
   {
     "name": "exaone3.5",
     "description": "EXAONE 3.5 is a collection of instruction-tuned bilingual (English and Korean) generative models ranging from 2.4B to 32B parameters, developed and released by LG AI Research.",
-    "pulls": 563400,
-    "pullsDisplay": "563.4K Pulls",
+    "pulls": 563900,
+    "pullsDisplay": "563.9K Pulls",
     "tagsCount": 13,
     "capabilities": [],
     "sizes": [
@@ -3076,8 +3076,8 @@
   {
     "name": "magicoder",
     "description": "\ud83c\udfa9 Magicoder is a family of 7B parameter models trained on 75K synthetic instruction data using OSS-Instruct, a novel approach to enlightening LLMs with open-source code snippets.",
-    "pulls": 560800,
-    "pullsDisplay": "560.8K Pulls",
+    "pulls": 561200,
+    "pullsDisplay": "561.2K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -3092,8 +3092,8 @@
   {
     "name": "mathstral",
     "description": "Math\u03a3tral: a 7B model designed for math reasoning and scientific discovery by Mistral AI.",
-    "pulls": 554700,
-    "pullsDisplay": "554.7K Pulls",
+    "pulls": 555100,
+    "pullsDisplay": "555.1K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3108,8 +3108,8 @@
   {
     "name": "nuextract",
     "description": "A 3.8B model fine-tuned on a private high-quality synthetic dataset for information extraction, based on Phi-3.",
-    "pulls": 554200,
-    "pullsDisplay": "554.2K Pulls",
+    "pulls": 554800,
+    "pullsDisplay": "554.8K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3124,8 +3124,8 @@
   {
     "name": "falcon2",
     "description": "Falcon2 is an 11B parameters causal decoder-only model built by TII and trained over 5T tokens.",
-    "pulls": 545400,
-    "pullsDisplay": "545.4K Pulls",
+    "pulls": 545700,
+    "pullsDisplay": "545.7K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3140,8 +3140,8 @@
   {
     "name": "notus",
     "description": "A 7B chat model fine-tuned with high-quality data and based on Zephyr.",
-    "pulls": 545000,
-    "pullsDisplay": "545K Pulls",
+    "pulls": 545300,
+    "pullsDisplay": "545.3K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -3156,8 +3156,8 @@
   {
     "name": "notux",
     "description": "A top-performing mixture of experts model, fine-tuned with high-quality data.",
-    "pulls": 543700,
-    "pullsDisplay": "543.7K Pulls",
+    "pulls": 544100,
+    "pullsDisplay": "544.1K Pulls",
     "tagsCount": 18,
     "capabilities": [],
     "sizes": [
@@ -3170,26 +3170,10 @@
     ]
   },
   {
-    "name": "stablelm-zephyr",
-    "description": "A lightweight chat model allowing accurate, and responsive output without requiring high-end hardware.",
-    "pulls": 537900,
-    "pullsDisplay": "537.9K Pulls",
-    "tagsCount": 17,
-    "capabilities": [],
-    "sizes": [
-      "3b"
-    ],
-    "updated": "2 years ago",
-    "owner": "Stability AI",
-    "ctx": [
-      "4K"
-    ]
-  },
-  {
     "name": "deepseek-ocr",
     "description": "DeepSeek-OCR is a vision-language model that can perform token-efficient OCR.",
-    "pulls": 537800,
-    "pullsDisplay": "537.8K Pulls",
+    "pulls": 538400,
+    "pullsDisplay": "538.4K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "vision"
@@ -3204,10 +3188,26 @@
     ]
   },
   {
+    "name": "stablelm-zephyr",
+    "description": "A lightweight chat model allowing accurate, and responsive output without requiring high-end hardware.",
+    "pulls": 538200,
+    "pullsDisplay": "538.2K Pulls",
+    "tagsCount": 17,
+    "capabilities": [],
+    "sizes": [
+      "3b"
+    ],
+    "updated": "2 years ago",
+    "owner": "Stability AI",
+    "ctx": [
+      "4K"
+    ]
+  },
+  {
     "name": "bespoke-minicheck",
     "description": "A state-of-the-art fact-checking model developed by Bespoke Labs.",
-    "pulls": 534500,
-    "pullsDisplay": "534.5K Pulls",
+    "pulls": 534900,
+    "pullsDisplay": "534.9K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3222,8 +3222,8 @@
   {
     "name": "duckdb-nsql",
     "description": "7B parameter text-to-SQL model made by MotherDuck and Numbers Station.",
-    "pulls": 532500,
-    "pullsDisplay": "532.5K Pulls",
+    "pulls": 532900,
+    "pullsDisplay": "532.9K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3238,8 +3238,8 @@
   {
     "name": "firefunction-v2",
     "description": "An open weights function calling model based on Llama 3, competitive with GPT-4o function calling capabilities.",
-    "pulls": 528900,
-    "pullsDisplay": "528.9K Pulls",
+    "pulls": 529300,
+    "pullsDisplay": "529.3K Pulls",
     "tagsCount": 17,
     "capabilities": [
       "tools"
@@ -3256,8 +3256,8 @@
   {
     "name": "mistrallite",
     "description": "MistralLite is a fine-tuned model based on Mistral with enhanced capabilities of processing long contexts.",
-    "pulls": 528500,
-    "pullsDisplay": "528.5K Pulls",
+    "pulls": 528900,
+    "pullsDisplay": "528.9K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3270,26 +3270,10 @@
     ]
   },
   {
-    "name": "wizard-vicuna",
-    "description": "Wizard Vicuna is a 13B parameter model based on Llama 2 trained by MelodysDreamj.",
-    "pulls": 522800,
-    "pullsDisplay": "522.8K Pulls",
-    "tagsCount": 17,
-    "capabilities": [],
-    "sizes": [
-      "13b"
-    ],
-    "updated": "2 years ago",
-    "owner": "MelodysDreamj",
-    "ctx": [
-      "2K"
-    ]
-  },
-  {
     "name": "ornith",
     "description": "A self-improving family of open-source models for agentic coding",
-    "pulls": 522500,
-    "pullsDisplay": "522.5K Pulls",
+    "pulls": 525300,
+    "pullsDisplay": "525.3K Pulls",
     "tagsCount": 9,
     "capabilities": [
       "tools"
@@ -3305,10 +3289,26 @@
     ]
   },
   {
+    "name": "wizard-vicuna",
+    "description": "Wizard Vicuna is a 13B parameter model based on Llama 2 trained by MelodysDreamj.",
+    "pulls": 523200,
+    "pullsDisplay": "523.2K Pulls",
+    "tagsCount": 17,
+    "capabilities": [],
+    "sizes": [
+      "13b"
+    ],
+    "updated": "2 years ago",
+    "owner": "MelodysDreamj",
+    "ctx": [
+      "2K"
+    ]
+  },
+  {
     "name": "open-orca-platypus2",
     "description": "Merge of the Open Orca OpenChat model and the Garage-bAInd Platypus 2 model. Designed for chat and code generation.",
-    "pulls": 514800,
-    "pullsDisplay": "514.8K Pulls",
+    "pulls": 515100,
+    "pullsDisplay": "515.1K Pulls",
     "tagsCount": 17,
     "capabilities": [],
     "sizes": [
@@ -3323,8 +3323,8 @@
   {
     "name": "minimax-m3",
     "description": "MiniMax M3: Coding & Agentic Frontier. 1M context window.",
-    "pulls": 513900,
-    "pullsDisplay": "513.9K Pulls",
+    "pulls": 514400,
+    "pullsDisplay": "514.4K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "vision",
@@ -3343,8 +3343,8 @@
   {
     "name": "rnj-1",
     "description": "Rnj-1 is a family of 8B parameter open-weight, dense models trained from scratch by Essential AI, optimized for code and STEM with capabilities on par with SOTA open-weight models.",
-    "pulls": 509900,
-    "pullsDisplay": "509.9K Pulls",
+    "pulls": 510100,
+    "pullsDisplay": "510.1K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "tools"
@@ -3361,8 +3361,8 @@
   {
     "name": "codebooga",
     "description": "A high-performing code instruct model created by merging two existing code models.",
-    "pulls": 504900,
-    "pullsDisplay": "504.9K Pulls",
+    "pulls": 505200,
+    "pullsDisplay": "505.2K Pulls",
     "tagsCount": 16,
     "capabilities": [],
     "sizes": [
@@ -3377,8 +3377,8 @@
   {
     "name": "goliath",
     "description": "A language model created by combining two fine-tuned Llama 2 70B models into one.",
-    "pulls": 484100,
-    "pullsDisplay": "484.1K Pulls",
+    "pulls": 484400,
+    "pullsDisplay": "484.4K Pulls",
     "tagsCount": 16,
     "capabilities": [],
     "sizes": [],
@@ -3391,8 +3391,8 @@
   {
     "name": "kimi-k2.6",
     "description": "Kimi K2.6 is an open-source, native multimodal agentic model.",
-    "pulls": 478800,
-    "pullsDisplay": "478.8K Pulls",
+    "pulls": 479500,
+    "pullsDisplay": "479.5K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "vision",
@@ -3410,8 +3410,8 @@
   {
     "name": "deepseek-v4-flash",
     "description": "DeepSeek-V4-Flash is a 284B MoE model for efficient reasoning.",
-    "pulls": 470600,
-    "pullsDisplay": "470.6K Pulls",
+    "pulls": 472300,
+    "pullsDisplay": "472.3K Pulls",
     "tagsCount": 2,
     "capabilities": [
       "tools",
@@ -3428,8 +3428,8 @@
   {
     "name": "granite4.1",
     "description": "IBM Granite Models are a family of enterprise-ready, open foundation models.",
-    "pulls": 464400,
-    "pullsDisplay": "464.4K Pulls",
+    "pulls": 467800,
+    "pullsDisplay": "467.8K Pulls",
     "tagsCount": 48,
     "capabilities": [
       "tools"
@@ -3448,8 +3448,8 @@
   {
     "name": "olmo-3",
     "description": "Olmo is a series of Open language models designed to enable the science of language models. These models are pre-trained on the Dolma 3 dataset and post-trained on the Dolci datasets.",
-    "pulls": 460800,
-    "pullsDisplay": "460.8K Pulls",
+    "pulls": 461100,
+    "pullsDisplay": "461.1K Pulls",
     "tagsCount": 15,
     "capabilities": [
       "tools",
@@ -3468,8 +3468,8 @@
   {
     "name": "granite3.2",
     "description": "Granite-3.2 is a family of long-context AI models from IBM Granite fine-tuned for thinking capabilities.",
-    "pulls": 459400,
-    "pullsDisplay": "459.4K Pulls",
+    "pulls": 459800,
+    "pullsDisplay": "459.8K Pulls",
     "tagsCount": 9,
     "capabilities": [
       "tools"
@@ -3487,8 +3487,8 @@
   {
     "name": "snowflake-arctic-embed2",
     "description": "Snowflake's frontier embedding model. Arctic Embed 2.0 adds multilingual support.",
-    "pulls": 456100,
-    "pullsDisplay": "456.1K Pulls",
+    "pulls": 456700,
+    "pullsDisplay": "456.7K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "embedding"
@@ -3505,8 +3505,8 @@
   {
     "name": "r1-1776",
     "description": "A version of the DeepSeek-R1 model that has been post trained to provide unbiased, accurate, and factual information by Perplexity.",
-    "pulls": 424200,
-    "pullsDisplay": "424.2K Pulls",
+    "pulls": 424500,
+    "pullsDisplay": "424.5K Pulls",
     "tagsCount": 9,
     "capabilities": [],
     "sizes": [
@@ -3523,8 +3523,8 @@
   {
     "name": "deepseek-v4-pro",
     "description": "DeepSeek-V4-Pro is a frontier MoE model with three reasoning modes.",
-    "pulls": 419300,
-    "pullsDisplay": "419.3K Pulls",
+    "pulls": 421000,
+    "pullsDisplay": "421K Pulls",
     "tagsCount": 2,
     "capabilities": [
       "tools",
@@ -3539,10 +3539,28 @@
     ]
   },
   {
+    "name": "llava-phi3",
+    "description": "A new small LLaVA model fine-tuned from Phi 3 Mini.",
+    "pulls": 421000,
+    "pullsDisplay": "421K Pulls",
+    "tagsCount": 4,
+    "capabilities": [
+      "vision"
+    ],
+    "sizes": [
+      "3.8b"
+    ],
+    "updated": "2 years ago",
+    "owner": "LMMS Lab",
+    "ctx": [
+      "4K"
+    ]
+  },
+  {
     "name": "sailor2",
     "description": "Sailor2 are multilingual language models made for South-East Asia. Available in 1B, 8B, and 20B parameter sizes.",
-    "pulls": 418000,
-    "pullsDisplay": "418K Pulls",
+    "pulls": 418400,
+    "pullsDisplay": "418.4K Pulls",
     "tagsCount": 13,
     "capabilities": [],
     "sizes": [
@@ -3551,13 +3569,16 @@
       "20b"
     ],
     "updated": "1 year ago",
-    "owner": "Sailor"
+    "owner": "Sailor",
+    "ctx": [
+      "32K"
+    ]
   },
   {
     "name": "medgemma",
     "description": "MedGemma is a collection of Gemma 3 variants that are trained for performance on medical text and image comprehension.",
-    "pulls": 412600,
-    "pullsDisplay": "412.6K Pulls",
+    "pulls": 416300,
+    "pullsDisplay": "416.3K Pulls",
     "tagsCount": 9,
     "capabilities": [
       "vision"
@@ -3567,13 +3588,16 @@
       "27b"
     ],
     "updated": "5 months ago",
-    "owner": "Google DeepMind"
+    "owner": "Google DeepMind",
+    "ctx": [
+      "128K"
+    ]
   },
   {
     "name": "mistral-medium-3.5",
     "description": "Mistral Medium 3.5 is the first flagship model merging instruction-following, reasoning, and coding.",
-    "pulls": 409700,
-    "pullsDisplay": "409.7K Pulls",
+    "pulls": 411500,
+    "pullsDisplay": "411.5K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "vision",
@@ -3584,28 +3608,16 @@
       "128b"
     ],
     "updated": "4 months ago",
-    "owner": "Mistral AI"
-  },
-  {
-    "name": "llava-phi3",
-    "description": "A new small LLaVA model fine-tuned from Phi 3 Mini.",
-    "pulls": 408400,
-    "pullsDisplay": "408.4K Pulls",
-    "tagsCount": 4,
-    "capabilities": [
-      "vision"
-    ],
-    "sizes": [
-      "3.8b"
-    ],
-    "updated": "2 years ago",
-    "owner": "LMMS Lab"
+    "owner": "Mistral AI",
+    "ctx": [
+      "256K"
+    ]
   },
   {
     "name": "tulu3",
     "description": "T\u00fclu 3 is a leading instruction following model family, offering fully open-source data, code, and recipes by Allen AI.",
-    "pulls": 400700,
-    "pullsDisplay": "400.7K Pulls",
+    "pulls": 401200,
+    "pullsDisplay": "401.2K Pulls",
     "tagsCount": 9,
     "capabilities": [],
     "sizes": [
@@ -3613,13 +3625,16 @@
       "70b"
     ],
     "updated": "1 year ago",
-    "owner": "Allen AI"
+    "owner": "Allen AI",
+    "ctx": [
+      "128K"
+    ]
   },
   {
     "name": "granite-embedding",
     "description": "The IBM Granite Embedding 30M and 278M models models are text-only dense biencoder embedding models, with 30M available in English only and 278M serving multilingual use cases.",
-    "pulls": 372700,
-    "pullsDisplay": "372.7K Pulls",
+    "pulls": 373400,
+    "pullsDisplay": "373.4K Pulls",
     "tagsCount": 6,
     "capabilities": [
       "embedding"
@@ -3629,26 +3644,32 @@
       "278m"
     ],
     "updated": "1 year ago",
-    "owner": "IBM"
+    "owner": "IBM",
+    "ctx": [
+      "512"
+    ]
   },
   {
     "name": "dbrx",
     "description": "DBRX is an open, general-purpose LLM created by Databricks.",
-    "pulls": 368800,
-    "pullsDisplay": "368.8K Pulls",
+    "pulls": 369000,
+    "pullsDisplay": "369K Pulls",
     "tagsCount": 7,
     "capabilities": [],
     "sizes": [
       "132b"
     ],
     "updated": "2 years ago",
-    "owner": "Databricks"
+    "owner": "Databricks",
+    "ctx": [
+      "32K"
+    ]
   },
   {
     "name": "devstral-2",
     "description": "123B model that excels at using tools to explore codebases, editing multiple files and power software engineering agents.",
-    "pulls": 357200,
-    "pullsDisplay": "357.2K Pulls",
+    "pulls": 357400,
+    "pullsDisplay": "357.4K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "tools"
@@ -3665,8 +3686,8 @@
   {
     "name": "glm-5.2",
     "description": "GLM-5.2 is Z.ai's flagship model for the era of long-horizon tasks.",
-    "pulls": 347700,
-    "pullsDisplay": "347.7K Pulls",
+    "pulls": 348100,
+    "pullsDisplay": "348.1K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "tools",
@@ -3683,8 +3704,8 @@
   {
     "name": "granite3-guardian",
     "description": "The IBM Granite Guardian 3.0 2B and 8B models are designed to detect risks in prompts and/or responses.",
-    "pulls": 339700,
-    "pullsDisplay": "339.7K Pulls",
+    "pulls": 340000,
+    "pullsDisplay": "340K Pulls",
     "tagsCount": 10,
     "capabilities": [],
     "sizes": [
@@ -3700,8 +3721,8 @@
   {
     "name": "ornith-1.5",
     "description": "Chirp Chirp! \ud83d\udc26 We are introducing Ornith-1.5, a major step toward building foundation models through end-to-end self-improvement.",
-    "pulls": 337400,
-    "pullsDisplay": "337.4K Pulls",
+    "pulls": 339400,
+    "pullsDisplay": "339.4K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "vision"
@@ -3720,8 +3741,8 @@
   {
     "name": "command-r7b",
     "description": "The smallest model in Cohere&#39;s R series delivers top-tier speed, efficiency, and quality to build powerful AI applications on commodity GPUs and edge devices.",
-    "pulls": 326000,
-    "pullsDisplay": "326K Pulls",
+    "pulls": 326400,
+    "pullsDisplay": "326.4K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "tools"
@@ -3738,8 +3759,8 @@
   {
     "name": "phi4-mini-reasoning",
     "description": "Phi 4 mini reasoning is a lightweight open model that balances efficiency with advanced reasoning ability.",
-    "pulls": 313000,
-    "pullsDisplay": "313K Pulls",
+    "pulls": 313300,
+    "pullsDisplay": "313.3K Pulls",
     "tagsCount": 5,
     "capabilities": [],
     "sizes": [
@@ -3754,8 +3775,8 @@
   {
     "name": "olmo-3.1",
     "description": "Olmo is a series of Open language models designed to enable the science of language models. These models are pre-trained on the Dolma 3 dataset and post-trained on the Dolci datasets.",
-    "pulls": 292100,
-    "pullsDisplay": "292.1K Pulls",
+    "pulls": 292300,
+    "pullsDisplay": "292.3K Pulls",
     "tagsCount": 10,
     "capabilities": [
       "tools",
@@ -3773,8 +3794,8 @@
   {
     "name": "deepseek-v2.5",
     "description": "An upgraded version of DeekSeek-V2  that integrates the general and coding abilities of both DeepSeek-V2-Chat and DeepSeek-Coder-V2-Instruct.",
-    "pulls": 291200,
-    "pullsDisplay": "291.2K Pulls",
+    "pulls": 291400,
+    "pullsDisplay": "291.4K Pulls",
     "tagsCount": 7,
     "capabilities": [],
     "sizes": [
@@ -3789,8 +3810,8 @@
   {
     "name": "bge-large",
     "description": "Embedding model from BAAI mapping texts to vectors.",
-    "pulls": 286700,
-    "pullsDisplay": "286.7K Pulls",
+    "pulls": 286900,
+    "pullsDisplay": "286.9K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "embedding"
@@ -3807,8 +3828,8 @@
   {
     "name": "alfred",
     "description": "A robust conversational model designed to be used for both chat and instruct use cases.",
-    "pulls": 266900,
-    "pullsDisplay": "266.9K Pulls",
+    "pulls": 268400,
+    "pullsDisplay": "268.4K Pulls",
     "tagsCount": 7,
     "capabilities": [],
     "sizes": [
@@ -3823,8 +3844,8 @@
   {
     "name": "smallthinker",
     "description": "A new small reasoning model fine-tuned from the Qwen 2.5 3B Instruct model.",
-    "pulls": 261100,
-    "pullsDisplay": "261.1K Pulls",
+    "pulls": 261400,
+    "pullsDisplay": "261.4K Pulls",
     "tagsCount": 5,
     "capabilities": [],
     "sizes": [
@@ -3839,8 +3860,8 @@
   {
     "name": "kimi-k2.7-code",
     "description": "Kimi K2.7 Code is Moonshot AI's coding-focused agentic model.",
-    "pulls": 241700,
-    "pullsDisplay": "241.7K Pulls",
+    "pulls": 242100,
+    "pullsDisplay": "242.1K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "vision",
@@ -3858,8 +3879,8 @@
   {
     "name": "command-a",
     "description": "111 billion parameter model optimized for demanding enterprises that require fast, secure, and high-quality AI",
-    "pulls": 230000,
-    "pullsDisplay": "230K Pulls",
+    "pulls": 230100,
+    "pullsDisplay": "230.1K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "tools"
@@ -3876,8 +3897,8 @@
   {
     "name": "muse-glimmer",
     "description": "Meta&#39;s latest open model built for always-on local agents. 30B parameters, licensed under Apache 2.0 and runs on a single GPU \u2014 tuned for tool use, long tasks, and failure recovery.",
-    "pulls": 226900,
-    "pullsDisplay": "226.9K Pulls",
+    "pulls": 229000,
+    "pullsDisplay": "229K Pulls",
     "tagsCount": 15,
     "capabilities": [
       "vision",
@@ -3896,8 +3917,8 @@
   {
     "name": "cogito-2.1",
     "description": "The Cogito v2.1 LLMs are instruction tuned generative models. All models are released under MIT license for commercial use.",
-    "pulls": 223700,
-    "pullsDisplay": "223.7K Pulls",
+    "pulls": 223800,
+    "pullsDisplay": "223.8K Pulls",
     "tagsCount": 5,
     "capabilities": [],
     "sizes": [
@@ -3912,8 +3933,8 @@
   {
     "name": "marco-o1",
     "description": "An open large reasoning model for real-world solutions by the Alibaba International Digital Commerce Group (AIDC-AI).",
-    "pulls": 214300,
-    "pullsDisplay": "214.3K Pulls",
+    "pulls": 214500,
+    "pullsDisplay": "214.5K Pulls",
     "tagsCount": 5,
     "capabilities": [],
     "sizes": [
@@ -3928,8 +3949,8 @@
   {
     "name": "command-r7b-arabic",
     "description": "A new state-of-the-art version of the lightweight Command R7B model that excels in advanced Arabic language capabilities for enterprises in the Middle East and Northern Africa.",
-    "pulls": 205500,
-    "pullsDisplay": "205.5K Pulls",
+    "pulls": 205700,
+    "pullsDisplay": "205.7K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "tools"
@@ -3946,8 +3967,8 @@
   {
     "name": "medgemma1.5",
     "description": "MedGemma 1.5 4B is an updated version of the MedGemma 4B model.",
-    "pulls": 194800,
-    "pullsDisplay": "194.8K Pulls",
+    "pulls": 196600,
+    "pullsDisplay": "196.6K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "vision"
@@ -3964,8 +3985,8 @@
   {
     "name": "functiongemma",
     "description": "FunctionGemma is a specialized version of Google&#39;s Gemma 3 270M model fine-tuned explicitly for function calling.",
-    "pulls": 191200,
-    "pullsDisplay": "191.2K Pulls",
+    "pulls": 191500,
+    "pullsDisplay": "191.5K Pulls",
     "tagsCount": 4,
     "capabilities": [
       "tools"
@@ -3982,8 +4003,8 @@
   {
     "name": "nemotron-3.5-lightning",
     "description": "NVIDIA Nemotron 3.5 Lightning is an open 30B mixture-of-experts (MoE) model with 3B active parameters built for always-on agents.",
-    "pulls": 180700,
-    "pullsDisplay": "180.7K Pulls",
+    "pulls": 182100,
+    "pullsDisplay": "182.1K Pulls",
     "tagsCount": 11,
     "capabilities": [
       "tools",
@@ -4002,8 +4023,8 @@
   {
     "name": "laguna-s-2.1",
     "description": "Our most capable model to date, designed for long-horizon work. 70.2% on Terminal-Bench 2.1 at 118B-A8B.",
-    "pulls": 158900,
-    "pullsDisplay": "158.9K Pulls",
+    "pulls": 160500,
+    "pullsDisplay": "160.5K Pulls",
     "tagsCount": 8,
     "capabilities": [
       "tools",
@@ -4020,8 +4041,8 @@
   {
     "name": "lfm2.5",
     "description": "LFM2.5-8B-A1B, an edge model built for fast, reliable tool calling on consumer hardware.",
-    "pulls": 158100,
-    "pullsDisplay": "158.1K Pulls",
+    "pulls": 159200,
+    "pullsDisplay": "159.2K Pulls",
     "tagsCount": 5,
     "capabilities": [
       "tools",
@@ -4039,8 +4060,8 @@
   {
     "name": "gpt-oss-safeguard",
     "description": "gpt-oss-safeguard-20b and gpt-oss-safeguard-120b are safety reasoning models built-upon gpt-oss",
-    "pulls": 157500,
-    "pullsDisplay": "157.5K Pulls",
+    "pulls": 157800,
+    "pullsDisplay": "157.8K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "tools",
@@ -4050,7 +4071,7 @@
       "20b",
       "120b"
     ],
-    "updated": "10 months ago",
+    "updated": "11 months ago",
     "owner": "OpenAI",
     "ctx": [
       "128K"
@@ -4059,8 +4080,8 @@
   {
     "name": "glm-5.3-flash",
     "description": "Z.ai&#39;s first natively multimodal model, approaching Claude Opus 4.8 on coding and agentic benchmarks with just 18B active parameters.",
-    "pulls": 149500,
-    "pullsDisplay": "149.5K Pulls",
+    "pulls": 150800,
+    "pullsDisplay": "150.8K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "vision",
@@ -4069,7 +4090,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "3 weeks ago",
+    "updated": "4 weeks ago",
     "owner": "Glm",
     "ctx": [
       "1M"
@@ -4078,8 +4099,8 @@
   {
     "name": "nemotron-cascade-2",
     "description": "An open 30B MoE model from NVIDIA with 3B activated parameters that delivers strong reasoning and agentic capabilities.",
-    "pulls": 148900,
-    "pullsDisplay": "148.9K Pulls",
+    "pulls": 149000,
+    "pullsDisplay": "149K Pulls",
     "tagsCount": 3,
     "capabilities": [
       "tools",
@@ -4095,28 +4116,10 @@
     ]
   },
   {
-    "name": "mistral-large-3",
-    "description": "A general-purpose multimodal mixture-of-experts model for production-grade tasks and enterprise workloads.",
-    "pulls": 117200,
-    "pullsDisplay": "117.2K Pulls",
-    "tagsCount": 1,
-    "capabilities": [
-      "vision",
-      "tools",
-      "cloud"
-    ],
-    "sizes": [],
-    "updated": "9 months ago",
-    "owner": "Mistral AI",
-    "ctx": [
-      "256K"
-    ]
-  },
-  {
     "name": "qwen3.8-flash-next",
     "description": "This experimental preview of the architecture that will underpin Qwen4.",
-    "pulls": 117000,
-    "pullsDisplay": "117K Pulls",
+    "pulls": 127200,
+    "pullsDisplay": "127.2K Pulls",
     "tagsCount": 6,
     "capabilities": [
       "vision",
@@ -4131,10 +4134,28 @@
     ]
   },
   {
+    "name": "mistral-large-3",
+    "description": "A general-purpose multimodal mixture-of-experts model for production-grade tasks and enterprise workloads.",
+    "pulls": 118100,
+    "pullsDisplay": "118.1K Pulls",
+    "tagsCount": 1,
+    "capabilities": [
+      "vision",
+      "tools",
+      "cloud"
+    ],
+    "sizes": [],
+    "updated": "9 months ago",
+    "owner": "Mistral AI",
+    "ctx": [
+      "256K"
+    ]
+  },
+  {
     "name": "laguna-xs-2.1",
     "description": "Laguna XS 2.1 is a 33B total parameter MoE model for agentic coding",
-    "pulls": 116400,
-    "pullsDisplay": "116.4K Pulls",
+    "pulls": 117100,
+    "pullsDisplay": "117.1K Pulls",
     "tagsCount": 7,
     "capabilities": [
       "tools",
@@ -4153,8 +4174,8 @@
   {
     "name": "nemotron-3-ultra",
     "description": "NVIDIA Nemotron 3 Ultra is built for high-throughput reasoning and long-running agent workflows.",
-    "pulls": 103400,
-    "pullsDisplay": "103.4K Pulls",
+    "pulls": 104600,
+    "pullsDisplay": "104.6K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "tools",
@@ -4171,8 +4192,8 @@
   {
     "name": "kimi-k3",
     "description": "Kimi K3 is an open-weight, native multimodal agentic model and our most capable model to date.",
-    "pulls": 87800,
-    "pullsDisplay": "87.8K Pulls",
+    "pulls": 88500,
+    "pullsDisplay": "88.5K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "vision",
@@ -4190,8 +4211,8 @@
   {
     "name": "granite4.2",
     "description": "IBM Granite Models are a family of enterprise-ready, open foundation models that support multilingual capabilities, coding, retrieval-augmented generation (RAG), tool use, thinking and structured JSON output. Released under Apache 2.0 license.",
-    "pulls": 80200,
-    "pullsDisplay": "80.2K Pulls",
+    "pulls": 82800,
+    "pullsDisplay": "82.8K Pulls",
     "tagsCount": 49,
     "capabilities": [],
     "sizes": [
@@ -4208,8 +4229,8 @@
   {
     "name": "glm-5.3",
     "description": "Z.ai&#39;s flagship model and the most capable open-weights model for coding, with major gains on long-horizon agentic tasks.",
-    "pulls": 57800,
-    "pullsDisplay": "57.8K Pulls",
+    "pulls": 59000,
+    "pullsDisplay": "59K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "tools",
@@ -4226,8 +4247,8 @@
   {
     "name": "north-mini-code-1.0",
     "description": "North Mini Code is Cohere&#39;s first model for developers \u2014 a 30B Mixture-of-Experts model with 3B active parameters, built for agentic software engineering.",
-    "pulls": 57800,
-    "pullsDisplay": "57.8K Pulls",
+    "pulls": 58200,
+    "pullsDisplay": "58.2K Pulls",
     "tagsCount": 7,
     "capabilities": [
       "tools",
@@ -4243,8 +4264,8 @@
   {
     "name": "minicpm-v4.6",
     "description": "A Pocket-Sized MLLM for Ultra-Efficient Image and Video Understanding on Your Phone",
-    "pulls": 53400,
-    "pullsDisplay": "53.4K Pulls",
+    "pulls": 54000,
+    "pullsDisplay": "54K Pulls",
     "tagsCount": 13,
     "capabilities": [
       "vision"
@@ -4261,8 +4282,8 @@
   {
     "name": "deepseek-v4.1-flash",
     "description": "DeepSeek-V4.1-Flash is an advanced tool designed to enhance search capabilities, providing users with faster and more accurate results.",
-    "pulls": 45300,
-    "pullsDisplay": "45.3K Pulls",
+    "pulls": 46900,
+    "pullsDisplay": "46.9K Pulls",
     "tagsCount": 1,
     "capabilities": [
       "vision",
@@ -4271,7 +4292,7 @@
       "cloud"
     ],
     "sizes": [],
-    "updated": "1 week ago",
+    "updated": "2 weeks ago",
     "owner": "Deepseek",
     "ctx": [
       "1M"
@@ -4280,8 +4301,8 @@
   {
     "name": "minicpm-v4.5",
     "description": "A GPT-4o Level MLLM for Single Image, Multi Image and High-FPS Video Understanding on Your Phone",
-    "pulls": 42500,
-    "pullsDisplay": "42.5K Pulls",
+    "pulls": 43000,
+    "pullsDisplay": "43K Pulls",
     "tagsCount": 13,
     "capabilities": [
       "vision"
@@ -4298,15 +4319,15 @@
   {
     "name": "laguna-xs.2",
     "description": "Laguna XS.2 is a 33B total parameter Mixture-of-Experts model with 3B activated parameters per token designed for agentic coding and long-horizon work on a local machine.",
-    "pulls": 30900,
-    "pullsDisplay": "30.9K Pulls",
+    "pulls": 31100,
+    "pullsDisplay": "31.1K Pulls",
     "tagsCount": 7,
     "capabilities": [
       "tools",
       "thinking"
     ],
     "sizes": [],
-    "updated": "1 month ago",
+    "updated": "2 months ago",
     "owner": "Laguna",
     "ctx": [
       "128K",
@@ -4316,8 +4337,8 @@
   {
     "name": "granite4.1-guardian",
     "description": "Granite Guardian 4.1 is a specialized safety and judging model from IBM Research that evaluates whether LLM prompts and responses meet specified harm criteria.",
-    "pulls": 26800,
-    "pullsDisplay": "26.8K Pulls",
+    "pulls": 27100,
+    "pullsDisplay": "27.1K Pulls",
     "tagsCount": 16,
     "capabilities": [
       "tools",
